@@ -9,7 +9,14 @@ import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
+import axios from "axios";
+import { useEffect, useState, useRef, createContext } from "react";
+import { Movie } from "@/features/components/MovieList";
+import { requests } from "@/lib/MovieApi";
 
+type SearchProps = {
+  searchUrl: string;
+};
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -52,40 +59,92 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Header() {
+const Header = ({ searchUrl }: SearchProps) => {
+  const [keyword, setKeyword] = useState("ハリー");
+  const [searchMovie, setSearchMovie] = useState<Movie[]>([]);
+
+  const inputElement: any = useRef(null);
+
+  const onSearch = (e: any) => {
+    e.preventDefault();
+    setKeyword(inputElement.current.value);
+  };
+
+  const handleMovieDetail = (e: any) => {};
+  useEffect(() => {
+    async function SearchData() {
+      const request = await axios
+        .get(searchUrl, {
+          params: {
+            query: keyword,
+            page: 1,
+          },
+        })
+        .then((response) => {
+          const data = response.data.results;
+
+          setSearchMovie(data);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+
+      return request;
+    }
+    SearchData();
+  }, [searchUrl, keyword]);
+  console.log(searchMovie);
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          >
-            Ranking
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              Ranking
+            </Typography>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <form onSubmit={onSearch}>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ "aria-label": "search" }}
+                  inputRef={inputElement}
+                />
+              </form>
+            </Search>
+            <Button color="inherit">Login</Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
+      <ul>
+        {searchMovie.map((movie) => (
+          <>
+            <li>
+              <span>{movie.title}</span>
+              <img src={`${requests.image}${movie.poster_path}`} alt="" />
+              <button onClick={handleMovieDetail}>詳細を見る</button>
+            </li>
+          </>
+        ))}
+      </ul>
+    </>
   );
-}
+};
+export default Header;

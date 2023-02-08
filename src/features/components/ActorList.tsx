@@ -23,45 +23,61 @@ const ActorList: any = ({ actorUrl }: ActorProps) => {
   }, [actorUrl]);
 
   useEffect(() => {
-    {
-      movies.map((movie: any) => {
-        const movieID = movie.id;
-        const actorUrl = `https://api.themoviedb.org/3/movie/${movieID}/credits?api_key=${API_KEY}`;
-        const castRequest: any = axios.get(actorUrl).then((response) => {
-          setDetailActors(response.data.cast);
-          //console.log(response.data.cast);
-          setActorContent((prevState: any) => [
-            ...prevState,
-            { movie, cast: response.data.cast },
-          ]);
+    const actorContentList: any[] = [];
+    const actorList = movies.map((movie: any) => {
+      const actorUrl = `https://api.themoviedb.org/3/movie/${movie.id}/credits?api_key=${API_KEY}`;
+      axios
+        .get(actorUrl)
+        .then((response) => {
+          actorContentList.push({
+            movie,
+            cast: response.data.cast,
+          });
+
+          return response.data.cast;
+        })
+        .catch((error) => {
+          console.log(error.response);
         });
-      });
-    }
+    });
+    setDetailActors(actorList);
+    setActorContent(actorContentList);
   }, [movies]);
   //console.log(movies);
-  console.log(actorContent);
   //console.log(actorContent);
+
   return (
     <>
-      {actorContent.map((actor: any) => (
-        <>
-          <h2>{actor.movie.title}</h2>
-
-          {actor.cast.map((value: any) => {
+      {actorContent.map((actor: any) => {
+        {
+          actor.cast.map((value: any) => {
             return (
               <>
-                <img
-                  src={`${requests.image}${value.profile_path}`}
-                  alt={value.name}
-                />
-                <p>{value.name}</p>
+                <div key={actor.id}>
+                  <h2>{actor.movie.title}</h2>
+                  <div key={value.id}>
+                    <p>{value.name}</p>
+                    <img
+                      src={`${requests.image}${value.profile_path}`}
+                      alt={value.name}
+                    />
+                  </div>
+                </div>
               </>
             );
-          })}
-        </>
-      ))}
+          });
+        }
+      })}
     </>
   );
 };
 
 export default ActorList;
+// {actor.cast.map((value: any) => {
+//   //console.log(value);
+//   return (
+//     <>
+
+//     </>
+//   );
+// })}
