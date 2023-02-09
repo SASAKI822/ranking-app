@@ -11,17 +11,18 @@ const ActorList: any = ({ actorUrl }: ActorProps) => {
   const [detailActors, setDetailActors] = useState<any>([]);
   const [actorContent, setActorContent] = useState<any>([]);
 
+  // MovieApiからactorUrlを取得しデータをMoviesへ格納
   useEffect(() => {
     async function fetchActorData() {
       const request: any = await axios.get(actorUrl);
       setMovies(request.data.results);
-
       return request;
     }
 
     fetchActorData();
   }, [actorUrl]);
 
+  // 映画の情報を取得しmovie情報とactor情報をactorContentに格納
   useEffect(() => {
     const actorContentList: any[] = [];
     const actorList = movies.map((movie: any) => {
@@ -49,6 +50,7 @@ const ActorList: any = ({ actorUrl }: ActorProps) => {
   return (
     <>
       {actorContent.map((actor: any) => {
+        console.log(actorContent);
         {
           actor.cast.map((value: any) => {
             return (
