@@ -6,19 +6,15 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
+import { useSetRecoilState } from "recoil";
+import { searchKey } from "@/lib/atom";
+import { useState, useRef } from "react";
+
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
-import axios from "axios";
-import { useEffect, useState, useRef, createContext } from "react";
-import { Movie } from "@/features/components/MovieList";
-import { API_KEY, requests } from "@/lib/MovieApi";
-import Link from "next/link";
-import movie from "@/pages/actor/movie";
 
-type SearchProps = {
-  searchUrl: string;
-};
+import { API_KEY, requests } from "@/lib/MovieApi";
 
 // Header Css 記述
 const Search = styled("div")(({ theme }) => ({
@@ -65,13 +61,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 // Header コンポーネント
 
-const Header = ({ searchUrl }: SearchProps) => {
+const Header = () => {
   // Input入力値をKeyword に入れる
-  const [keyword, setKeyword] = useState("ハリー");
+  const setKeyword = useSetRecoilState(searchKey);
   const [searchMovie, setSearchMovie] = useState<Movie[]>([]);
-  const [detailActors, setDetailActors] = useState<any>([]);
-  const [actorContent, setActorContent] = useState<any>([]);
-
   const inputElement: any = useRef(null);
 
   // Enterキーを押すと起動され入力値をKeywordに入れる
@@ -80,57 +73,9 @@ const Header = ({ searchUrl }: SearchProps) => {
     setKeyword(inputElement.current.value);
   };
 
-  const handleMovieDetail = (e: any) => {};
-
   // keyword に応じたapiを取得し、searchMovieにdataを格納する。
-  useEffect(() => {
-    async function SearchData() {
-      const request = await axios
-        .get(searchUrl, {
-          params: {
-            query: keyword,
-            page: 1,
-          },
-        })
-        .then((response) => {
-          const data = response.data.results;
 
-          setSearchMovie(data);
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-
-      return request;
-    }
-    SearchData();
-  }, [searchUrl, keyword]);
-
-  // 検索結果のdata取得しIDをactorUrlに代入し検索結果のactor情報を取得。
-  // movie情報とactor情報をactorContentに格納
-  useEffect(() => {
-    const actorContentList: any[] = [];
-    const actorList = searchMovie.map((movie: any) => {
-      const actorUrl = `https://api.themoviedb.org/3/movie/${movie.id}/credits?api_key=${API_KEY}`;
-      axios
-        .get(actorUrl)
-        .then((response) => {
-          actorContentList.push({
-            movie,
-            cast: response.data.cast,
-          });
-
-          return response.data.cast;
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-    });
-    setDetailActors(actorList);
-    setActorContent(actorContentList);
-  }, [searchMovie]);
-
-  console.log(actorContent);
+  console.log(searchMovie);
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -169,27 +114,7 @@ const Header = ({ searchUrl }: SearchProps) => {
           </Toolbar>
         </AppBar>
       </Box>
-
-      {actorContent.map((value: any) => {})}
     </>
   );
 };
 export default Header;
-{
-  /* <img src={`${requests.image}${movie.poster_path}`} alt="" /> */
-}
-{
-  /* <Link
-                href={{
-                  pathname: `ranking/${movie.id}`,
-                  query: {
-                    title: movie.title,
-                    image: movie.poster_path,
-                    cast: movie.cast,
-                  },
-                }}
-              >
-                <button onClick={handleMovieDetail}>詳細を見る</button>
-                <ul>li</ul>
-              </Link> */
-}

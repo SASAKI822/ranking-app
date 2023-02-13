@@ -1,5 +1,5 @@
 import Header from "@/components/layouts/Header";
-import ActorList from "@/features/components/ActorList";
+import ActorList from "@/features/components/ActorListContent";
 
 import { instance, requests } from "@/lib/MovieApi";
 

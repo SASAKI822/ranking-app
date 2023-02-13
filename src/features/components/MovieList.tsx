@@ -1,48 +1,79 @@
-import { requests } from "@/lib/MovieApi";
+import * as React from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import Link from "next/link";
+import { useSetRecoilState } from "recoil";
+import { searchKey } from "../../lib/atom";
+import { useRecoilValue } from "recoil";
 
-type Props = {
-  fetchUrl: string;
-  title: string;
+type SearchProps = {
+  searchUrl: string;
 };
 
-export type Movie = {
-  id: string;
-  name: string;
-  title: string;
-  poster_path: string;
-  backdrop_path: string;
-};
+// Header コンポーネント
 
-const MovieList: any = ({ title, fetchUrl }: Props) => {
-  const [movies, setMovies] = useState<Movie[]>([]);
+const MovieList = ({ searchUrl }: SearchProps) => {
+  // Input入力値をKeyword に入れる
 
+  const setKeyword = useSetRecoilState(searchKey);
+  const keyword = useRecoilValue(searchKey);
+  const [searchMovie, setSearchMovie] = useState<Movie[]>([]);
+  const inputElement: any = useRef(null);
+
+  console.log(keyword);
+  // Enterキーを押すと起動され入力値をKeywordに入れる
+  const onSearch = (e: any) => {
+    e.preventDefault();
+    setKeyword(inputElement.current.value);
+  };
+
+  const handleMovieDetail = (e: any) => {};
+
+  // keyword に応じたapiを取得し、searchMovieにdataを格納する。
   useEffect(() => {
-    async function fetchData() {
-      const request = await axios.get(fetchUrl);
-      setMovies(request.data.results);
-      //console.log(request.data.results);
+    async function SearchData() {
+      const request = await axios
+        .get(searchUrl, {
+          params: {
+            query: keyword,
+            page: 1,
+          },
+        })
+        .then((response) => {
+          const data = response.data.results;
+
+          setSearchMovie(data);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+
       return request;
     }
-
-    fetchData();
-  }, [fetchUrl]);
-
+    SearchData();
+  }, [searchUrl, keyword]);
+  console.log(searchMovie);
   return (
     <>
-      <ul>
-        {movies.map((movie) => (
-          <>
-            <li>
-              <span>{movie.name}</span>
-              <img src={`${requests.image}${movie.poster_path}`} alt="" />
-            </li>
-          </>
-        ))}
-      </ul>
+      <div>
+        {searchMovie.map((movie: any) => {
+          return (
+            <>
+              <div style={{ width: "70%" }}>
+                <Link
+                  href={{
+                    pathname: `/movie/${movie.id}`,
+                    query: { id: movie.id, title: movie.title },
+                  }}
+                >
+                  <h2>{movie.title}</h2>
+                </Link>
+              </div>
+            </>
+          );
+        })}
+      </div>
     </>
   );
 };
-
 export default MovieList;

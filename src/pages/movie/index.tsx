@@ -4,18 +4,16 @@ import MovieGenre from "@/features/components/MovieGenre";
 import MovieList from "@/features/components/MovieList";
 import { requests } from "@/lib/MovieApi";
 import React from "react";
+import Sidebar from "@/components/layouts/Sidebar";
+import Main from "@/components/layouts/Main";
 
-const actor = () => {
+const movie = () => {
   return (
     <div>
-      {/* <Header searchUrl={requests.search} /> */}
-      {/* <MovieGenre
-        title={"ドキュメント"}
-        fetchUrl={requests.genre.allMovieOfActor}
-      /> */}
-      <ActorList actorUrl={requests.actor} />
+      <Header />
+      <Main />
     </div>
   );
 };
 
-export default actor;
+export default movie;

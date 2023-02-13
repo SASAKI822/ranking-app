@@ -105,3 +105,11 @@ a {
     color-scheme: dark;
   }
 }
+.MuiImageList-root {
+  column-count: 4 !important;
+}
+@media only screen and (max-width: 900px) {
+  .MuiImageList-root {
+    column-count: 3 !important;
+  }
+}
