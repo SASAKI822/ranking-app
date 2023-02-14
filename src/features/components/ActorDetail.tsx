@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { ActorInfoState } from "@/lib/atom";
+import MovieList from "./MovieList";
 const ActorDetail = () => {
   const [actorMovies, setActorMovies] = useState<any>([]);
   // ルーター
@@ -39,24 +40,7 @@ const ActorDetail = () => {
   return (
     <>
       <h2>{name}の出演映画</h2>
-      {actorMovies.map((actorMovie: any) => (
-        <>
-          <Link
-            href={{
-              pathname: "/movie/[id]",
-              query: {
-                id: actorMovie.id,
-                title: actorMovie.title,
-                overview: actorMovie.overview,
-                releaseDate: actorMovie.release_date,
-              },
-            }}
-          >
-            <p>{actorMovie.title}</p>
-            <img src={`${requests.image}${actorMovie.poster_path}`} alt="" />
-          </Link>
-        </>
-      ))}
+      <MovieList Movies={actorMovies} />
     </>
   );
 };

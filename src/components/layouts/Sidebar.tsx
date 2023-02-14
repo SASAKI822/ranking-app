@@ -76,7 +76,7 @@ export default function SidebarNav() {
 
           <MenuItem
             style={{ color: "white" }}
-            component={<Link href={{ pathname: "/myPage/actor" }}></Link>}
+            component={<Link href={{ pathname: "/myPage/actorList" }}></Link>}
           >
             登録俳優
           </MenuItem>
@@ -88,6 +88,12 @@ export default function SidebarNav() {
             Top Rated
           </MenuItem>
 
+          <MenuItem
+            style={{ color: "white" }}
+            component={<Link href={{ pathname: "/genre/Screening" }}></Link>}
+          >
+            上映中
+          </MenuItem>
           <MenuItem
             style={{ color: "white" }}
             component={<Link href={{ pathname: "/genre/Trending" }}></Link>}

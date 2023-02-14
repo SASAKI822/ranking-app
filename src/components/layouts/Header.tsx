@@ -6,9 +6,14 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-import { useSetRecoilState } from "recoil";
-import { searchKey } from "@/lib/atom";
-import { useState, useRef } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  searchActorKey,
+  searchActorResultState,
+  searchMovieKey,
+  searchMovieResultState,
+} from "@/lib/atom";
+import { useState, useRef, useEffect } from "react";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
@@ -16,6 +21,7 @@ import Button from "@mui/material/Button";
 
 import { API_KEY, requests } from "@/lib/MovieApi";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 // Header Css 記述
 const Search = styled("div")(({ theme }) => ({
@@ -62,20 +68,78 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 // Header コンポーネント
 
-const Header = () => {
-  // Input入力値をKeyword に入れる
-  const setKeyword = useSetRecoilState(searchKey);
+const Header = ({ searchUrl }: any) => {
   const [searchMovie, setSearchMovie] = useState<Movie[]>([]);
-  const inputElement: any = useRef(null);
+  // Input入力値をKeyword に入れる
+  const setMovieKeyword = useSetRecoilState(searchMovieKey);
+  const movieKeyword = useRecoilValue(searchMovieKey);
+  const setSearchMovieResultState = useSetRecoilState(searchMovieResultState);
   const router = useRouter();
+  const inputMovieElement: any = useRef(null);
 
-  // Enterキーを押すと起動され入力値をKeywordに入れる
-  const onSearch = (e: any) => {
+  const movieUrl = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`;
+  // Enterキーを押すと起動されMovie入力値をKeywordに入れる
+  const onSearchMovie = (e: any) => {
     e.preventDefault();
-    setKeyword(inputElement.current.value);
+    setMovieKeyword(inputMovieElement.current.value);
     router.push("/movie");
   };
 
+  useEffect(() => {
+    async function SearchData() {
+      const request = await axios
+        .get(movieUrl, {
+          params: {
+            query: movieKeyword,
+            page: 1,
+          },
+        })
+        .then((response) => {
+          const data = response.data.results;
+
+          setSearchMovieResultState(data);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+
+      return request;
+    }
+    SearchData();
+  }, [movieUrl, movieKeyword]);
+
+  const [actor, setActor] = useState<Movie[]>([]);
+  const setActorKeyword = useSetRecoilState(searchActorKey);
+  const actorKeyword = useRecoilValue(searchActorKey);
+  const setSearchActorResult = useSetRecoilState(searchActorResultState);
+  const searchActorResult = useRecoilValue(searchActorResultState);
+  const inputActorElement: any = useRef(null);
+  // Enterキーを押すと起動され俳優入力値をKeywordに入れる
+  const onSearchActor = (e: any) => {
+    e.preventDefault();
+    setActorKeyword(inputActorElement.current.value);
+    router.push("/actor");
+  };
+
+  const ActorUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}`;
+
+  useEffect(() => {
+    async function SearchData() {
+      const request = await axios
+        .get(ActorUrl)
+        .then((response) => {
+          const data = response.data.results;
+          setSearchActorResult(data);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+
+      return request;
+    }
+    SearchData();
+  }, [ActorUrl, actorKeyword]);
+  console.log(searchActorResult);
   // keyword に応じたapiを取得し、searchMovieにdataを格納する。
 
   console.log(searchMovie);
@@ -103,11 +167,18 @@ const Header = () => {
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              <form onSubmit={onSearch}>
+              <form onSubmit={onSearchMovie}>
                 <StyledInputBase
                   placeholder="Search…"
                   inputProps={{ "aria-label": "search" }}
-                  inputRef={inputElement}
+                  inputRef={inputMovieElement}
+                />
+              </form>
+              <form onSubmit={onSearchActor}>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ "aria-label": "search" }}
+                  inputRef={inputActorElement}
                 />
               </form>
             </Search>

@@ -1,35 +1,23 @@
-import { WatchListState } from "@/lib/atom";
-import { API_KEY, requests } from "@/lib/MovieApi";
-import axios from "axios";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useRecoilValue } from "recoil";
+import MovieList from "@/features/components/MovieList";
+import { WatchedListState } from "@/lib/atom";
+import React from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 // 見たことある映画リスト
 const watchedList = () => {
-  const watchedMoviesList: any = useRecoilValue(WatchListState);
+  const watchedMoviesList: any = useRecoilValue(WatchedListState);
+  const setWatchedMoviesList: any = useSetRecoilState(WatchedListState);
+  const handleDelete = (e: any, targetMovie: any) => {
+    e.preventDefault();
+    setWatchedMoviesList((current: any) =>
+      current.filter((value: any) => targetMovie !== value)
+    );
+  };
+  //  <button onClick={(e) => handleDelete(e, movie)}>削除</button>
 
-  console.log(watchedMoviesList);
   return (
     <>
-      <ul>
-        <Link href="/movie">ホーム</Link>
-        {watchedMoviesList.map((movie: any) => (
-          <>
-            <li key={movie.id}>
-              <span>{movie.title}</span>
-              <Link
-                href={{
-                  pathname: `/ranking/actor`,
-                  query: { id: movie.id, title: movie.name },
-                }}
-              >
-                <img src={`${requests.image}${movie.poster_path}`} alt="" />
-              </Link>
-            </li>
-          </>
-        ))}
-      </ul>
+      <MovieList Movies={watchedMoviesList} />
     </>
   );
 };

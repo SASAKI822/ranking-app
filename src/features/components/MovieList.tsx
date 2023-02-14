@@ -3,76 +3,86 @@ import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useSetRecoilState } from "recoil";
-import { searchKey } from "../../lib/atom";
+import { WatchListState } from "../../lib/atom";
 import { useRecoilValue } from "recoil";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from "@mui/icons-material/Info";
+import { requests } from "@/lib/MovieApi";
 
-type SearchProps = {
-  searchUrl: string;
+type MoviesProps = {
+  Movies: string;
 };
 
 // Header コンポーネント
 
-const MovieList = ({ searchUrl }: SearchProps) => {
+const MovieList = ({ Movies }: MoviesProps) => {
   // Input入力値をKeyword に入れる
 
-  const setKeyword = useSetRecoilState(searchKey);
-  const keyword = useRecoilValue(searchKey);
-  const [searchMovie, setSearchMovie] = useState<Movie[]>([]);
-  const inputElement: any = useRef(null);
+  const setWatchList = useSetRecoilState(WatchListState);
 
-  console.log(keyword);
-  // Enterキーを押すと起動され入力値をKeywordに入れる
-  const onSearch = (e: any) => {
-    e.preventDefault();
-    setKeyword(inputElement.current.value);
-  };
-
-  const handleMovieDetail = (e: any) => {};
-
-  // keyword に応じたapiを取得し、searchMovieにdataを格納する。
-  useEffect(() => {
-    async function SearchData() {
-      const request = await axios
-        .get(searchUrl, {
-          params: {
-            query: keyword,
-            page: 1,
-          },
-        })
-        .then((response) => {
-          const data = response.data.results;
-
-          setSearchMovie(data);
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-
-      return request;
-    }
-    SearchData();
-  }, [searchUrl, keyword]);
-  console.log(searchMovie);
   return (
     <>
-      <div>
-        {searchMovie.map((movie: any) => {
-          return (
-            <>
-              <div style={{ width: "70%" }}>
-                <Link
-                  href={{
-                    pathname: `/movie/${movie.id}`,
-                    query: { id: movie.id, title: movie.title },
-                  }}
-                >
-                  <h2>{movie.title}</h2>
-                </Link>
-              </div>
-            </>
-          );
-        })}
-      </div>
+      <ImageList
+        gap={8}
+        cols={4}
+        sx={{
+          gridTemplateColumns:
+            "repeat(auto-fill, minmax(200px, 1fr) 1fr!important",
+        }}
+      >
+        {Movies &&
+          Movies.length > 0 &&
+          Movies.map((movie: any) => {
+            return (
+              <>
+                <div key={movie.id}>
+                  <ImageListItem key={movie.img}>
+                    <Link
+                      href={{
+                        pathname: `/movie/${movie.id}`,
+                        query: {
+                          id: movie.id,
+                          title: movie.title,
+                          overview: movie.overview,
+                          releaseDate: movie.release_date,
+                          video: movie.video,
+                        },
+                      }}
+                    >
+                      <img
+                        src={`${requests.image}${movie.poster_path}`}
+                        alt=""
+                      />
+
+                      <ImageListItemBar
+                        title={movie.title ? movie.title : movie.name}
+                        // subtitle={movie.name}
+                        actionIcon={
+                          <IconButton
+                            sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                            aria-label={`info about ${movie.title}`}
+                            // 見た映画登録ボタン
+                            onClick={(e: any) => {
+                              e.preventDefault();
+                              setWatchList((a: any) => {
+                                return [...a, movie];
+                              });
+                            }}
+                          >
+                            <InfoIcon />
+                          </IconButton>
+                        }
+                      />
+                    </Link>
+                  </ImageListItem>
+                </div>
+              </>
+            );
+          })}
+      </ImageList>
     </>
   );
 };

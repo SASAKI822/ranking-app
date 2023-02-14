@@ -14,6 +14,9 @@ import InfoIcon from "@mui/icons-material/Info";
 type Props = {
   fetchUrl: string;
   title: string;
+  filterUrl: string;
+  filterAscUrl: string;
+  filterDescUrl: string;
 };
 
 export type Movie = {
@@ -26,7 +29,12 @@ export type Movie = {
   backdrop_path: string;
 };
 
-const MovieGenre: any = ({ title, fetchUrl }: Props) => {
+const MovieGenre: any = ({
+  title,
+  fetchUrl,
+  filterAscUrl,
+  filterDescUrl,
+}: Props) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const setWatchList = useSetRecoilState(WatchListState);
 
@@ -42,11 +50,34 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   }, [fetchUrl]);
   console.log(movies);
 
+  const handleFilterAscMovie = (e: any) => {
+    e.preventDefault();
+
+    async function fetchData() {
+      const request = await axios.get(filterAscUrl);
+      setMovies(request.data.results);
+      return request;
+    }
+    fetchData();
+  };
+  const handleFilterDescMovie = (e: any) => {
+    e.preventDefault();
+
+    async function fetchData() {
+      const request = await axios.get(filterDescUrl);
+      setMovies(request.data.results);
+      return request;
+    }
+    fetchData();
+  };
   return (
     <>
       <ul>
         <h2>{title}</h2>
       </ul>
+      <button onClick={handleFilterAscMovie}>昇順</button>
+      <button onClick={handleFilterDescMovie}>降順</button>
+
       <ImageList
         gap={12}
         sx={{

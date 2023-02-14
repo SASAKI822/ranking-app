@@ -9,7 +9,7 @@ export const requests = {
   home: "https://api.themoviedb.org/3",
   actor: `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=Jack+Reacher`,
   image: "https://image.tmdb.org/t/p/w185/",
-  search: `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}`,
+  search: `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`,
 
   genre: {
     fetchTrending: `${Home}/trending/all/week?api_key=${API_KEY}&language=en-us`,
@@ -27,6 +27,12 @@ export const requests = {
     fetchAdventureMovies: `${Home}/discover/movie?api_key=${API_KEY}&with_genres=12`,
     allMovieOfActor: `${Home}/discover/movie?api_key=${API_KEY}&with_people=287`,
     searchGenre: `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`,
+  },
+  filter: {
+    popularAsc: `sort_by=popularity.asc`,
+    popularDesc: `sort_by=popularity.desc`,
+    releaseDateAsc: `sort_by=popularity.release_date.asc`,
+    releaseDateDesc: `sort_by=popularity.release_date.desc`,
   },
 };
 console.log(requests.genre.searchGenre);

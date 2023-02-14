@@ -1,34 +1,29 @@
+import MovieList from "@/features/components/MovieList";
 import { WatchListState } from "@/lib/atom";
 import { API_KEY, requests } from "@/lib/MovieApi";
+
 import axios from "axios";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
+// 見る映画リスト
 const watchList = () => {
   const watchMoviesList: any = useRecoilValue(WatchListState);
+  const setWatchMoviesList: any = useSetRecoilState(WatchListState);
+  const copyWatchMoviesList: any = [...watchMoviesList];
+  console.log(copyWatchMoviesList);
 
-  console.log(watchMoviesList);
+  // 削除機能
+  const handleDelete = (e: any, targetMovie: any) => {
+    e.preventDefault();
+    setWatchMoviesList((current: any) =>
+      current.filter((value: any) => targetMovie !== value)
+    );
+  };
   return (
     <>
-      <ul>
-        <Link href="/movie">ホーム</Link>
-        {watchMoviesList.map((movie: any) => (
-          <>
-            <li key={movie.id}>
-              <span>{movie.title}</span>
-              <Link
-                href={{
-                  pathname: `/ranking/actor`,
-                  query: { id: movie.id, title: movie.name },
-                }}
-              >
-                <img src={`${requests.image}${movie.poster_path}`} alt="" />
-              </Link>
-            </li>
-          </>
-        ))}
-      </ul>
+      <MovieList Movies={watchMoviesList} />
     </>
   );
 };
