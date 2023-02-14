@@ -15,6 +15,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 
 import { API_KEY, requests } from "@/lib/MovieApi";
+import { useRouter } from "next/router";
 
 // Header Css 記述
 const Search = styled("div")(({ theme }) => ({
@@ -66,11 +67,13 @@ const Header = () => {
   const setKeyword = useSetRecoilState(searchKey);
   const [searchMovie, setSearchMovie] = useState<Movie[]>([]);
   const inputElement: any = useRef(null);
+  const router = useRouter();
 
   // Enterキーを押すと起動され入力値をKeywordに入れる
   const onSearch = (e: any) => {
     e.preventDefault();
     setKeyword(inputElement.current.value);
+    router.push("/movie");
   };
 
   // keyword に応じたapiを取得し、searchMovieにdataを格納する。
@@ -78,18 +81,16 @@ const Header = () => {
   console.log(searchMovie);
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+      <Box sx={{ flexGrow: 1, background: "#0f0f0f" }}>
+        <AppBar
+          position="static"
+          sx={{
+            background: "#0f0f0f",
+            position: "fixed",
+            zIndex: 1000,
+          }}
+        >
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
             <Typography
               variant="h6"
               noWrap

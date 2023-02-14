@@ -41,6 +41,7 @@ export const WatchedListState = atom({
   default: watchedList,
 });
 
+//映画ジャンル
 export const MovieGenreIdState = atom({
   key: "MovieGenreIdState",
   default: {

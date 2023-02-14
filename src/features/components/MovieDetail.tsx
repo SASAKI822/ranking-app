@@ -45,15 +45,14 @@ const MovieDetail = () => {
   const CastUrl = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`;
   const VideoUrl = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}`;
 
-  // cast　情報をmovieCast に格納
-
-  // video　情報をmovieVideo に格納
   useEffect(() => {
+    // video　情報をmovieVideo に格納
     async function fetchVideoData() {
       const request = await axios
         .get(VideoUrl)
         .then((response) => {
           setMovieVideo(response.data.results);
+          // cast　情報をmovieCast に格納
           async function fetchMovieData() {
             const request = await axios
               .get(CastUrl)
@@ -76,7 +75,7 @@ const MovieDetail = () => {
     }
     fetchVideoData();
   }, [VideoUrl]);
-
+  // トレイラー動画だけtrailerMovieに格納
   useEffect(() => {
     {
       const trailerMovies = movieVideo.filter((value: any) => {

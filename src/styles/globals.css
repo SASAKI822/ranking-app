@@ -95,6 +95,11 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+h2, p, a {
+  color: white
+}
+
+
 a {
   color: inherit;
   text-decoration: none;
@@ -105,9 +110,7 @@ a {
     color-scheme: dark;
   }
 }
-.MuiImageList-root {
-  column-count: 4 !important;
-}
+
 @media only screen and (max-width: 900px) {
   .MuiImageList-root {
     column-count: 3 !important;

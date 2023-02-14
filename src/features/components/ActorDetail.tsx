@@ -8,7 +8,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { ActorInfoState } from "@/lib/atom";
 const ActorDetail = () => {
   const [actorMovies, setActorMovies] = useState<any>([]);
-
+  // ルーター
   const router = useRouter();
   const personId: any = router.query.id;
   const actorName: any = router.query.name;
@@ -26,6 +26,7 @@ const ActorDetail = () => {
 
   const actorUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_people=${id}`;
 
+  //俳優出演映画をactorMovie に格納
   useEffect(() => {
     async function fetchData() {
       const request = await axios.get(actorUrl);
@@ -35,7 +36,6 @@ const ActorDetail = () => {
     fetchData();
   }, [actorUrl]);
 
-  console.log(name);
   return (
     <>
       <h2>{name}の出演映画</h2>

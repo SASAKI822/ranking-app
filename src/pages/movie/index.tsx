@@ -1,18 +1,31 @@
 import Header from "@/components/layouts/Header";
-import ActorList from "@/features/components/ActorListContent";
-import MovieGenre from "@/features/components/MovieGenre";
-import MovieList from "@/features/components/MovieList";
 import { requests } from "@/lib/MovieApi";
 import React from "react";
-import Sidebar from "@/components/layouts/Sidebar";
-import Main from "@/components/layouts/Main";
+import { Card, Grid } from "@mui/material";
+import SidebarNav from "@/components/layouts/Sidebar";
+import SearchMovieList from "@/features/components/SearchMovie";
 
 const movie = () => {
   return (
-    <div>
-      <Header />
-      <Main />
-    </div>
+    <>
+      <Grid container>
+        <Grid item xs={3} sm={1.5}>
+          <Card sx={{ background: "#0f0f0f" }}>
+            <SidebarNav />
+          </Card>
+        </Grid>
+        <Grid item xs={9} sm={10.5}>
+          <Card sx={{ background: "#0f0f0f" }}>
+            <Header />
+          </Card>
+          <Grid item xs={9}>
+            <Card sx={{ background: "#0f0f0f" }}>
+              <SearchMovieList searchUrl={requests.search} />
+            </Card>
+          </Grid>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

@@ -28,9 +28,9 @@ export type Movie = {
 
 const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   const [movies, setMovies] = useState<Movie[]>([]);
-
   const setWatchList = useSetRecoilState(WatchListState);
-  const WatchList = useRecoilValue(WatchListState);
+
+  // fetchUrlのジャンルの映画が入る
   useEffect(() => {
     async function fetchData() {
       const request = await axios.get(fetchUrl);

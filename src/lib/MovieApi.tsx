@@ -9,13 +9,12 @@ export const requests = {
   home: "https://api.themoviedb.org/3",
   actor: `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=Jack+Reacher`,
   image: "https://image.tmdb.org/t/p/w185/",
-
   search: `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}`,
 
   genre: {
     fetchTrending: `${Home}/trending/all/week?api_key=${API_KEY}&language=en-us`,
-    fetchNetflixOriginals: `${Home}/discover/tv?api_key=${API_KEY}&with_networks=213`,
-    fetchTopRated: `${Home}/discover/tv?api_key=${API_KEY}&language=en-us`,
+    fetchNetflixOriginals: `${Home}/discover/movie?api_key=${API_KEY}&with_networks=213`,
+    fetchTopRated: `${Home}/discover/movie?api_key=${API_KEY}&language=en-us`,
     fetchActionMovies: `${Home}/discover/movie?api_key=${API_KEY}&with_genres=28`,
     fetchComedyMovies: `${Home}/discover/movie?api_key=${API_KEY}&with_genres=35`,
     fetchHorrorMovies: `${Home}/discover/movie?api_key=${API_KEY}&with_genres=27`,
