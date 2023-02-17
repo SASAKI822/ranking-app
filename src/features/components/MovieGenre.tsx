@@ -14,9 +14,6 @@ import InfoIcon from "@mui/icons-material/Info";
 type Props = {
   fetchUrl: string;
   title: string;
-  filterUrl: string;
-  filterAscUrl: string;
-  filterDescUrl: string;
 };
 
 export type Movie = {
@@ -29,12 +26,7 @@ export type Movie = {
   backdrop_path: string;
 };
 
-const MovieGenre: any = ({
-  title,
-  fetchUrl,
-  filterAscUrl,
-  filterDescUrl,
-}: Props) => {
+const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const setWatchList = useSetRecoilState(WatchListState);
 
@@ -50,33 +42,55 @@ const MovieGenre: any = ({
   }, [fetchUrl]);
   console.log(movies);
 
-  const handleFilterAscMovie = (e: any) => {
+  // 人気順
+  const handleFilterPopularDescMovie = (e: any) => {
     e.preventDefault();
 
     async function fetchData() {
-      const request = await axios.get(filterAscUrl);
+      const request = await axios.get(fetchUrl);
       setMovies(request.data.results);
       return request;
     }
     fetchData();
   };
-  const handleFilterDescMovie = (e: any) => {
+
+  // 最近の映画
+  const handleReleaseDateDescMovie = (e: any) => {
     e.preventDefault();
 
     async function fetchData() {
-      const request = await axios.get(filterDescUrl);
+      const request = await axios.get(
+        fetchUrl + requests.filter.releaseDateDesc
+      );
       setMovies(request.data.results);
       return request;
     }
     fetchData();
   };
+
+  //評価が高い順
+  const handleVoteAverageDescMovie = (e: any) => {
+    e.preventDefault();
+
+    async function fetchData() {
+      const request = await axios.get(
+        fetchUrl + requests.filter.voteAverageDesc
+      );
+      setMovies(request.data.results);
+      return request;
+    }
+    fetchData();
+  };
+  console.log(fetchUrl);
+  console.log(fetchUrl + requests.filter.voteAverageDesc);
   return (
     <>
       <ul>
         <h2>{title}</h2>
       </ul>
-      <button onClick={handleFilterAscMovie}>昇順</button>
-      <button onClick={handleFilterDescMovie}>降順</button>
+      <button onClick={handleFilterPopularDescMovie}>人気順</button>
+      <button onClick={handleReleaseDateDescMovie}>最近の映画</button>
+      <button onClick={handleVoteAverageDescMovie}>評価の高い順</button>
 
       <ImageList
         gap={12}

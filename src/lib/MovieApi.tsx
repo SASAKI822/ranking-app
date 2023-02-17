@@ -13,7 +13,7 @@ export const requests = {
 
   genre: {
     fetchTrending: `${Home}/trending/all/week?api_key=${API_KEY}&language=en-us`,
-    fetchNetflixOriginals: `${Home}/discover/movie?api_key=${API_KEY}&with_networks=213`,
+    fetchNetflixOriginals: `${Home}/discover/tv?api_key=${API_KEY}&with_networks=213`,
     fetchTopRated: `${Home}/discover/movie?api_key=${API_KEY}&language=en-us`,
     fetchActionMovies: `${Home}/discover/movie?api_key=${API_KEY}&with_genres=28`,
     fetchComedyMovies: `${Home}/discover/movie?api_key=${API_KEY}&with_genres=35`,
@@ -29,10 +29,8 @@ export const requests = {
     searchGenre: `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`,
   },
   filter: {
-    popularAsc: `sort_by=popularity.asc`,
-    popularDesc: `sort_by=popularity.desc`,
-    releaseDateAsc: `sort_by=popularity.release_date.asc`,
-    releaseDateDesc: `sort_by=popularity.release_date.desc`,
+    releaseDateDesc: `&sort_by=primary_release_date.desc`, //最近の映画
+    voteAverageDesc: `&sort_by=vote_average.desc`, //評価が高い順
   },
 };
 console.log(requests.genre.searchGenre);

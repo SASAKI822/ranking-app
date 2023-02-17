@@ -33,16 +33,27 @@ export const MovieInfoState = atom({
     overview: "",
     release_date: "",
     video: "",
+    mediaType: "",
+  },
+});
+
+//TV情報
+export const TVInfoState = atom({
+  key: "TVInfoState",
+  default: {
+    id: "",
+    title: "",
+    overview: "",
+    release_date: "",
+    video: "",
+    mediaType: "",
   },
 });
 
 //俳優情報
 export const ActorInfoState = atom({
   key: "ActorInfoState",
-  default: {
-    id: "",
-    name: "",
-  },
+  default: [],
 });
 
 //見る映画リスト
@@ -60,10 +71,10 @@ export const WatchedListState = atom({
 });
 
 // 登録俳優リスト
-const ActorList: any[] = [];
+
 export const RegisterActorListState = atom({
   key: "RegisterActorListState",
-  default: ActorList,
+  default: [],
 });
 
 //映画ジャンル
@@ -72,4 +83,9 @@ export const MovieGenreIdState = atom({
   default: {
     id: "",
   },
+});
+
+export const SidebarState = atom({
+  key: "sidebarState",
+  default: false,
 });

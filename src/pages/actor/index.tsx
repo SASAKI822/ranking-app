@@ -6,28 +6,36 @@ import Header from "@/components/layouts/Header";
 import { RegisterActorListState, searchActorResultState } from "@/lib/atom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Typography from "@mui/material/Typography";
+export const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
+
 const actor = () => {
-  const searchActorResult = useRecoilValue(searchActorResultState);
-  const setRegisterActorList = useSetRecoilState(RegisterActorListState);
+  const searchActorResult: any = useRecoilValue(searchActorResultState);
+
   return (
     <>
-      <Grid container>
-        <Grid item xs={3} sm={1.5}>
-          <Card sx={{ background: "#0f0f0f" }}>
-            <SidebarNav />
-          </Card>
-        </Grid>
-        <Grid item xs={9} sm={10.5}>
-          <Card sx={{ background: "#0f0f0f" }}>
-            <Header />
-          </Card>
-          <Grid item xs={9}>
-            <Card sx={{ background: "#0f0f0f" }}>
-              <ActorList Actors={searchActorResult} />
-            </Card>
-          </Grid>
-        </Grid>
-      </Grid>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <Header />
+        <SidebarNav />
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <DrawerHeader />
+          <Typography paragraph>
+            <ActorList Actors={searchActorResult} />
+          </Typography>
+          <Typography paragraph></Typography>
+        </Box>
+      </Box>
     </>
   );
 };

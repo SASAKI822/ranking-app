@@ -5,7 +5,7 @@ import { Grid } from "@mui/material";
 import Header from "@/components/layouts/Header";
 import SidebarNav from "@/components/layouts/Sidebar";
 
-const Romance = () => {
+const Netfilx = () => {
   return (
     <Grid container sx={{ width: "100%" }}>
       <Grid item sx={{ background: "#0f0f0f" }}>
@@ -17,8 +17,8 @@ const Romance = () => {
         </Grid>
         <Grid item sx={{ width: "100%" }} xs="auto" sm={10.5}>
           <MovieGenre
-            title="ロマンス"
-            fetchUrl={requests.genre.fetchRomanceMovies}
+            title="Netfilxオリジナル"
+            fetchUrl={requests.genre.fetchNetflixOriginals}
           />
         </Grid>
       </Grid>
@@ -26,4 +26,4 @@ const Romance = () => {
   );
 };
 
-export default Romance;
+export default Netfilx;

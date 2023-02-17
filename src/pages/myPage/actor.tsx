@@ -1,15 +1,14 @@
-import Header from "@/components/layouts/Header";
-import { requests } from "@/lib/MovieApi";
+import { RegisterActorListState } from "@/lib/atom";
 import React from "react";
-import { Grid } from "@mui/material";
-import SidebarNav from "@/components/layouts/Sidebar";
-
-import { searchMovieResultState } from "@/lib/atom";
 import { useRecoilValue } from "recoil";
-import MovieList from "@/features/components/MovieList";
+import { Grid } from "@mui/material";
+import ActorList from "@/features/components/ActorList";
+import SidebarNav from "@/components/layouts/Sidebar";
+import Header from "@/components/layouts/Header";
 
-const movie = () => {
-  const SearchMovieResult: any = useRecoilValue(searchMovieResultState);
+const actorList = () => {
+  const RegisterActorList: any = useRecoilValue(RegisterActorListState);
+  console.log(RegisterActorList);
   return (
     <>
       <Grid container sx={{ width: "100%" }}>
@@ -21,7 +20,7 @@ const movie = () => {
             <SidebarNav />
           </Grid>
           <Grid item sx={{ width: "100%" }} xs="auto" sm={10.5}>
-            <MovieList Movies={SearchMovieResult} />
+            <ActorList Actors={RegisterActorList} />
           </Grid>
         </Grid>
       </Grid>
@@ -29,4 +28,4 @@ const movie = () => {
   );
 };
 
-export default movie;
+export default actorList;

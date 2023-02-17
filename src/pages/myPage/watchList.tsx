@@ -1,9 +1,8 @@
+import Header from "@/components/layouts/Header";
+import SidebarNav from "@/components/layouts/Sidebar";
 import MovieList from "@/features/components/MovieList";
 import { WatchListState } from "@/lib/atom";
-import { API_KEY, requests } from "@/lib/MovieApi";
-
-import axios from "axios";
-import Link from "next/link";
+import { Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -23,7 +22,19 @@ const watchList = () => {
   };
   return (
     <>
-      <MovieList Movies={watchMoviesList} />
+      <Grid container sx={{ width: "100%" }}>
+        <Grid item sx={{ background: "#0f0f0f" }}>
+          <Header />
+        </Grid>
+        <Grid container direction="row" sx={{ width: "100%" }}>
+          <Grid item sx={{ height: "100%" }} xs="auto" sm={1.5}>
+            <SidebarNav />
+          </Grid>
+          <Grid item sx={{ width: "100%" }} xs="auto" sm={10.5}>
+            <MovieList Movies={watchMoviesList} />
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 };

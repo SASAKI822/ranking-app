@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useSetRecoilState } from "recoil";
-import { WatchListState } from "../../lib/atom";
+import { searchMovieResultState, WatchListState } from "../../lib/atom";
 import { useRecoilValue } from "recoil";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -18,7 +18,7 @@ type MoviesProps = {
 
 // Header コンポーネント
 
-const MovieList = ({ Movies }: MoviesProps) => {
+const MovieList = ({ Movies }: any) => {
   // Input入力値をKeyword に入れる
 
   const setWatchList = useSetRecoilState(WatchListState);
@@ -27,11 +27,11 @@ const MovieList = ({ Movies }: MoviesProps) => {
     <>
       <ImageList
         gap={8}
-        cols={4}
         sx={{
-          gridTemplateColumns:
-            "repeat(auto-fill, minmax(200px, 1fr) 1fr!important",
+          mb: 8,
+          gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr)!important",
         }}
+        cols={4}
       >
         {Movies &&
           Movies.length > 0 &&
@@ -40,12 +40,15 @@ const MovieList = ({ Movies }: MoviesProps) => {
               <>
                 <div key={movie.id}>
                   <ImageListItem key={movie.img}>
+                    return
                     <Link
+                      style={{ textAlign: "center" }}
                       href={{
                         pathname: `/movie/${movie.id}`,
                         query: {
                           id: movie.id,
                           title: movie.title,
+                          mediaType: movie.media_type,
                           overview: movie.overview,
                           releaseDate: movie.release_date,
                           video: movie.video,
