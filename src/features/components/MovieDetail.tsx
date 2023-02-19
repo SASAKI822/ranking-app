@@ -1,4 +1,4 @@
-import { MovieInfoState } from "@/lib/atom";
+import { MovieInfoState, WatchListState } from "@/lib/atom";
 import { API_KEY, requests } from "@/lib/MovieApi";
 import axios from "axios";
 import Link from "next/link";
@@ -12,27 +12,38 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import { TabContext } from "@mui/lab";
+
+import TabPanel from "@mui/lab/TabPanel";
+
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+
+import Stack from "@mui/material/Stack";
+
 const MovieDetail = () => {
   const [movieCast, setMovieCast] = useState<any>([]);
   const [movieVideo, setMovieVideo] = useState<any>([]);
-  const [seasonInfo, setSeasonInfo] = useState<any>([]);
   const [trailerMovie, setTrailerMovie] = useState<any>([]);
 
   //MovieInfo　情報　id, title 取得
   const movieInfo = useRecoilValue(MovieInfoState);
 
   // ルーター string 型から number 型へ変換
-
   const router = useRouter();
+  const title = router.query.title;
+  const posterPath = router.query.posterPath;
+  const overview = router.query.overview;
+  const releaseDate = router.query.releaseDate;
   const movieOrTvDetailIdString: any = router.query.id;
   const movieOrTvDetailId = parseInt(movieOrTvDetailIdString);
   const movieDetailMediaType: any = router.query.mediaType;
   console.log(movieDetailMediaType);
-  const movieUrl = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/videos?api_key=${API_KEY}`;
 
-  const CastUrl = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/credits?api_key=${API_KEY}`;
-  const seasonTv = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}aggregate_credits?api_key=${API_KEY}`;
-  console.log(seasonTv);
+  // メディアタイプによって格納先分ける
   if (
     movieDetailMediaType === "movie" ||
     movieDetailMediaType === null ||
@@ -84,10 +95,9 @@ const MovieDetail = () => {
       let ignoreTv = false;
       const fetchData = async () => {
         if (!ignoreTv) {
-          const seasonTv = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/aggregate_credits?api_key=${API_KEY}`;
           const tvUrl = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/videos?api_key=${API_KEY}`;
-          const CastUrl = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/credits?api_key=${API_KEY}`;
-          console.log(seasonTv);
+          const CastUrl = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/aggregate_credits?api_key=${API_KEY}`;
+
           const request = await axios
             .get(tvUrl)
             .then((response) => {
@@ -98,20 +108,10 @@ const MovieDetail = () => {
                   .get(CastUrl)
                   .then((response) => {
                     setMovieCast(response.data.cast);
-                    async function fetchSeasonData() {
-                      const request = await axios
-                        .get(seasonTv)
-                        .then((response) => {
-                          setSeasonInfo(response.data.cast);
-                        });
-                      return request;
-                    }
-                    fetchSeasonData();
                   })
                   .then((error) => {
                     console.error(error);
                   });
-                return request;
               }
               fetchMovieData();
             })
@@ -127,7 +127,7 @@ const MovieDetail = () => {
       };
     }, [movieOrTvDetailId]);
   }
-  console.log(seasonInfo);
+
   // // トレイラー動画だけtrailerMovieに格納
   useEffect(() => {
     {
@@ -138,148 +138,87 @@ const MovieDetail = () => {
       setTrailerMovie(trailerMovies);
     }
   }, [movieVideo]);
-  console.log(movieCast);
-  // //atom 参照　検索結果リスト
-  // const [actorMovies, setActorMovies] = useRecoilState<any>(actorMoviesState);
 
-  // const ActorInfo = useRecoilValue(ActorInfoState);
+  // ボタンでmovie検索かactor検索を切り替える。
 
-  // // クリックされた内容をmovieInformationに格納
-  // const movieRes = actorMovies.filter((value: any) => {
-  //   return value.id === movieDetailId && value.media_type === "movie";
-  // });
-  // // ||value.hasOwnProperty("media_type");
+  const [value, setValue] = useState<any>("");
 
-  // // && typeof value.media_type === "undefined"
-  // // (value.id === movieDetailId && value.media_type === "movie") ||
-  // // クリックされた内容をtvInformationに格納
-  // const tvRes = actorMovies.filter((value: any) => {
-  //   return value.id === movieDetailId && value.media_type === "tv";
-  // });
-
-  // const movieInformation = movieRes[0];
-  // const tvInformation = tvRes[0];
-
-  // console.log(movieRes);
-  // // 　movie 情報 cast 情報を格納
-  // useEffect(() => {
-  //   let ignore = false;
-
-  //   async function fetchData() {
-  //     if (!ignore && movieInformation) {
-  //       const movieUrl = `https://api.themoviedb.org/3/movie/${movieInformation.id}/videos?api_key=${API_KEY}`;
-  //       const CastUrl = `https://api.themoviedb.org/3/movie/${movieInformation.id}/credits?api_key=${API_KEY}`;
-  //       const request = await axios
-  //         .get(movieUrl)
-  //         .then((response) => {
-  //           setMovieVideo(response.data.results);
-  //           // cast　情報をmovieCast に格納
-  //           async function fetchMovieData() {
-  //             const request = await axios
-  //               .get(CastUrl)
-  //               .then((response) => {
-  //                 setMovieCast(response.data.cast);
-  //               })
-  //               .then((error) => {
-  //                 console.error(error);
-  //               });
-
-  //             return request;
-  //           }
-  //           fetchMovieData();
-  //         })
-  //         .then((error) => {
-  //           console.error(error);
-  //         });
-
-  //       return request;
-  //     }
-  //   }
-  //   fetchData();
-  //   return () => {
-  //     let ignore = true;
-  //   };
-  // }, [movieInformation]);
-
-  // // Tv 情報 cast 情報を格納
-  // useEffect(() => {
-  //   let ignoreTv = false;
-  //   const fetchData = async () => {
-  //     if (!ignoreTv && tvInformation) {
-  //       const tvUrl = `https://api.themoviedb.org/3/tv/${tvInformation.id}/videos?api_key=${API_KEY}`;
-  //       const CastUrl = `https://api.themoviedb.org/3/tv/${tvInformation.id}/credits?api_key=${API_KEY}`;
-  //       const request = await axios
-  //         .get(tvUrl)
-  //         .then((response) => {
-  //           setMovieVideo(response.data.results);
-  //           // cast　情報をtvCast に格納
-  //           async function fetchMovieData() {
-  //             const request = await axios
-  //               .get(CastUrl)
-  //               .then((response) => {
-  //                 setMovieCast(response.data.cast);
-  //                 console.log(movieCast);
-  //               })
-  //               .then((error) => {
-  //                 console.error(error);
-  //               });
-
-  //             return request;
-  //           }
-  //           fetchMovieData();
-  //         })
-  //         .then((error) => {
-  //           console.error(error);
-  //         });
-
-  //       return request;
-  //     }
-  //   };
-  //   fetchData();
-  //   return () => {
-  //     let ignoreTv = true;
-  //   };
-  // }, [tvInformation]);
-
-  // // トレイラー動画だけtrailerMovieに格納
-  // useEffect(() => {
-  //   {
-  //     const trailerMovies = movieVideo.filter((value: any) => {
-  //       return value.type === "Trailer";
-  //     });
-
-  //     setTrailerMovie(trailerMovies);
-  //   }
-  // }, [movieVideo]);
-
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+  const setWatchList = useSetRecoilState(WatchListState);
+  console.log(title);
   return (
     <>
-      <Link href="/movie">ホーム</Link>
-      {/* <h2>
-        {movieInformation ? movieInformation.title : tvInformation.title}
-        <span>{movieInformation.release_date}</span>
-      </h2>
-      <p>
-        {movieInformation.overview
-          ? movieInformation.overview
-          : tvInformation.overview}
-      </p> */}
-      {trailerMovie.map((value: any) => {
-        return (
-          <>
-            <ul>
-              <li>
-                <iframe
-                  id="inline-frame"
-                  width="40%"
-                  style={{ border: "none" }}
-                  src={`https://www.youtube.com/embed/${value.key}`}
-                ></iframe>
-              </li>
-            </ul>
-          </>
-        );
-      })}
+      <div style={{ marginBottom: "40px", padding: "20px" }}>
+        <div style={{ display: "flex", padding: "5px" }}>
+          <div style={{ marginBottom: "10px" }}>
+            <img src={`${requests.image}/${posterPath}`} alt="" />
+          </div>
+          <div style={{ width: "100%", padding: "20px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <h1>{title}</h1>
+            </div>
+
+            <p>公開日:{releaseDate}</p>
+            <Box sx={{ width: "100%", typography: "body1" }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                aria-label="scrollable auto tabs example"
+              >
+                <TabContext value={value}>
+                  {trailerMovie.map((value: any, index: any) => {
+                    return (
+                      <>
+                        <Box
+                          sx={{
+                            borderBottom: 1,
+                            borderColor: "divider",
+                            marginBottom: "30px",
+                          }}
+                        >
+                          <Tabs
+                            onChange={handleChange}
+                            aria-label="lab API tabs example"
+                          >
+                            <Tab
+                              label={index}
+                              value={index}
+                              style={{ color: "white" }}
+                            />
+                          </Tabs>
+
+                          <TabPanel
+                            value={index}
+                            sx={{
+                              border: "1px solid",
+                            }}
+                          >
+                            <iframe
+                              id="inline-frame"
+                              style={{
+                                border: "none",
+                                width: "560",
+                                height: "315",
+                                display: "block",
+                              }}
+                              src={`https://www.youtube.com/embed/${value.key}`}
+                            ></iframe>
+                          </TabPanel>
+                        </Box>
+                      </>
+                    );
+                  })}
+                </TabContext>
+              </Tabs>
+            </Box>
+          </div>
+        </div>
+        <p>{overview}</p>
+      </div>
 
       {/* <p>{overview}</p> */}
       <ImageList
@@ -312,7 +251,7 @@ const MovieDetail = () => {
                     <img src={`${requests.image}${cast.profile_path}`} />
                     <ImageListItemBar
                       title={cast.name}
-                      subtitle={cast.author}
+                      subtitle={cast.character}
                       actionIcon={
                         <IconButton
                           sx={{ color: "rgba(255, 255, 255, 0.54)" }}

@@ -105,7 +105,7 @@ const Header = ({ searchUrl }: any) => {
   };
 
   // movieKeywordを基にmovieUrlからデータを所得しSearchMovieResultに格納
-  const MovieUrl = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`;
+  const MovieUrl = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&language=JA`;
   useEffect(() => {
     async function SearchData() {
       const request = await axios
@@ -129,7 +129,7 @@ const Header = ({ searchUrl }: any) => {
     SearchData();
   }, [MovieUrl, movieKeyword]);
 
-  const ActorUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}`;
+  const ActorUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}&page=1&page2`;
 
   useEffect(() => {
     async function SearchData() {
@@ -164,27 +164,25 @@ const Header = ({ searchUrl }: any) => {
       setAlignment(newAlignment);
     }
   };
-  const toggle = () => {
-    if (alignment === "Movie") {
-      console.log("dd");
-    } else if (alignment === "Actor") {
-      console.log("dddfdf");
-    }
-  };
 
   console.log(alignment);
   return (
     <>
-      <Box sx={{ flexGrow: 1, background: "#0f0f0f", display: "flex" }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          background: "#0f0f0f",
+          display: "flex",
+          width: "100%",
+        }}
+      >
         <AppBar
           position="static"
           sx={{
             background: "#0f0f0f",
-            position: "fixed",
-            zIndex: 1000,
           }}
         >
-          <Toolbar>
+          <Toolbar sx={{ minHeight: "63px" }}>
             <MenuOutlinedIcon
               sx={{
                 display: { sm: "block", md: "none" },
@@ -222,9 +220,15 @@ const Header = ({ searchUrl }: any) => {
                     <>
                       <form onSubmit={onSearchMovie}>
                         <StyledInputBase
-                          placeholder="映画、ドラマ、アニメを検索"
+                          placeholder="映画 ドラマ検索"
                           inputProps={{ "aria-label": "search" }}
                           inputRef={inputMovieElement}
+                          sx={{
+                            width: "20ch",
+                            "&.MuiInputBase-root.MuiInputBase-input": {
+                              width: "14ch",
+                            },
+                          }}
                         />
                       </form>
                     </>
@@ -237,6 +241,7 @@ const Header = ({ searchUrl }: any) => {
                           placeholder="俳優を検索"
                           inputProps={{ "aria-label": "search" }}
                           inputRef={inputActorElement}
+                          sx={{ width: "20ch" }}
                         />
                       </form>
                     </>
@@ -262,8 +267,6 @@ const Header = ({ searchUrl }: any) => {
           </Toolbar>
         </AppBar>
       </Box>
-
-      <Button color="inherit">Login</Button>
     </>
   );
 };

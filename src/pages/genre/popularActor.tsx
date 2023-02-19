@@ -1,16 +1,14 @@
 import ActorList from "@/features/components/ActorList";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
 import Header from "@/components/layouts/Header";
-import {
-  RegisterActorListState,
-  searchActorKey,
-  searchActorResultState,
-} from "@/lib/atom";
+
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import { styled } from "@mui/material/styles";
+import axios from "axios";
+import { requests } from "@/lib/MovieApi";
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -21,12 +19,24 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-const Actor = () => {
-  const searchActorResult: any = useRecoilValue(searchActorResultState);
-  const [actorKeyword, setActorKeyword] = useRecoilState(searchActorKey);
+const popularActor: any = () => {
+  const [popularActor, setPopularActor] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      const data = await axios
+        .get(requests.genre.popularActor)
+        .then((response) => {
+          setPopularActor(response.data.results);
+        });
+      return data;
+    }
+    fetchData();
+  }, []);
+  console.log(popularActor);
+
   return (
     <>
-      <Grid container direction="row" sx={{ width: "100%", padding: "20px" }}>
+      <Grid container direction="row" sx={{ width: "100%" }}>
         <Grid
           item
           sx={{
@@ -43,12 +53,14 @@ const Actor = () => {
           <SidebarNav />
         </Grid>
         <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
-          <Grid>検索結果:{actorKeyword}</Grid>
-          <ActorList Actors={searchActorResult} />
+          <Grid>
+            <h2>人気俳優</h2>
+          </Grid>
+          <ActorList Actors={popularActor} />
         </Grid>
       </Grid>
     </>
   );
 };
 
-export default Actor;
+export default popularActor;

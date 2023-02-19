@@ -1,15 +1,17 @@
 import Header from "@/components/layouts/Header";
 import SidebarNav from "@/components/layouts/Sidebar";
 import MovieList from "@/features/components/MovieList";
-import { WatchedListState, WatchListState } from "@/lib/atom";
+import WatchedList from "@/features/components/WatchedList";
+import { WatchedListState } from "@/lib/atom";
 import { Grid } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 
 // 見たことある映画リスト
 const watchedList = () => {
-  const watchedMoviesList: any = useRecoilValue(WatchedListState);
-  const setWatchedMoviesList: any = useSetRecoilState(WatchedListState);
+  const [watchedMoviesList, setWatchedMoviesList] =
+    useRecoilState(WatchedListState);
+
   const handleDelete = (e: any, targetMovie: any) => {
     e.preventDefault();
     setWatchedMoviesList((current: any) =>
@@ -20,17 +22,25 @@ const watchedList = () => {
 
   return (
     <>
-      <Grid container sx={{ width: "100%" }}>
-        <Grid item sx={{ background: "#0f0f0f" }}>
+      <Grid container direction="row" sx={{ width: "100%" }}>
+        <Grid
+          item
+          sx={{
+            background: "#0f0f0f",
+            position: "fixed",
+            width: "100%",
+            zIndex: "1",
+          }}
+          xs={12}
+        >
           <Header />
         </Grid>
-        <Grid container direction="row" sx={{ width: "100%" }}>
-          <Grid item sx={{ height: "100%" }} xs="auto" sm={1.5}>
-            <SidebarNav />
-          </Grid>
-          <Grid item sx={{ width: "100%" }} xs="auto" sm={10.5}>
-            <MovieList Movies={watchedMoviesList} />
-          </Grid>
+        <Grid item sx={{ width: "100%" }} md={2}>
+          <SidebarNav />
+        </Grid>
+        <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
+          <Grid>見た映画リスト</Grid>
+          <WatchedList />
         </Grid>
       </Grid>
     </>

@@ -10,7 +10,6 @@ export const requests = {
   actor: `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=Jack+Reacher`,
   image: "https://image.tmdb.org/t/p/w185/",
   search: `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`,
-
   genre: {
     fetchTrending: `${Home}/trending/all/week?api_key=${API_KEY}&language=en-us`,
     fetchNetflixOriginals: `${Home}/discover/tv?api_key=${API_KEY}&with_networks=213`,
@@ -27,10 +26,13 @@ export const requests = {
     fetchAdventureMovies: `${Home}/discover/movie?api_key=${API_KEY}&with_genres=12`,
     allMovieOfActor: `${Home}/discover/movie?api_key=${API_KEY}&with_people=287`,
     searchGenre: `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`,
+    popularActor: `${Home}/person/popular?api_key=${API_KEY}`,
   },
   filter: {
+    popular: `&sort_by=popularity.desc`, //人気のある
     releaseDateDesc: `&sort_by=primary_release_date.desc`, //最近の映画
     voteAverageDesc: `&sort_by=vote_average.desc`, //評価が高い順
+    primaryReleaseYear: `&primary_release_year=2014`, //2014年に公開された最高の映画
   },
 };
 console.log(requests.genre.searchGenre);

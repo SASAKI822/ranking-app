@@ -7,26 +7,33 @@ import SidebarNav from "@/components/layouts/Sidebar";
 
 const Horror = () => {
   return (
-    <Grid container sx={{ width: "100%" }}>
-      <Grid item sx={{ background: "#0f0f0f" }}>
+    <Grid container direction="row" sx={{ width: "100%" }}>
+      <Grid
+        item
+        sx={{
+          background: "#0f0f0f",
+          position: "fixed",
+          width: "100%",
+          zIndex: "1",
+        }}
+        xs={12}
+      >
         <Header />
       </Grid>
-      <Grid container direction="row" sx={{ width: "100%" }}>
-        <Grid item sx={{ height: "100%" }} xs="auto" sm={1.5}>
-          <SidebarNav />
-        </Grid>
-        <Grid item sx={{ width: "100%" }} xs="auto" sm={10.5}>
-          <MovieGenre
-            title="ホラー"
-            fetchUrl={requests.genre.fetchHorrorMovies}
-            filterAscUrl={
-              requests.genre.fetchHorrorMovies + requests.filter.popularAsc
-            }
-            filterDescUrl={
-              requests.genre.fetchHorrorMovies + requests.filter.popularDesc
-            }
-          />
-        </Grid>
+      <Grid item sx={{ width: "100%" }} md={2}>
+        <SidebarNav />
+      </Grid>
+      <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
+        <MovieGenre
+          title="ホラー"
+          fetchUrl={requests.genre.fetchHorrorMovies}
+          filterAscUrl={
+            requests.genre.fetchHorrorMovies + requests.filter.releaseDateDesc
+          }
+          filterDescUrl={
+            requests.genre.fetchHorrorMovies + requests.filter.releaseDateDesc
+          }
+        />
       </Grid>
     </Grid>
   );

@@ -1,12 +1,9 @@
 import Header from "@/components/layouts/Header";
 import SidebarNav from "@/components/layouts/Sidebar";
 import MovieDetail from "@/features/components/MovieDetail";
-import Box from "@mui/material/Box";
+
 import { styled } from "@mui/material/styles";
 import React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
-import ActorDetail from "@/features/components/ActorDetail";
 import { Grid } from "@mui/material";
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
@@ -19,24 +16,31 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 // movie/[id] 映画詳細表示
-const movie = () => {
+const Movie = () => {
   return (
     <>
-      <Grid container sx={{ width: "100%" }}>
-        <Grid item sx={{ background: "#0f0f0f" }}>
+      <Grid container direction="row" sx={{ width: "100%" }}>
+        <Grid
+          item
+          sx={{
+            background: "#0f0f0f",
+            position: "fixed",
+            width: "100%",
+            zIndex: "1",
+          }}
+          xs={12}
+        >
           <Header />
         </Grid>
-        <Grid container direction="row" sx={{ width: "100%" }}>
-          <Grid item sx={{ height: "100%" }} xs="auto" sm={1.5}>
-            <SidebarNav />
-          </Grid>
-          <Grid item sx={{ width: "100%" }} xs="auto" sm={10.5}>
-            <MovieDetail />
-          </Grid>
+        <Grid item sx={{ width: "100%" }} md={2}>
+          <SidebarNav />
+        </Grid>
+        <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
+          <MovieDetail />
         </Grid>
       </Grid>
     </>
   );
 };
 
-export default movie;
+export default Movie;

@@ -4,29 +4,38 @@ import React from "react";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
 
-import { searchMovieResultState } from "@/lib/atom";
-import { useRecoilValue } from "recoil";
+import { searchMovieKey, searchMovieResultState } from "@/lib/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import MovieList from "@/features/components/MovieList";
 
-const movie = () => {
+const Movie = () => {
   const SearchMovieResult: any = useRecoilValue(searchMovieResultState);
+  const [movieKeyword, setMovieKeyword] = useRecoilState(searchMovieKey);
   return (
     <>
-      <Grid container sx={{ width: "100%" }}>
-        <Grid item sx={{ background: "#0f0f0f" }}>
+      <Grid container direction="row" sx={{ width: "100%" }}>
+        <Grid
+          item
+          sx={{
+            background: "#0f0f0f",
+            position: "fixed",
+            width: "100%",
+            zIndex: "1",
+          }}
+          xs={12}
+        >
           <Header />
         </Grid>
-        <Grid container direction="row" sx={{ width: "100%" }}>
-          <Grid item sx={{ height: "100%" }} xs="auto" sm={1.5}>
-            <SidebarNav />
-          </Grid>
-          <Grid item sx={{ width: "100%" }} xs="auto" sm={10.5}>
-            <MovieList Movies={SearchMovieResult} />
-          </Grid>
+        <Grid item sx={{ width: "100%" }} md={2}>
+          <SidebarNav />
+        </Grid>
+        <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
+          <Grid>検索結果:{movieKeyword}</Grid>
+          <MovieList Movies={SearchMovieResult} fetchUrl={requests.search} />
         </Grid>
       </Grid>
     </>
   );
 };
 
-export default movie;
+export default Movie;

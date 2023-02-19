@@ -12,7 +12,6 @@ import InfoIcon from "@mui/icons-material/Info";
 
 // Header で入力された俳優一覧
 const ActorList = ({ Actors }: any) => {
-  const searchActorResult = useRecoilValue(searchActorResultState);
   const setRegisterActorList = useSetRecoilState(RegisterActorListState);
 
   return (
@@ -26,48 +25,61 @@ const ActorList = ({ Actors }: any) => {
         }}
         cols={4}
       >
-        {searchActorResult &&
-          searchActorResult.length > 0 &&
-          searchActorResult.map((actor: any) => (
+        {Actors &&
+          Actors.length > 0 &&
+          Actors.map((actor: any) => (
             <>
               {actor.profile_path && (
-                <div key={actor.id}>
-                  <ImageListItem key={actor.img}>
-                    <Link
-                      style={{ textAlign: "center" }}
-                      key={actor.id}
-                      href={{
-                        pathname: "/actor/[id]",
-                        query: {
-                          id: actor.id,
+                <ImageListItem
+                  key={actor.img}
+                  sx={{ maxWidth: "185px", placeSelf: "center" }}
+                >
+                  <Link
+                    style={{ textAlign: "center", maxWidth: "185px" }}
+                    key={actor.id}
+                    href={{
+                      pathname: "/actor/[id]",
+                      query: {
+                        id: actor.id,
+                        name: actor.name,
+                      },
+                    }}
+                  >
+                    <img src={`${requests.image}${actor.profile_path}`} />
+                    <ImageListItemBar
+                      sx={{
+                        "& .MuiImageListItemBar-title": {
+                          textAlign: "start",
+                          overflow: "auto",
+                          whiteSpace: "normal",
+                          "& .MuiImageListItemBar-title": {
+                            fontSize: "1.1rem",
+                            fontWeight: "600",
+                          },
                         },
                       }}
-                    >
-                      <img src={`${requests.image}${actor.profile_path}`} />
-                      <ImageListItemBar
-                        title={actor.name}
-                        actionIcon={
-                          <IconButton
-                            sx={{
-                              color: "rgba(255, 255, 255, 0.54)",
-                              height: "30px",
-                            }}
-                            aria-label={`info about ${actor.title}`}
-                            // 俳優登録ボタン
-                            onClick={(e: any) => {
-                              e.preventDefault();
-                              setRegisterActorList((a: any) => {
-                                return [...a, actor];
-                              });
-                            }}
-                          >
-                            <InfoIcon />
-                          </IconButton>
-                        }
-                      />
-                    </Link>
-                  </ImageListItem>
-                </div>
+                      title={actor.name}
+                      actionIcon={
+                        <IconButton
+                          sx={{
+                            color: "rgba(255, 255, 255, 0.6)",
+                            height: "30px",
+                          }}
+                          aria-label={`info about ${actor.title}`}
+                          // 俳優登録ボタン
+                          onClick={(e: any) => {
+                            e.preventDefault();
+                            setRegisterActorList((a: any) => {
+                              return [...a, actor];
+                            });
+                          }}
+                        >
+                          <InfoIcon />
+                        </IconButton>
+                      }
+                    />
+                  </Link>
+                </ImageListItem>
               )}
             </>
           ))}

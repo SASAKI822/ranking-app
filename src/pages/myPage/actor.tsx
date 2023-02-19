@@ -11,17 +11,27 @@ const actorList = () => {
   console.log(RegisterActorList);
   return (
     <>
-      <Grid container sx={{ width: "100%" }}>
-        <Grid item sx={{ background: "#0f0f0f" }}>
+      <Grid container direction="row" sx={{ width: "100%" }}>
+        <Grid
+          item
+          sx={{
+            background: "#0f0f0f",
+            position: "fixed",
+            width: "100%",
+            zIndex: "1",
+          }}
+          xs={12}
+        >
           <Header />
         </Grid>
-        <Grid container direction="row" sx={{ width: "100%" }}>
-          <Grid item sx={{ height: "100%" }} xs="auto" sm={1.5}>
-            <SidebarNav />
+        <Grid item sx={{ width: "100%" }} md={2}>
+          <SidebarNav />
+        </Grid>
+        <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
+          <Grid>
+            <h2>登録俳優</h2>
           </Grid>
-          <Grid item sx={{ width: "100%" }} xs="auto" sm={10.5}>
-            <ActorList Actors={RegisterActorList} />
-          </Grid>
+          <ActorList Actors={RegisterActorList} />
         </Grid>
       </Grid>
     </>

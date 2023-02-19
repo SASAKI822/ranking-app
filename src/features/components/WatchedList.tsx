@@ -2,7 +2,7 @@ import * as React from "react";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { searchMovieResultState, WatchListState } from "../../lib/atom";
 import { useRecoilValue } from "recoil";
 import ImageList from "@mui/material/ImageList";
@@ -13,63 +13,13 @@ import InfoIcon from "@mui/icons-material/Info";
 import { requests } from "@/lib/MovieApi";
 import { Box, useMediaQuery } from "@mui/material";
 
-type MoviesProps = {
-  Movies: string;
-};
-
 // Header コンポーネント
 
-const MovieList = ({ Movies, fetchUrl, onClick }: any) => {
-  // Input入力値をKeyword に入れる
-
-  const setWatchList = useSetRecoilState(WatchListState);
-
-  const matchesSixthCols = useMediaQuery("(min-width:1424px)");
-  const matchesFifthCols = useMediaQuery("(min-width:1300px)");
-  const matchesThreeResCols = useMediaQuery("(min-width:900px)");
-  const matchesFourCols = useMediaQuery("(min-width:1024px)");
-  const matchesThreeCols = useMediaQuery("(min-width:580px)");
-  const matchesTwoCols = useMediaQuery("(min-width:375px)");
-  const matchesOneCols = useMediaQuery("(min-width:320px)");
-  const handleFilterPopularDescMovie = (e: any) => {
-    e.preventDefault();
-
-    async function fetchData() {
-      const request = await axios.get(fetchUrl);
-      setWatchList(request.data.results);
-      return request;
-    }
-    fetchData();
-  };
-
-  // 最近の映画
-  const handleReleaseDateDescMovie = (e: any) => {
-    e.preventDefault();
-
-    async function fetchData() {
-      const request = await axios.get(
-        fetchUrl + requests.filter.releaseDateDesc
-      );
-      setWatchList(request.data.results);
-      return request;
-    }
-    fetchData();
-  };
-
-  //評価が高い順
-  const handleVoteAverageDescMovie = (e: any) => {
-    e.preventDefault();
-
-    async function fetchData() {
-      const request = await axios.get(
-        fetchUrl + requests.filter.voteAverageDesc
-      );
-      console.log(fetchUrl + requests.filter.voteAverageDesc);
-      setWatchList(request.data.results);
-      return request;
-    }
-    fetchData();
-  };
+const WatchedList = () => {
+  const setWatchedList = useSetRecoilState(WatchListState);
+  const [watchMoviesList, setWatchMoviesList] = useRecoilState(WatchListState);
+  const [watchedMoviesList, setWatchedMoviesList] =
+    useRecoilState(WatchListState);
   return (
     <>
       <ImageList
@@ -80,9 +30,9 @@ const MovieList = ({ Movies, fetchUrl, onClick }: any) => {
             "repeat(auto-fill, minmax(180px, 1fr))!important",
         }}
       >
-        {Movies &&
-          Movies.length > 0 &&
-          Movies.map((movie: any) => {
+        {watchedMoviesList &&
+          watchedMoviesList.length > 0 &&
+          watchedMoviesList.map((movie: any) => {
             return (
               <ImageListItem
                 key={movie.img}
@@ -129,7 +79,7 @@ const MovieList = ({ Movies, fetchUrl, onClick }: any) => {
                         // 見た映画登録ボタン
                         onClick={(e: any) => {
                           e.preventDefault();
-                          setWatchList((a: any) => {
+                          setWatchedMoviesList((a: any) => {
                             return [...a, movie];
                           });
                         }}
@@ -146,4 +96,4 @@ const MovieList = ({ Movies, fetchUrl, onClick }: any) => {
     </>
   );
 };
-export default MovieList;
+export default WatchedList;

@@ -6,22 +6,37 @@ import { Box, Drawer, List, ListItem, ListItemIcon } from "@mui/material";
 
 import { useRecoilState } from "recoil";
 import { SidebarState } from "@/lib/atom";
+import DocumentScannerOutlinedIcon from "@mui/icons-material/DocumentScannerOutlined";
 
+import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
+
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+
+import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import WhatshotIcon from "@mui/icons-material/Whatshot";
+import MovieIcon from "@mui/icons-material/Movie";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import FlutterDashIcon from "@mui/icons-material/FlutterDash";
 export default function SidebarNav() {
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
 
   return (
     <>
-      <Box sx={{ display: { sm: "none", md: "block" } }}>
+      <Box
+        sx={{
+          display: { xs: "none", md: "block" },
+          height: "100%",
+        }}
+      >
         <Sidebar
           style={{
-            position: "fixed",
             height: "100%",
             backgroundColor: "#0f0f0f",
-            minWidth: "auto",
             borderRightWidth: "0",
             borderRightStyle: "none",
-            width: "auto",
+            width: "160px",
+            minWidth: 0,
+            paddingTop: "65px",
           }}
         >
           <Menu
@@ -32,111 +47,102 @@ export default function SidebarNav() {
             }}
           >
             <MenuItem
-              icon={<MenuOutlinedIcon />}
-              style={{
-                textAlign: "center",
-                background: "#0f0f0f",
-                height: "64px",
-              }}
-            ></MenuItem>
-            <MenuItem
               component={<Link href={{ pathname: "/movie" }}></Link>}
               icon={<HomeOutlinedIcon />}
               style={{ color: "white" }}
             >
               Home
             </MenuItem>
-
+            <MenuItem
+              style={{ color: "white" }}
+              component={<Link href={{ pathname: "/myPage/watchList" }}></Link>}
+              icon={<BookmarkAddIcon />}
+            >
+              見る映画
+            </MenuItem>
             <MenuItem
               style={{ color: "white" }}
               component={
                 <Link href={{ pathname: "/myPage/watchedList" }}></Link>
               }
+              icon={<MovieIcon />}
             >
               見た映画
             </MenuItem>
-
             <MenuItem
-              style={{ color: "white" }}
-              component={<Link href={{ pathname: "/myPage/watchList" }}></Link>}
-            >
-              見る映画
-            </MenuItem>
-
-            <MenuItem
-              style={{ color: "white" }}
+              style={{ color: "white", borderBottom: "1px solid" }}
               component={<Link href={{ pathname: "/myPage/actor" }}></Link>}
+              icon={<HowToRegIcon />}
             >
               登録俳優
             </MenuItem>
-
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/TopRated" }}></Link>}
+              component={
+                <Link href={{ pathname: "/genre/popularActor" }}></Link>
+              }
+              icon={<HomeOutlinedIcon />}
+            >
+              人気俳優
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={<Link href={{ pathname: "/genre/topRated" }}></Link>}
+              icon={<WhatshotIcon />}
             >
               Top Rated
             </MenuItem>
 
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/Trending" }}></Link>}
-            >
-              Trending
-            </MenuItem>
-
-            <MenuItem
-              style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/Action" }}></Link>}
+              component={<Link href={{ pathname: "/genre/action" }}></Link>}
+              icon={<HomeOutlinedIcon />}
             >
               Action
             </MenuItem>
-
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/Horror" }}></Link>}
+              component={<Link href={{ pathname: "/genre/horror" }}></Link>}
+              icon={<HomeOutlinedIcon />}
             >
               Horror
             </MenuItem>
-
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/Romance" }}></Link>}
+              component={<Link href={{ pathname: "/genre/romance" }}></Link>}
+              icon={<VolunteerActivismIcon />}
             >
               Romance
             </MenuItem>
-
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/Document" }}></Link>}
+              component={<Link href={{ pathname: "/genre/document" }}></Link>}
+              icon={<DocumentScannerOutlinedIcon />}
             >
               Document
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/Comedy" }}></Link>}
+              component={<Link href={{ pathname: "/genre/comedy" }}></Link>}
+              icon={<EmojiEmotionsIcon />}
             >
               Comedy
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/Animation" }}></Link>}
+              component={<Link href={{ pathname: "/genre/animation" }}></Link>}
+              icon={<FlutterDashIcon />}
             >
               Animation
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/Adventure" }}></Link>}
+              component={<Link href={{ pathname: "/genre/adventure" }}></Link>}
+              icon={<HomeOutlinedIcon />}
             >
               Adventure
             </MenuItem>
-            <MenuItem
-              style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/Netfilx" }}></Link>}
-            >
-              Netfilx
-            </MenuItem>
           </Menu>
-          {/* </Toolbar> */}
         </Sidebar>
       </Box>
       <Drawer
@@ -147,19 +153,30 @@ export default function SidebarNav() {
         }}
         open={isOpened}
         sx={{
-          height: "100vh",
-          width: "auto",
-          zIndex: "100",
-          borderRightWidth: "0",
-          borderRightStyle: "none",
+          width: "180px",
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: "180px",
+            height: "100%",
+            boxSizing: "border-box",
+          },
           "&.MuiPaper-root-MuiDrawer-paper": {
             background: "#0f0f0f",
+            borderRightWidth: "0",
+            borderRightStyle: "none",
+            marginTop: "63px",
           },
-          display: { sm: "block", md: "none" },
+          display: { xs: "block", md: "none" },
         }}
       >
         <List
-          style={{ color: "white", background: "#0f0f0f", height: "100vh" }}
+          style={{
+            color: "white",
+            background: "#0f0f0f",
+            height: "100vh",
+            width: "100%",
+            paddingTop: 0,
+          }}
         >
           <ListItem
             onClick={() => {
@@ -177,51 +194,112 @@ export default function SidebarNav() {
               />
             </ListItemIcon>
           </ListItem>
-          <ListItem style={{ color: "white" }}>
-            <ListItemIcon>
-              <HomeOutlinedIcon sx={{ color: "#fff" }} />
-            </ListItemIcon>
-            <Link href={{ pathname: "/movie" }}>Home</Link>
-          </ListItem>
+          <Menu
+            style={{
+              color: "white",
+              backgroundColor: "#0f0f0f",
+              height: "100%",
+            }}
+          >
+            <MenuItem
+              component={<Link href={{ pathname: "/movie" }}></Link>}
+              icon={<HomeOutlinedIcon />}
+              style={{ color: "white" }}
+            >
+              Home
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={<Link href={{ pathname: "/myPage/watchList" }}></Link>}
+              icon={<BookmarkAddIcon />}
+            >
+              見る映画
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={
+                <Link href={{ pathname: "/myPage/watchedList" }}></Link>
+              }
+              icon={<MovieIcon />}
+            >
+              見た映画
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white", borderBottom: "1px solid" }}
+              component={<Link href={{ pathname: "/myPage/actor" }}></Link>}
+              icon={<HowToRegIcon />}
+            >
+              登録俳優
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={
+                <Link href={{ pathname: "/genre/popularActor" }}></Link>
+              }
+              icon={<HomeOutlinedIcon />}
+            >
+              人気俳優
+            </MenuItem>
 
-          <ListItem style={{ color: "white" }}>
-            <Link href={{ pathname: "/myPage/watchedList" }}>見た映画</Link>
-          </ListItem>
-
-          <ListItem style={{ color: "white" }}>
-            <Link href={{ pathname: "/myPage/watchList" }}>見る映画</Link>
-          </ListItem>
-
-          <ListItem style={{ color: "white" }}>
-            <Link href={{ pathname: "/myPage/actor" }}>登録俳優</Link>
-          </ListItem>
-
-          <ListItem style={{ color: "white" }}>
-            <Link href={{ pathname: "/genre/TopRated" }}>Top Rated</Link>
-          </ListItem>
-
-          <ListItem style={{ color: "white" }}>
-            <Link href={{ pathname: "/genre/Trending" }}>Trending</Link>
-          </ListItem>
-
-          <ListItem style={{ color: "white" }}>
-            <Link href={{ pathname: "/genre/Action" }}>Action</Link>
-          </ListItem>
-
-          <ListItem style={{ color: "white" }}>
-            <Link href={{ pathname: "/genre/Horror" }}>Horror</Link>
-          </ListItem>
-
-          <ListItem style={{ color: "white" }}>
-            <Link href={{ pathname: "/genre/Romance" }}>Romance</Link>
-          </ListItem>
-
-          <ListItem style={{ color: "white" }}>
-            <Link href={{ pathname: "/genre/Document" }}>Document</Link>
-          </ListItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={<Link href={{ pathname: "/genre/Top Rated" }}></Link>}
+              icon={<WhatshotIcon />}
+            >
+              Top Rated
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={<Link href={{ pathname: "/genre/action" }}></Link>}
+              icon={<HomeOutlinedIcon />}
+            >
+              Action
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={<Link href={{ pathname: "/genre/horror" }}></Link>}
+              icon={<HomeOutlinedIcon />}
+            >
+              Horror
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={<Link href={{ pathname: "/genre/romance" }}></Link>}
+              icon={<VolunteerActivismIcon />}
+            >
+              Romance
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={<Link href={{ pathname: "/genre/document" }}></Link>}
+              icon={<DocumentScannerOutlinedIcon />}
+            >
+              Document
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={<Link href={{ pathname: "/genre/comedy" }}></Link>}
+              icon={<EmojiEmotionsIcon />}
+            >
+              Comedy
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={<Link href={{ pathname: "/genre/animation" }}></Link>}
+              icon={<FlutterDashIcon />}
+            >
+              Animation
+            </MenuItem>
+            <MenuItem
+              style={{ color: "white" }}
+              component={<Link href={{ pathname: "/genre/adventure" }}></Link>}
+              icon={<HomeOutlinedIcon />}
+            >
+              Adventure
+            </MenuItem>
+          </Menu>
         </List>
       </Drawer>
     </>
-    // </div>
   );
 }
