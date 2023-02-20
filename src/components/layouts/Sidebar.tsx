@@ -11,12 +11,15 @@ import DocumentScannerOutlinedIcon from "@mui/icons-material/DocumentScannerOutl
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-
+import SportsHandballIcon from "@mui/icons-material/SportsHandball";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import MovieIcon from "@mui/icons-material/Movie";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import FlutterDashIcon from "@mui/icons-material/FlutterDash";
+import ColorizeIcon from "@mui/icons-material/Colorize";
+import SickIcon from "@mui/icons-material/Sick";
+import Person4Icon from "@mui/icons-material/Person4";
 export default function SidebarNav() {
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
 
@@ -26,6 +29,7 @@ export default function SidebarNav() {
         sx={{
           display: { xs: "none", md: "block" },
           height: "100%",
+          position: "fixed",
         }}
       >
         <Sidebar
@@ -81,7 +85,7 @@ export default function SidebarNav() {
               component={
                 <Link href={{ pathname: "/genre/popularActor" }}></Link>
               }
-              icon={<HomeOutlinedIcon />}
+              icon={<Person4Icon />}
             >
               人気俳優
             </MenuItem>
@@ -96,14 +100,14 @@ export default function SidebarNav() {
             <MenuItem
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/action" }}></Link>}
-              icon={<HomeOutlinedIcon />}
+              icon={<ColorizeIcon />}
             >
               Action
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/horror" }}></Link>}
-              icon={<HomeOutlinedIcon />}
+              icon={<SickIcon />}
             >
               Horror
             </MenuItem>
@@ -138,7 +142,7 @@ export default function SidebarNav() {
             <MenuItem
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/adventure" }}></Link>}
-              icon={<HomeOutlinedIcon />}
+              icon={<SportsHandballIcon />}
             >
               Adventure
             </MenuItem>
@@ -236,7 +240,7 @@ export default function SidebarNav() {
               component={
                 <Link href={{ pathname: "/genre/popularActor" }}></Link>
               }
-              icon={<HomeOutlinedIcon />}
+              icon={<Person4Icon />}
             >
               人気俳優
             </MenuItem>
@@ -251,14 +255,14 @@ export default function SidebarNav() {
             <MenuItem
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/action" }}></Link>}
-              icon={<HomeOutlinedIcon />}
+              icon={<ColorizeIcon />}
             >
               Action
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/horror" }}></Link>}
-              icon={<HomeOutlinedIcon />}
+              icon={<SickIcon />}
             >
               Horror
             </MenuItem>
@@ -293,7 +297,7 @@ export default function SidebarNav() {
             <MenuItem
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/adventure" }}></Link>}
-              icon={<HomeOutlinedIcon />}
+              icon={<SportsHandballIcon />}
             >
               Adventure
             </MenuItem>

@@ -28,10 +28,7 @@ const actorList = () => {
           <SidebarNav />
         </Grid>
         <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
-          <Grid>
-            <h2>登録俳優</h2>
-          </Grid>
-          <ActorList Actors={RegisterActorList} />
+          <ActorList Actors={RegisterActorList} title="登録俳優" />
         </Grid>
       </Grid>
     </>

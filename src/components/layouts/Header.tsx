@@ -25,6 +25,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import Link from "next/link";
 
 // Header Css 記述
 const Search = styled("div")(({ theme }) => ({
@@ -220,7 +221,7 @@ const Header = ({ searchUrl }: any) => {
                     <>
                       <form onSubmit={onSearchMovie}>
                         <StyledInputBase
-                          placeholder="映画 ドラマ検索"
+                          placeholder="映画検索"
                           inputProps={{ "aria-label": "search" }}
                           inputRef={inputMovieElement}
                           sx={{
@@ -263,7 +264,9 @@ const Header = ({ searchUrl }: any) => {
                 />
               </form> */}
             </Search>
-            <Button color="inherit">Login</Button>
+            <Link href={{ pathname: "/signin" }}>
+              <Button color="inherit">Login</Button>
+            </Link>
           </Toolbar>
         </AppBar>
       </Box>

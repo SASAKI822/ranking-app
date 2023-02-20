@@ -53,10 +53,7 @@ const popularActor: any = () => {
           <SidebarNav />
         </Grid>
         <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
-          <Grid>
-            <h2>人気俳優</h2>
-          </Grid>
-          <ActorList Actors={popularActor} />
+          <ActorList Actors={popularActor} title="人気俳優" />
         </Grid>
       </Grid>
     </>

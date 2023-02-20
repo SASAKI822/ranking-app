@@ -1,25 +1,28 @@
 import { RegisterActorListState, searchActorResultState } from "@/lib/atom";
-import { API_KEY, requests } from "@/lib/MovieApi";
-import { ImageList, ImageListItem, makeStyles } from "@mui/material";
-import axios from "axios";
+import { requests } from "@/lib/MovieApi";
+import { ImageList, ImageListItem } from "@mui/material";
+
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 
 import IconButton from "@mui/material/IconButton";
-import InfoIcon from "@mui/icons-material/Info";
 
 // Header で入力された俳優一覧
-const ActorList = ({ Actors }: any) => {
+const ActorList = ({ Actors, title }: any) => {
   const setRegisterActorList = useSetRecoilState(RegisterActorListState);
 
   return (
     <>
+      <div style={{ marginTop: "20px", padding: "10px" }}>
+        <h2>{title}</h2>
+      </div>
       <ImageList
         gap={8}
         sx={{
           mb: 8,
+          marginTop: "85px",
           gridTemplateColumns:
             "repeat(auto-fill, minmax(180px, 1fr))!important",
         }}
@@ -74,7 +77,7 @@ const ActorList = ({ Actors }: any) => {
                             });
                           }}
                         >
-                          <InfoIcon />
+                          +
                         </IconButton>
                       }
                     />

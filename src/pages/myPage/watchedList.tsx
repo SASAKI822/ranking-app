@@ -39,7 +39,9 @@ const watchedList = () => {
           <SidebarNav />
         </Grid>
         <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
-          <Grid>見た映画リスト</Grid>
+          <Grid sx={{ marginTop: "30px", marginBottom: "90px" }}>
+            <h2>見たことある映画リスト</h2>
+          </Grid>
           <WatchedList />
         </Grid>
       </Grid>

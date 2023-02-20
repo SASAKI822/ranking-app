@@ -1,33 +1,29 @@
-import { MovieInfoState, WatchListState } from "@/lib/atom";
+import {
+  MovieInfoState,
+  RegisterActorListState,
+  WatchListState,
+} from "@/lib/atom";
 import { API_KEY, requests } from "@/lib/MovieApi";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
-
 import IconButton from "@mui/material/IconButton";
-import InfoIcon from "@mui/icons-material/Info";
 
-import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import { TabContext } from "@mui/lab";
-
+import { TabContext, TabList } from "@mui/lab";
 import TabPanel from "@mui/lab/TabPanel";
-
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-
-import Stack from "@mui/material/Stack";
 
 const MovieDetail = () => {
   const [movieCast, setMovieCast] = useState<any>([]);
   const [movieVideo, setMovieVideo] = useState<any>([]);
   const [trailerMovie, setTrailerMovie] = useState<any>([]);
+  const setRegisterActorList = useSetRecoilState(RegisterActorListState);
 
   //MovieInfo　情報　id, title 取得
   const movieInfo = useRecoilValue(MovieInfoState);
@@ -41,19 +37,19 @@ const MovieDetail = () => {
   const movieOrTvDetailIdString: any = router.query.id;
   const movieOrTvDetailId = parseInt(movieOrTvDetailIdString);
   const movieDetailMediaType: any = router.query.mediaType;
-  console.log(movieDetailMediaType);
 
   // メディアタイプによって格納先分ける
-  if (
-    movieDetailMediaType === "movie" ||
-    movieDetailMediaType === null ||
-    movieDetailMediaType === undefined ||
-    movieDetailMediaType === ""
-  ) {
-    useEffect(() => {
+  useEffect(() => {
+    // Tv 情報 cast 情報を格納
+    if (
+      movieDetailMediaType === "movie" ||
+      movieDetailMediaType === null ||
+      movieDetailMediaType === undefined ||
+      movieDetailMediaType === ""
+    ) {
       let ignore = false;
 
-      async function fetchData() {
+      const fetchData = async () => {
         if (!ignore) {
           const movieUrl = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/videos?api_key=${API_KEY}`;
           const CastUrl = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/credits?api_key=${API_KEY}`;
@@ -83,15 +79,12 @@ const MovieDetail = () => {
 
           return request;
         }
-      }
+      };
       fetchData();
       return () => {
-        let ignore = true;
+        ignore = true;
       };
-    }, [movieOrTvDetailId]);
-  } else if (movieDetailMediaType === "tv") {
-    // Tv 情報 cast 情報を格納
-    useEffect(() => {
+    } else if (movieDetailMediaType === "tv") {
       let ignoreTv = false;
       const fetchData = async () => {
         if (!ignoreTv) {
@@ -123,12 +116,13 @@ const MovieDetail = () => {
       };
       fetchData();
       return () => {
-        let ignoreTv = true;
+        ignoreTv = true;
       };
-    }, [movieOrTvDetailId]);
-  }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movieOrTvDetailId]);
 
-  // // トレイラー動画だけtrailerMovieに格納
+  // トレイラー動画だけtrailerMovieに格納
   useEffect(() => {
     {
       const trailerMovies = movieVideo.filter((value: any) => {
@@ -139,21 +133,20 @@ const MovieDetail = () => {
     }
   }, [movieVideo]);
 
-  // ボタンでmovie検索かactor検索を切り替える。
+  const [value, setValue] = useState("0");
 
-  const [value, setValue] = useState<any>("");
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
   const setWatchList = useSetRecoilState(WatchListState);
-  console.log(title);
+
   return (
     <>
       <div style={{ marginBottom: "40px", padding: "20px" }}>
         <div style={{ display: "flex", padding: "5px" }}>
           <div style={{ marginBottom: "10px" }}>
-            <img src={`${requests.image}/${posterPath}`} alt="" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`${requests.image}/${posterPath}`} alt="movie image" />
           </div>
           <div style={{ width: "100%", padding: "20px" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -162,65 +155,54 @@ const MovieDetail = () => {
 
             <p>公開日:{releaseDate}</p>
             <Box sx={{ width: "100%", typography: "body1" }}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                variant="scrollable"
-                scrollButtons="auto"
-                aria-label="scrollable auto tabs example"
-              >
-                <TabContext value={value}>
-                  {trailerMovie.map((value: any, index: any) => {
-                    return (
-                      <>
-                        <Box
-                          sx={{
-                            borderBottom: 1,
-                            borderColor: "divider",
-                            marginBottom: "30px",
-                          }}
-                        >
-                          <Tabs
-                            onChange={handleChange}
-                            aria-label="lab API tabs example"
-                          >
-                            <Tab
-                              label={index}
-                              value={index}
-                              style={{ color: "white" }}
-                            />
-                          </Tabs>
-
-                          <TabPanel
-                            value={index}
-                            sx={{
-                              border: "1px solid",
-                            }}
-                          >
-                            <iframe
-                              id="inline-frame"
-                              style={{
-                                border: "none",
-                                width: "560",
-                                height: "315",
-                                display: "block",
-                              }}
-                              src={`https://www.youtube.com/embed/${value.key}`}
-                            ></iframe>
-                          </TabPanel>
-                        </Box>
-                      </>
-                    );
-                  })}
-                </TabContext>
-              </Tabs>
+              <TabContext value={value}>
+                <Box
+                  sx={{
+                    borderBottom: 1,
+                    borderColor: "divider",
+                    marginBottom: "30px",
+                    width: "100%",
+                  }}
+                >
+                  <TabList onChange={handleChange} aria-label="tab of number">
+                    {trailerMovie.map((movie: any, index: any) => (
+                      <Tab
+                        key={index}
+                        label={`${index}`}
+                        style={{ color: "white" }}
+                        value={index.toString()}
+                      />
+                    ))}
+                  </TabList>
+                  {trailerMovie.map((movie: any, index: any) => (
+                    <TabPanel
+                      key={movie.key}
+                      value={index.toString()}
+                      sx={{
+                        "& .MuiTabPanel-root": {
+                          border: "none",
+                        },
+                      }}
+                    >
+                      <iframe
+                        id="inline-frame"
+                        style={{
+                          border: "none",
+                          width: "560",
+                          height: "315",
+                          display: "block",
+                        }}
+                        src={`https://www.youtube.com/embed/${movie.key}`}
+                      />
+                    </TabPanel>
+                  ))}
+                </Box>
+              </TabContext>
             </Box>
           </div>
         </div>
         <p>{overview}</p>
       </div>
-
-      {/* <p>{overview}</p> */}
       <ImageList
         gap={8}
         sx={{
@@ -248,7 +230,11 @@ const MovieDetail = () => {
                       },
                     }}
                   >
-                    <img src={`${requests.image}${cast.profile_path}`} />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`${requests.image}${cast.profile_path}`}
+                      alt="actor image"
+                    />
                     <ImageListItemBar
                       title={cast.name}
                       subtitle={cast.character}
@@ -256,8 +242,14 @@ const MovieDetail = () => {
                         <IconButton
                           sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                           aria-label={`info about ${cast.title}`}
+                          onClick={(e: any) => {
+                            e.preventDefault();
+                            setRegisterActorList((a: any) => {
+                              return [...a, cast];
+                            });
+                          }}
                         >
-                          <InfoIcon />
+                          +
                         </IconButton>
                       }
                     />
