@@ -8,7 +8,8 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
-
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 import { useRouter } from "next/router";
 
 type Props = {
@@ -28,31 +29,40 @@ export type Movie = {
   backdrop_path: string;
 };
 
-const MovieGenre: any = ({ title, fetchUrl, pageId, GenreName }: Props) => {
-  const [currentPage, setCurrentPage] = useState([1, 2, 3, 4, 5]);
+const MovieGenre: any = ({ title, fetchUrl }: Props) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [popular, setPopular] = useState(false);
+  const [release, setRelease] = useState(false);
+  const [average, setAverage] = useState(false);
   const router = useRouter();
 
   const [movies, setMovies] = useState<Movie[]>([]);
   const setWatchList = useSetRecoilState(WatchListState);
 
+  const handleChange = (e: any, value: any) => {
+    e.preventDefault();
+    setCurrentPage(value);
+  };
   // fetchUrlのジャンルの映画が入る
   useEffect(() => {
     async function fetchData() {
-      const request = await axios.get(fetchUrl + `&page=${pageId}`);
+      const request = await axios.get(fetchUrl + `&page=${currentPage}`);
       setMovies(request.data.results);
       return request;
     }
 
     fetchData();
-  }, [fetchUrl]);
+  }, [fetchUrl, currentPage]);
   console.log(movies);
 
   // 人気順
   const handleFilterPopularDescMovie = (e: any) => {
     e.preventDefault();
-
+    setRelease(false);
+    setPopular(true);
+    setAverage(false);
     async function fetchData() {
-      const request = await axios.get(fetchUrl);
+      const request = await axios.get(fetchUrl + `&page=${currentPage}`);
       setMovies(request.data.results);
       return request;
     }
@@ -61,11 +71,14 @@ const MovieGenre: any = ({ title, fetchUrl, pageId, GenreName }: Props) => {
 
   // 最近の映画
   const handleReleaseDateDescMovie = (e: any) => {
+    setRelease(true);
+    setPopular(false);
+    setAverage(false);
     e.preventDefault();
 
     async function fetchData() {
       const request = await axios.get(
-        fetchUrl + requests.filter.releaseDateDesc
+        fetchUrl + `&page=${currentPage}` + requests.filter.releaseDateDesc
       );
       setMovies(request.data.results);
       return request;
@@ -76,10 +89,12 @@ const MovieGenre: any = ({ title, fetchUrl, pageId, GenreName }: Props) => {
   //評価が高い順
   const handleVoteAverageDescMovie = (e: any) => {
     e.preventDefault();
-
+    setRelease(false);
+    setPopular(false);
+    setAverage(true);
     async function fetchData() {
       const request = await axios.get(
-        fetchUrl + requests.filter.voteAverageDesc
+        fetchUrl + requests.filter.voteAverageDesc + `&page=${currentPage}`
       );
       setMovies(request.data.results);
       return request;
@@ -87,6 +102,7 @@ const MovieGenre: any = ({ title, fetchUrl, pageId, GenreName }: Props) => {
     fetchData();
   };
 
+  console.log(currentPage);
   return (
     <>
       <div style={{ marginTop: "20px", padding: "10px" }}>
@@ -181,17 +197,26 @@ const MovieGenre: any = ({ title, fetchUrl, pageId, GenreName }: Props) => {
             );
           })}
       </ImageList>
-      {(function () {
-        const list = [];
-        for (let i = 1; i < 10; i++) {
-          list.push(
-            <Link href={{ pathname: GenreName + `/${i}`, query: { id: i } }}>
-              <li key={i}>{i}</li>
-            </Link>
-          );
-        }
-        return <ul>{list}</ul>;
-      })()}
+      <Stack spacing={2} sx={{ color: "white", margin: "40px 0" }}>
+        <Pagination
+          count={10}
+          variant="outlined"
+          shape="rounded"
+          color={"standard"}
+          sx={{
+            "&. MuiPagination-ul": {
+              backgroundColor: "#0f0f0f",
+            },
+            background: "white",
+            margin: "auto",
+            textAlign: "center",
+            padding: "20px",
+            color: "white",
+          }}
+          onChange={handleChange}
+          size="large"
+        />
+      </Stack>
     </>
   );
 };

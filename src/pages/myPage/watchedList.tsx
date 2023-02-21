@@ -1,6 +1,6 @@
 import Header from "@/components/layouts/Header";
 import SidebarNav from "@/components/layouts/Sidebar";
-import MovieList from "@/features/components/MovieList";
+
 import WatchedList from "@/features/components/WatchedList";
 import { WatchedListState } from "@/lib/atom";
 import { Grid } from "@mui/material";
@@ -11,14 +11,6 @@ import { useRecoilState } from "recoil";
 const watchedList = () => {
   const [watchedMoviesList, setWatchedMoviesList] =
     useRecoilState(WatchedListState);
-
-  const handleDelete = (e: any, targetMovie: any) => {
-    e.preventDefault();
-    setWatchedMoviesList((current: any) =>
-      current.filter((value: any) => targetMovie !== value)
-    );
-  };
-  //  <button onClick={(e) => handleDelete(e, movie)}>削除</button>
 
   return (
     <>

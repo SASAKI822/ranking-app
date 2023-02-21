@@ -26,7 +26,6 @@ const TopRated = () => {
       <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
         <MovieGenre
           title="トップ"
-          GenreName="topRated"
           fetchUrl={requests.genre.fetchTopRated}
           filterAscUrl={
             requests.genre.fetchTopRated + requests.filter.releaseDateDesc

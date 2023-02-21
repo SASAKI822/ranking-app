@@ -201,14 +201,19 @@ const Header = ({ searchUrl }: any) => {
               Ranking
             </Typography>
             <ToggleButtonGroup
-              color="primary"
+              color="info"
               value={alignment}
               exclusive
               onChange={handleChange}
+              sx={{ background: "white" }}
               aria-label="Platform"
             >
-              <ToggleButton value="Movie">Movie</ToggleButton>
-              <ToggleButton value="Actor">Actor</ToggleButton>
+              <ToggleButton value="Movie" sx={{ color: "black" }}>
+                Movie
+              </ToggleButton>
+              <ToggleButton value="Actor" sx={{ color: "black" }}>
+                Actor
+              </ToggleButton>
             </ToggleButtonGroup>
             <Search>
               <SearchIconWrapper>

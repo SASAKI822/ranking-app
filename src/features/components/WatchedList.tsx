@@ -11,11 +11,35 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 
 import { requests } from "@/lib/MovieApi";
-
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 // Header コンポーネント
 
 const WatchedList = () => {
   const [watchedList, setWatchedList] = useRecoilState(WatchedListState);
+  // 削除機能
+  const handleWatchedDelete = (e: any, targetMovie: any) => {
+    setWatchedList((current: any) =>
+      current.filter((value: any) => targetMovie !== value)
+    );
+  };
+  // ;
+
+  const submit = (movie: any) => {
+    confirmAlert({
+      title: "本当に消しますか？",
+
+      buttons: [
+        {
+          label: "Yes",
+          onClick: (e) => handleWatchedDelete(e, movie),
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
+  };
 
   return (
     <>
@@ -56,6 +80,7 @@ const WatchedList = () => {
                     alt="movie image"
                     style={{ backgroundColor: "#dbdbdb" }}
                   />
+
                   <ImageListItemBar
                     sx={{
                       "& .MuiImageListItemBar-title": {
@@ -73,8 +98,13 @@ const WatchedList = () => {
                       <IconButton
                         sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                         aria-label={`info about ${movie.title}`}
-                        // 見た映画登録ボタン
-                      ></IconButton>
+                        onClick={(e) => {
+                          submit(movie);
+                          e.preventDefault();
+                        }}
+                      >
+                        +
+                      </IconButton>
                     }
                   />
                 </Link>

@@ -1,7 +1,5 @@
 import Header from "@/components/layouts/Header";
 import SidebarNav from "@/components/layouts/Sidebar";
-
-import WatchedList from "@/features/components/WatchedList";
 import WatchList from "@/features/components/WatchList";
 import { WatchListState } from "@/lib/atom";
 import { Grid } from "@mui/material";
@@ -43,9 +41,6 @@ const watchedList = () => {
           <SidebarNav />
         </Grid>
         <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
-          <Grid sx={{ marginTop: "30px", marginBottom: "90px" }}>
-            <h2>見る映画リスト</h2>
-          </Grid>
           <WatchList />
         </Grid>
       </Grid>

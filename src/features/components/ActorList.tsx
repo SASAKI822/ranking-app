@@ -1,4 +1,4 @@
-import { RegisterActorListState, searchActorResultState } from "@/lib/atom";
+import { RegisterActorListState } from "@/lib/atom";
 import { requests } from "@/lib/MovieApi";
 import { ImageList, ImageListItem } from "@mui/material";
 

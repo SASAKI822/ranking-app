@@ -1,5 +1,4 @@
 import React from "react";
-
 import { WatchedListState, WatchListState } from "@/lib/atom";
 import { requests } from "@/lib/MovieApi";
 import IconButton from "@mui/material/IconButton";
@@ -7,7 +6,6 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 const WatchList = () => {
@@ -28,6 +26,8 @@ const WatchList = () => {
   console.log(watchedList);
   return (
     <>
+      <h2 style={{ marginTop: "20px", padding: "10px" }}>見る映画リスト</h2>
+
       <ImageList
         gap={8}
         sx={{
