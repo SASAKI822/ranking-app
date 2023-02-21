@@ -31,6 +31,7 @@ export type Movie = {
 
 const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [year, setYear] = useState(new Date().getFullYear());
   const [popular, setPopular] = useState(false);
   const [release, setRelease] = useState(false);
   const [average, setAverage] = useState(false);
@@ -39,6 +40,16 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const setWatchList = useSetRecoilState(WatchListState);
 
+  const allYears = [];
+  const thisYear = new Date().getFullYear();
+  for (let i = 1990; i <= thisYear; i++) {
+    allYears.push(i);
+  }
+
+  const yearList = allYears.map((value: any) => {
+    return <option key={value}>{value}</option>;
+  });
+
   const handleChange = (e: any, value: any) => {
     e.preventDefault();
     setCurrentPage(value);
@@ -46,13 +57,15 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   // fetchUrlのジャンルの映画が入る
   useEffect(() => {
     async function fetchData() {
-      const request = await axios.get(fetchUrl + `&page=${currentPage}`);
+      const request = await axios.get(
+        fetchUrl + `&page=${currentPage}` + `&year=${year}`
+      );
       setMovies(request.data.results);
       return request;
     }
 
     fetchData();
-  }, [fetchUrl, currentPage]);
+  }, [fetchUrl, currentPage, year]);
   console.log(movies);
 
   // 人気順
@@ -101,13 +114,19 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
     }
     fetchData();
   };
+  async function fetchData() {
+    const request = await axios.get(
+      fetchUrl + requests.filter.voteAverageDesc + `&page=${currentPage}`
+    );
+    setMovies(request.data.results);
+    return request;
+  }
 
   console.log(currentPage);
   return (
     <>
       <div style={{ marginTop: "20px", padding: "10px" }}>
         <h2>{title}</h2>
-
         <button
           style={{ marginRight: "10px" }}
           onClick={handleFilterPopularDescMovie}
@@ -126,6 +145,13 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
         >
           評価の高い順
         </button>
+        <select
+          onChange={(e: any) => {
+            setYear(e.target.value);
+          }}
+        >
+          {yearList}
+        </select>
       </div>
       <ImageList
         gap={8}
@@ -199,7 +225,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
       </ImageList>
       <Stack spacing={2} sx={{ color: "white", margin: "40px 0" }}>
         <Pagination
-          count={10}
+          count={100}
           variant="outlined"
           shape="rounded"
           color={"standard"}

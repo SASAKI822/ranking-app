@@ -9,7 +9,8 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { requests } from "@/lib/MovieApi";
-
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 export const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -21,17 +22,22 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
 
 const popularActor: any = () => {
   const [popularActor, setPopularActor] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const handleChange = (e: any, value: any) => {
+    e.preventDefault();
+    setCurrentPage(value);
+  };
   useEffect(() => {
     async function fetchData() {
       const data = await axios
-        .get(requests.genre.popularActor)
+        .get(requests.genre.popularActor + `&page=${currentPage}`)
         .then((response) => {
           setPopularActor(response.data.results);
         });
       return data;
     }
     fetchData();
-  }, []);
+  }, [currentPage]);
   console.log(popularActor);
 
   return (
@@ -54,6 +60,26 @@ const popularActor: any = () => {
         </Grid>
         <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
           <ActorList Actors={popularActor} title="人気俳優" />
+          <Stack spacing={2} sx={{ color: "white", margin: "40px 0" }}>
+            <Pagination
+              count={60}
+              variant="outlined"
+              shape="rounded"
+              color={"standard"}
+              sx={{
+                "&. MuiPagination-ul": {
+                  backgroundColor: "#0f0f0f",
+                },
+                background: "white",
+                margin: "auto",
+                textAlign: "center",
+                padding: "20px",
+                color: "white",
+              }}
+              onChange={handleChange}
+              size="large"
+            />
+          </Stack>
         </Grid>
       </Grid>
     </>
