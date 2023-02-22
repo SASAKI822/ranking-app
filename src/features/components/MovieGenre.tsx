@@ -32,7 +32,7 @@ export type Movie = {
 const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [year, setYear] = useState(new Date().getFullYear());
-  const [popular, setPopular] = useState(false);
+  const [popular, setPopular] = useState(true);
   const [release, setRelease] = useState(false);
   const [average, setAverage] = useState(false);
   const router = useRouter();
@@ -43,7 +43,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   const allYears = [];
   const thisYear = new Date().getFullYear();
   for (let i = 1990; i <= thisYear; i++) {
-    allYears.push(i);
+    allYears.unshift(i);
   }
 
   const yearList = allYears.map((value: any) => {
@@ -55,31 +55,62 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
     setCurrentPage(value);
   };
   // fetchUrlのジャンルの映画が入る
-  useEffect(() => {
-    async function fetchData() {
-      const request = await axios.get(
-        fetchUrl + `&page=${currentPage}` + `&year=${year}`
-      );
-      setMovies(request.data.results);
-      return request;
-    }
 
-    fetchData();
-  }, [fetchUrl, currentPage, year]);
-  console.log(movies);
+  // 人気順
+  useEffect(() => {
+    if (popular) {
+      async function fetchData() {
+        const request = await axios.get(
+          fetchUrl + `&page=${currentPage}` + `&year=${year}`
+        );
+        setMovies(request.data.results);
+        return request;
+      }
+      fetchData();
+    }
+  }, [fetchUrl, currentPage, year, popular]);
+
+  // 最近の映画
+  useEffect(() => {
+    if (release) {
+      async function fetchData() {
+        const request = await axios.get(
+          fetchUrl +
+            `&page=${currentPage}` +
+            requests.filter.releaseDateDesc +
+            `&year=${year}`
+        );
+        setMovies(request.data.results);
+        return request;
+      }
+      fetchData();
+    }
+  }, [fetchUrl, currentPage, year, release]);
+
+  //評価が高い順
+  useEffect(() => {
+    if (average) {
+      async function fetchData() {
+        const request = await axios.get(
+          fetchUrl +
+            `&page=${currentPage}` +
+            requests.filter.voteAverageDesc +
+            `&year=${year}`
+        );
+        setMovies(request.data.results);
+        return request;
+      }
+      fetchData();
+    }
+  }, [fetchUrl, currentPage, year, average]);
 
   // 人気順
   const handleFilterPopularDescMovie = (e: any) => {
-    e.preventDefault();
-    setRelease(false);
     setPopular(true);
+    setRelease(false);
     setAverage(false);
-    async function fetchData() {
-      const request = await axios.get(fetchUrl + `&page=${currentPage}`);
-      setMovies(request.data.results);
-      return request;
-    }
-    fetchData();
+    setCurrentPage(1);
+    e.preventDefault();
   };
 
   // 最近の映画
@@ -87,40 +118,18 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
     setRelease(true);
     setPopular(false);
     setAverage(false);
+    setCurrentPage(1);
     e.preventDefault();
-
-    async function fetchData() {
-      const request = await axios.get(
-        fetchUrl + `&page=${currentPage}` + requests.filter.releaseDateDesc
-      );
-      setMovies(request.data.results);
-      return request;
-    }
-    fetchData();
   };
 
   //評価が高い順
   const handleVoteAverageDescMovie = (e: any) => {
-    e.preventDefault();
     setRelease(false);
     setPopular(false);
     setAverage(true);
-    async function fetchData() {
-      const request = await axios.get(
-        fetchUrl + requests.filter.voteAverageDesc + `&page=${currentPage}`
-      );
-      setMovies(request.data.results);
-      return request;
-    }
-    fetchData();
+    setCurrentPage(1);
+    e.preventDefault();
   };
-  async function fetchData() {
-    const request = await axios.get(
-      fetchUrl + requests.filter.voteAverageDesc + `&page=${currentPage}`
-    );
-    setMovies(request.data.results);
-    return request;
-  }
 
   console.log(currentPage);
   return (
@@ -148,6 +157,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
         <select
           onChange={(e: any) => {
             setYear(e.target.value);
+            setCurrentPage(1);
           }}
         >
           {yearList}

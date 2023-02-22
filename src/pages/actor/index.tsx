@@ -27,7 +27,7 @@ const Actor = () => {
   const [actorKeyword, setActorKeyword] = useRecoilState(searchActorKey);
   return (
     <>
-      <Grid container direction="row" sx={{ width: "100%", padding: "20px" }}>
+      <Grid container direction="row" sx={{ width: "100%" }}>
         <Grid
           item
           sx={{
@@ -44,28 +44,11 @@ const Actor = () => {
           <SidebarNav />
         </Grid>
         <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
-          <Grid>検索結果:{actorKeyword}</Grid>
+          <div style={{ marginTop: "20px", padding: "10px" }}>
+            <h2>検索結果:{actorKeyword}</h2>
+          </div>
+
           <ActorList Actors={searchActorResult} />
-          <Stack spacing={2} sx={{ color: "white", margin: "40px 0" }}>
-            <Pagination
-              count={10}
-              variant="outlined"
-              shape="rounded"
-              color={"standard"}
-              sx={{
-                "&. MuiPagination-ul": {
-                  backgroundColor: "#0f0f0f",
-                },
-                background: "white",
-                margin: "auto",
-                textAlign: "center",
-                padding: "20px",
-                color: "white",
-              }}
-              onChange={handleChange}
-              size="large"
-            />
-          </Stack>
         </Grid>
       </Grid>
     </>
