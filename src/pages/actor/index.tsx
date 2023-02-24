@@ -1,18 +1,12 @@
 import ActorList from "@/features/components/ActorList";
 import React from "react";
-import { Card, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
 import Header from "@/components/layouts/Header";
-import {
-  RegisterActorListState,
-  searchActorKey,
-  searchActorResultState,
-} from "@/lib/atom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-
+import { searchActorKey, searchActorResultState } from "@/lib/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { styled } from "@mui/material/styles";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+
 export const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",

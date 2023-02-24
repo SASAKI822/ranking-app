@@ -1,6 +1,15 @@
-import { atom } from "recoil";
+import { atom, RecoilState } from "recoil";
 
-// keyword検索
+type InfoType = RecoilState<{
+  id: string;
+  title: string;
+  overview: string;
+  release_date: string;
+  video: string;
+  mediaType: string;
+}>;
+
+// keyword映画検索
 export const searchMovieKey = atom({
   key: "searchMovieKey",
   default: "ハリー",
@@ -13,7 +22,7 @@ export const searchMovieResultState = atom({
 });
 
 // keyword俳優検索
-export const searchActorKey = atom({
+export const searchActorKey: RecoilState<string> = atom({
   key: "searchActorKey",
   default: "Tom",
 });
@@ -25,7 +34,7 @@ export const searchActorResultState = atom({
 });
 
 //映画情報
-export const MovieInfoState = atom({
+export const MovieInfoState: InfoType = atom({
   key: "MovieInfoState",
   default: {
     id: "",
@@ -38,7 +47,7 @@ export const MovieInfoState = atom({
 });
 
 //TV情報
-export const TVInfoState = atom({
+export const TVInfoState: InfoType = atom({
   key: "TVInfoState",
   default: {
     id: "",
@@ -71,21 +80,23 @@ export const WatchedListState = atom({
 });
 
 // 登録俳優リスト
-
+const registerActorList: any[] = [];
 export const RegisterActorListState = atom({
   key: "RegisterActorListState",
-  default: [],
+  default: registerActorList,
 });
 
 //映画ジャンル
-export const MovieGenreIdState = atom({
+export const MovieGenreIdState: RecoilState<{
+  id: string;
+}> = atom({
   key: "MovieGenreIdState",
   default: {
     id: "",
   },
 });
 
-export const SidebarState = atom({
+export const SidebarState: RecoilState<boolean> = atom({
   key: "sidebarState",
   default: false,
 });

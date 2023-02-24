@@ -4,14 +4,43 @@ import { ImageList, ImageListItem } from "@mui/material";
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 
 import IconButton from "@mui/material/IconButton";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 // Header で入力された俳優一覧
-const ActorList = ({ Actors, title }: any) => {
-  const setRegisterActorList = useSetRecoilState(RegisterActorListState);
+type Props = {
+  Actors: [];
+  title: string;
+};
+const ActorList = ({ Actors, title }: Props) => {
+  const [registerActorList, setRegisterActorList] = useRecoilState(
+    RegisterActorListState
+  );
+
+  // 俳優を登録
+  const handleAddActor = async (e: any, actor: any) => {
+    e.preventDefault();
+    const collectionPath = collection(
+      db,
+      "users",
+      "3afv8SDIvjimSBLiXZsM",
+      "actors"
+    );
+
+    const actorsDocumentRef = await addDoc(collectionPath, {
+      id: actor.id,
+      name: actor.name,
+      profilePath: actor.profile_path,
+    });
+
+    setRegisterActorList((a) => {
+      return [...a, actor];
+    });
+  };
 
   return (
     <>
@@ -71,10 +100,7 @@ const ActorList = ({ Actors, title }: any) => {
                           aria-label={`info about ${actor.title}`}
                           // 俳優登録ボタン
                           onClick={(e: any) => {
-                            e.preventDefault();
-                            setRegisterActorList((a: any) => {
-                              return [...a, actor];
-                            });
+                            handleAddActor(e, actor);
                           }}
                         >
                           +

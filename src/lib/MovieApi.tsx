@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 
 export const API_KEY = process.env.NEXT_PUBLIC_APP_API_KEY;
 

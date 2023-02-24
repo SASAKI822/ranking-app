@@ -3,20 +3,19 @@ import { requests } from "@/lib/MovieApi";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { useRouter } from "next/router";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 type Props = {
   fetchUrl: string;
   title: string;
-  pageId: any;
-  GenreName: any;
 };
 
 export type Movie = {
@@ -30,27 +29,30 @@ export type Movie = {
 };
 
 const MovieGenre: any = ({ title, fetchUrl }: Props) => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  // フィルター　年
   const [year, setYear] = useState(new Date().getFullYear());
-  const [popular, setPopular] = useState(true);
-  const [release, setRelease] = useState(false);
-  const [average, setAverage] = useState(false);
-  const router = useRouter();
+  const [popular, setPopular] = useState<boolean>(true);
+  const [release, setRelease] = useState<boolean>(false);
+  const [average, setAverage] = useState<boolean>(false);
 
   const [movies, setMovies] = useState<Movie[]>([]);
-  const setWatchList = useSetRecoilState(WatchListState);
-
+  const [watchList, setWatchList] = useRecoilState(WatchListState);
   const allYears = [];
-  const thisYear = new Date().getFullYear();
+  const thisYear: number = new Date().getFullYear();
   for (let i = 1990; i <= thisYear; i++) {
     allYears.unshift(i);
   }
 
-  const yearList = allYears.map((value: any) => {
+  const yearList = allYears.map((value: number) => {
     return <option key={value}>{value}</option>;
   });
 
-  const handleChange = (e: any, value: any) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    value: number
+  ) => {
     e.preventDefault();
     setCurrentPage(value);
   };
@@ -130,12 +132,50 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
     setCurrentPage(1);
     e.preventDefault();
   };
+  const handleAddWatch = async (e: any, movie: any) => {
+    e.preventDefault();
+    const collectionPath = collection(
+      db,
+      "users",
+      "3afv8SDIvjimSBLiXZsM",
+      "movies"
+    );
+    const moviesDocumentRef = await addDoc(collectionPath, {
+      id: movie.id,
+      title: movie.title,
+      mediaType: movie.media_type ? movie.media_type : "",
+      releaseDate: movie.release_date ? movie.release_date : "",
+      video: movie.video,
+      overview: movie.overview,
+      posterPath: movie.poster_path,
+    });
 
+    setWatchList((a: any) => {
+      return [...a, movie];
+    });
+  };
   console.log(currentPage);
   return (
     <>
       <div style={{ marginTop: "20px", padding: "10px" }}>
-        <h2>{title}</h2>
+        <h2>
+          {title}
+          {popular ? (
+            <span style={{ fontSize: "16px" }}> 人気順 {year}</span>
+          ) : (
+            ""
+          )}
+          {release ? (
+            <span style={{ fontSize: "16px" }}> 最新順 {year}</span>
+          ) : (
+            ""
+          )}
+          {average ? (
+            <span style={{ fontSize: "16px" }}> 評価順 {year}</span>
+          ) : (
+            ""
+          )}
+        </h2>
         <button
           style={{ marginRight: "10px" }}
           onClick={handleFilterPopularDescMovie}
@@ -217,10 +257,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
                           sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                           aria-label={`info about ${movie.title}`}
                           onClick={(e: any) => {
-                            e.preventDefault();
-                            setWatchList((a: any) => {
-                              return [...a, movie];
-                            });
+                            handleAddWatch(e, movie);
                           }}
                         >
                           +
@@ -249,6 +286,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
             padding: "20px",
             color: "white",
           }}
+          page={currentPage}
           onChange={handleChange}
           size="large"
         />

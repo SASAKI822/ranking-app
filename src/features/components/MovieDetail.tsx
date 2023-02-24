@@ -1,8 +1,4 @@
-import {
-  MovieInfoState,
-  RegisterActorListState,
-  WatchListState,
-} from "@/lib/atom";
+import { MovieInfoState, RegisterActorListState } from "@/lib/atom";
 import { API_KEY, requests } from "@/lib/MovieApi";
 import axios from "axios";
 import Link from "next/link";
@@ -13,7 +9,6 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
-
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { TabContext, TabList } from "@mui/lab";
@@ -30,13 +25,14 @@ const MovieDetail = () => {
 
   // ルーター string 型から number 型へ変換
   const router = useRouter();
-  const title = router.query.title;
-  const posterPath = router.query.posterPath;
-  const overview = router.query.overview;
-  const releaseDate = router.query.releaseDate;
+  const title: string | string[] | undefined = router.query.title;
+  const posterPath: string | string[] | undefined = router.query.posterPath;
+  const overview: string | string[] | undefined = router.query.overview;
+  const releaseDate: string | string[] | undefined = router.query.releaseDate;
   const movieOrTvDetailIdString: any = router.query.id;
-  const movieOrTvDetailId = parseInt(movieOrTvDetailIdString);
-  const movieDetailMediaType: any = router.query.mediaType;
+  const movieOrTvDetailId: any = parseInt(movieOrTvDetailIdString);
+  const movieDetailMediaType: string | string[] | undefined =
+    router.query.mediaType;
 
   // メディアタイプによって格納先分ける
   useEffect(() => {
@@ -47,12 +43,12 @@ const MovieDetail = () => {
       movieDetailMediaType === undefined ||
       movieDetailMediaType === ""
     ) {
-      let ignore = false;
+      let ignore: boolean = false;
 
       const fetchData = async () => {
         if (!ignore) {
-          const movieUrl = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/videos?api_key=${API_KEY}`;
-          const CastUrl = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/credits?api_key=${API_KEY}`;
+          const movieUrl: string = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/videos?api_key=${API_KEY}`;
+          const CastUrl: string = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/credits?api_key=${API_KEY}`;
 
           const request = await axios
             .get(movieUrl)
@@ -85,7 +81,7 @@ const MovieDetail = () => {
         ignore = true;
       };
     } else if (movieDetailMediaType === "tv") {
-      let ignoreTv = false;
+      let ignoreTv: boolean = false;
       const fetchData = async () => {
         if (!ignoreTv) {
           const tvUrl = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/videos?api_key=${API_KEY}`;
@@ -125,7 +121,7 @@ const MovieDetail = () => {
   // トレイラー動画だけtrailerMovieに格納
   useEffect(() => {
     {
-      const trailerMovies = movieVideo.filter((value: any) => {
+      const trailerMovies: string[] = movieVideo.filter((value: any) => {
         return value.type === "Trailer";
       });
 
@@ -133,12 +129,11 @@ const MovieDetail = () => {
     }
   }, [movieVideo]);
 
-  const [value, setValue] = useState("0");
+  const [value, setValue] = useState<string>("0");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
-  const setWatchList = useSetRecoilState(WatchListState);
 
   return (
     <>
@@ -242,7 +237,9 @@ const MovieDetail = () => {
                         <IconButton
                           sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                           aria-label={`info about ${cast.title}`}
-                          onClick={(e: any) => {
+                          onClick={(
+                            e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                          ) => {
                             e.preventDefault();
                             setRegisterActorList((a: any) => {
                               return [...a, cast];

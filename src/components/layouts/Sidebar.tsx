@@ -247,7 +247,7 @@ export default function SidebarNav() {
 
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/Top Rated" }}></Link>}
+              component={<Link href={{ pathname: "/genre/topRated" }}></Link>}
               icon={<WhatshotIcon />}
             >
               Top Rated

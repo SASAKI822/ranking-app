@@ -15,15 +15,8 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import Link from "next/link";
 import { app } from "../lib/firebase";
 import { auth } from "../lib/firebase";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import Router, { useRouter } from "next/router";
-import { useFormContext } from "react-hook-form";
-import { useForm, SubmitHandler } from "react-hook-form";
 
 const Signup = () => {
   const router = useRouter();
@@ -41,9 +34,6 @@ const Signup = () => {
       });
   };
 
-  const handleChangeUsername = (e: any) => {
-    setUsername(e.target.value);
-  };
   const handleChangeEmail = (e: any) => {
     setEmail(e.target.value);
   };
@@ -54,7 +44,7 @@ const Signup = () => {
     <>
       <Container>
         <Grid container>
-          <Paper elevation={10} sx={{ p: 4, m: "20px auto", height: "70vh" }}>
+          <Paper elevation={10} sx={{ p: 4, m: "80px auto", height: "70vh" }}>
             <Avatar sx={{ m: "20px auto", bgcolor: "primary.main" }}>
               <HowToRegIcon />
             </Avatar>

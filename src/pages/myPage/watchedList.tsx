@@ -9,9 +9,6 @@ import { useRecoilState } from "recoil";
 
 // 見たことある映画リスト
 const watchedList = () => {
-  const [watchedMoviesList, setWatchedMoviesList] =
-    useRecoilState(WatchedListState);
-
   return (
     <>
       <Grid container direction="row" sx={{ width: "100%" }}>

@@ -1,26 +1,66 @@
-import { RegisterActorListState, RegisterActorList } from "@/lib/atom";
-
-import { useRecoilState, useRecoilValue } from "recoil";
+import { RegisterActorListState } from "@/lib/atom";
+import { useRecoilState } from "recoil";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
 import Header from "@/components/layouts/Header";
 import { requests } from "@/lib/MovieApi";
 import { ImageList, ImageListItem } from "@mui/material";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
+import { db } from "@/lib/firebase";
+
 const actorList = () => {
-  const [RegisterActorList, setRegisterActorList] = useRecoilState(
+  const [registerActorList, setRegisterActorList] = useRecoilState(
     RegisterActorListState
   );
-  const handleDelete = (e: any, targetActor: any) => {
-    setRegisterActorList((current: any) =>
-      current.filter((value: any) => targetActor !== value)
-    );
+
+  // 登録actor を表示
+  useEffect(() => {
+    async function fetchData() {
+      const actorsRef = query(
+        collection(db, "users", "3afv8SDIvjimSBLiXZsM", "actors")
+      );
+
+      getDocs(actorsRef).then((querySnapshot) => {
+        setRegisterActorList(
+          querySnapshot.docs.map((doc) => ({ ...doc.data() }))
+        );
+      });
+    }
+    fetchData();
+  }, [registerActorList]);
+
+  // 登録actor を削除
+  const handleDelete = async (e: any, targetActor: any) => {
+    const actorsRef = collection(db, "users", "3afv8SDIvjimSBLiXZsM", "actors");
+    const q = query(actorsRef, where("id", "==", targetActor.id));
+    getDocs(q).then((querySnapshot) => {
+      querySnapshot.docs.map((document) => {
+        console.log(document);
+        const actorDocument = doc(
+          db,
+          "users",
+          "3afv8SDIvjimSBLiXZsM",
+          "actors",
+          document.id
+        );
+        deleteDoc(actorDocument);
+      });
+    });
   };
+
   const submit = (actor: any) => {
     confirmAlert({
       title: "本当に消しますか？",
@@ -68,11 +108,11 @@ const actorList = () => {
             }}
             cols={4}
           >
-            {RegisterActorList &&
-              RegisterActorList.length > 0 &&
-              RegisterActorList.map((actor: any) => (
+            {registerActorList &&
+              registerActorList.length > 0 &&
+              registerActorList.map((actor: any) => (
                 <>
-                  {actor.profile_path && (
+                  {actor.profilePath && (
                     <ImageListItem
                       key={actor.img}
                       sx={{ maxWidth: "185px", placeSelf: "center" }}
@@ -88,7 +128,7 @@ const actorList = () => {
                           },
                         }}
                       >
-                        <img src={`${requests.image}${actor.profile_path}`} />
+                        <img src={`${requests.image}${actor.profilePath}`} />
                         <ImageListItemBar
                           sx={{
                             "& .MuiImageListItemBar-title": {
@@ -108,7 +148,7 @@ const actorList = () => {
                                 color: "rgba(255, 255, 255, 0.6)",
                                 height: "30px",
                               }}
-                              aria-label={`info about ${actor.title}`}
+                              aria-label={`info about ${actor.name}`}
                               // 俳優登録ボタン
                               onClick={(e: any) => {
                                 submit(actor);

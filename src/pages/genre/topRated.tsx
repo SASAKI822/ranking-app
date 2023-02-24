@@ -1,9 +1,10 @@
-import MovieGenre from "@/features/components/MovieGenre";
-import { requests } from "@/lib/MovieApi";
 import React from "react";
-import { Grid } from "@mui/material";
 import Header from "@/components/layouts/Header";
 import SidebarNav from "@/components/layouts/Sidebar";
+import MovieGenre from "@/features/components/MovieGenre";
+import { requests } from "@/lib/MovieApi";
+
+import { Grid } from "@mui/material";
 
 const TopRated = () => {
   return (

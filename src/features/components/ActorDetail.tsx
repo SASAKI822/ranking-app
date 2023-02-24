@@ -1,21 +1,24 @@
 import { API_KEY, requests } from "@/lib/MovieApi";
 import axios from "axios";
-
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { ActorInfoState, MovieInfoState } from "@/lib/atom";
 import MovieList from "./MovieList";
 
+type typeActorCareer = {
+  profile_path: string;
+  birthday: string;
+  place_of_birth: string;
+  biography: string;
+};
+
 const ActorDetail = () => {
-  const [actorCareer, setActorCareer] = useState<any>([]);
+  const [actorCareer, setActorCareer] = useState<typeActorCareer[]>([]);
   // ルーター
   const router = useRouter();
-  const personId: any = router.query.id;
-  const actorName: any = router.query.name;
-  const birthday: any = router.query.birthday;
-  const biography: any = router.query.biography;
+  const personId: string | string[] | undefined = router.query.id;
+  const actorName: string | string[] | undefined = router.query.name;
 
   const setActorInfo = useSetRecoilState(ActorInfoState);
 
@@ -27,8 +30,8 @@ const ActorDetail = () => {
 
   // personId と 俳優名を代入
 
-  const actorInfoUrl = `https://api.themoviedb.org/3/person/${personId}?api_key=${API_KEY}`;
-  const actorMovieUrl = `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${API_KEY}`;
+  const actorInfoUrl: string = `https://api.themoviedb.org/3/person/${personId}?api_key=${API_KEY}`;
+  const actorMovieUrl: string = `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${API_KEY}`;
 
   //俳優出演映画をactorMovie に格納
   useEffect(() => {
@@ -46,7 +49,7 @@ const ActorDetail = () => {
     }
     fetchData();
   }, [actorInfoUrl]);
-  console.log(actorMovies);
+
   useEffect(() => {
     async function fetchActorData() {
       const request = await axios.get(actorMovieUrl).then((response) => {
@@ -57,7 +60,7 @@ const ActorDetail = () => {
     }
     fetchActorData();
   }, [actorMovieUrl]);
-  console.log(actorCareer);
+
   return (
     <>
       <div style={{ marginBottom: "40px", padding: "20px" }}>

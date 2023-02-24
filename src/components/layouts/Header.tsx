@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useRouter } from "next/router";
-import axios from "axios";
+import { NextRouter, useRouter } from "next/router";
+import axios, { AxiosResponse } from "axios";
 import { useRecoilState } from "recoil";
 import {
   searchActorKey,
@@ -11,7 +11,7 @@ import {
 } from "@/lib/atom";
 import { API_KEY } from "@/lib/MovieApi";
 
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 
 import Box from "@mui/material/Box";
@@ -72,41 +72,42 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 // Header コンポーネント
 
-const Header = ({ searchUrl }: any) => {
+const Header = () => {
   // Input入力値をmovieKeywordに入れる
   const [movieKeyword, setMovieKeyword] = useRecoilState(searchMovieKey);
-  const inputMovieElement: any = useRef(null);
+  const inputMovieElement = useRef<HTMLInputElement | null>(null);
 
   // Input入力値をactorKeywordに入れる
   const [actorKeyword, setActorKeyword] = useRecoilState(searchActorKey);
-  const inputActorElement: any = useRef(null);
+  const inputActorElement: any = useRef<string | null>(null);
 
-  // movieKeywordを基にえたmovie情報を格納
+  // movieKeywordを基に得たmovie情報を格納
   const [SearchMovieResult, setSearchMovieResult] = useRecoilState(
     searchMovieResultState
   );
 
-  // actorKeywordを基にえたactor情報を格納
+  // actorKeywordを基に得たactor情報を格納
   const [searchActorResult, setSearchActorResult] = useRecoilState(
     searchActorResultState
   );
 
   // Enterキーを押すと起動されMovie入力値をmovieKeywordに入れる
-  const onSearchMovie = (e: any) => {
+  const onSearchMovie = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setMovieKeyword(inputMovieElement.current.value);
     router.push("/movie");
   };
 
   // Enterキーを押すと起動され俳優入力値をKeywordに入れる
-  const onSearchActor = (e: any) => {
+  const onSearchActor = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setActorKeyword(inputActorElement.current.value);
     router.push("/actor");
   };
 
   // movieKeywordを基にmovieUrlからデータを所得しSearchMovieResultに格納
-  const MovieUrl = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&language=JA`;
+  const MovieUrl: string = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&language=ja`;
+
   useEffect(() => {
     async function SearchData() {
       const request = await axios
@@ -128,9 +129,9 @@ const Header = ({ searchUrl }: any) => {
       return request;
     }
     SearchData();
-  }, [MovieUrl, movieKeyword]);
+  }, [MovieUrl, movieKeyword, setSearchMovieResult]);
 
-  const ActorUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}&page=1&page2`;
+  const ActorUrl: string = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}&page=1&page2`;
 
   useEffect(() => {
     async function SearchData() {
@@ -147,26 +148,22 @@ const Header = ({ searchUrl }: any) => {
       return request;
     }
     SearchData();
-  }, [ActorUrl, actorKeyword]);
+  }, [ActorUrl, actorKeyword, setSearchActorResult]);
 
   // keyword に応じたapiを取得し、searchMovieにdataを格納する。
 
-  const router = useRouter();
+  const router: NextRouter = useRouter();
+
   // ハンバーガーメニュー開閉
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
+  const [alignment, setAlignment] = useState("Movie");
 
-  const [alignment, setAlignment] = React.useState("Movie");
-
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null
-  ) => {
+  const handleChange = (newAlignment: string | null) => {
     if (newAlignment !== null) {
       setAlignment(newAlignment);
     }
   };
 
-  console.log(alignment);
   return (
     <>
       <Box
@@ -208,10 +205,16 @@ const Header = ({ searchUrl }: any) => {
               sx={{ background: "white" }}
               aria-label="Platform"
             >
-              <ToggleButton value="Movie" sx={{ color: "black" }}>
+              <ToggleButton
+                value="Movie"
+                sx={{ color: "black", lineHeight: 1 }}
+              >
                 Movie
               </ToggleButton>
-              <ToggleButton value="Actor" sx={{ color: "black" }}>
+              <ToggleButton
+                value="Actor"
+                sx={{ color: "black", lineHeight: 1 }}
+              >
                 Actor
               </ToggleButton>
             </ToggleButtonGroup>
@@ -254,20 +257,6 @@ const Header = ({ searchUrl }: any) => {
                   );
                 }
               })()}
-              {/* <form onSubmit={onSearchMovie}>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ "aria-label": "search" }}
-                  inputRef={inputMovieElement}
-                />
-              </form>
-              <form onSubmit={onSearchActor}>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ "aria-label": "search" }}
-                  inputRef={inputActorElement}
-                />
-              </form> */}
             </Search>
             <Link href={{ pathname: "/signin" }}>
               <Button color="inherit">Login</Button>

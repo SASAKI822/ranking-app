@@ -1,16 +1,15 @@
 import ActorList from "@/features/components/ActorList";
 import React, { useEffect, useState } from "react";
-import { Card, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
 import Header from "@/components/layouts/Header";
-
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { requests } from "@/lib/MovieApi";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+
 export const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -38,7 +37,6 @@ const popularActor: any = () => {
     }
     fetchData();
   }, [currentPage]);
-  console.log(popularActor);
 
   return (
     <>

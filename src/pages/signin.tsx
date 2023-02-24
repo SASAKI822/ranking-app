@@ -36,7 +36,7 @@ const signin: React.FC = () => {
   const handleSignin = async () => {
     await signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        router.push("/mypage");
+        router.push("/movie");
       })
       .catch((error) => {
         alert(error);
@@ -50,7 +50,7 @@ const signin: React.FC = () => {
       const credential: any = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       console.log(token);
-      router.push("/mypage");
+      router.push("/movie");
     });
   };
 
@@ -58,23 +58,14 @@ const signin: React.FC = () => {
     <>
       <Container>
         <Grid container>
-          <Paper elevation={10} sx={{ p: 4, m: "20px auto", height: "70vh" }}>
+          <Paper elevation={10} sx={{ p: 4, m: "80px auto", height: "70vh" }}>
             <Avatar sx={{ m: "20px auto", bgcolor: "primary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography variant={"h5"} sx={{ m: "30px" }} align="center">
               SignIn
             </Typography>
-            <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-              <TextField
-                name="username"
-                label="Username"
-                variant="standard"
-                fullWidth
-                value={username}
-                onChange={handleChangeUsername}
-              />
-            </Box>
+
             <TextField
               name="email"
               label="E-mail"
@@ -114,12 +105,12 @@ const signin: React.FC = () => {
             <Link href="#">パスワードを忘れましたか？</Link>
           </Typography> */}
 
-              <Typography
+              {/* <Typography
                 variant="caption"
                 sx={{ display: "block", textAlign: "end", mt: 1 }}
               >
                 <Link href="/register">パスワードを忘れましたか？</Link>
-              </Typography>
+              </Typography> */}
               <Typography
                 variant="caption"
                 sx={{ display: "block", textAlign: "end", mt: 0.5 }}

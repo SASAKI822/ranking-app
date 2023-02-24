@@ -1,6 +1,6 @@
 import MovieGenre from "@/features/components/MovieGenre";
 import { WatchListState } from "@/lib/atom";
-import { API_KEY, requests } from "@/lib/MovieApi";
+import { requests } from "@/lib/MovieApi";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -9,8 +9,6 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
-
-import { useRouter } from "next/router";
 
 const MovieGenreDetail = ({ fetchUrl, pageId, title }: any) => {
   const [id, setId] = useState("");

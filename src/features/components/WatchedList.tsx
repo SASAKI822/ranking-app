@@ -1,10 +1,9 @@
 import * as React from "react";
-import axios from "axios";
+
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { WatchedListState } from "../../lib/atom";
-import { useRecoilValue } from "recoil";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
@@ -12,18 +11,64 @@ import IconButton from "@mui/material/IconButton";
 
 import { requests } from "@/lib/MovieApi";
 import { confirmAlert } from "react-confirm-alert";
+import { db } from "@/lib/firebase";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  deleteDoc,
+  addDoc,
+  QuerySnapshot,
+} from "firebase/firestore";
 import "react-confirm-alert/src/react-confirm-alert.css";
+
 // Header コンポーネント
 
 const WatchedList = () => {
   const [watchedList, setWatchedList] = useRecoilState(WatchedListState);
+
+  // watchedList表示
+  useEffect(() => {
+    async function fetchData() {
+      const watchedMovieRef = query(
+        collection(db, "users", "3afv8SDIvjimSBLiXZsM", "watchedMovie")
+      );
+
+      getDocs(watchedMovieRef).then((querySnapshot) => {
+        setWatchedList(querySnapshot.docs.map((doc) => ({ ...doc.data() })));
+      });
+    }
+
+    fetchData();
+  }, []);
+
   // 削除機能
   const handleWatchedDelete = (e: any, targetMovie: any) => {
+    const moviesRef = collection(
+      db,
+      "users",
+      "3afv8SDIvjimSBLiXZsM",
+      "watchedMovie"
+    );
+    const q = query(moviesRef, where("id", "==", targetMovie.id));
+    getDocs(q).then((querySnapshot) => {
+      querySnapshot.docs.map((document) => {
+        const movieDocument = doc(
+          db,
+          "users",
+          "3afv8SDIvjimSBLiXZsM",
+          "watchedMovie",
+          document.id
+        );
+        deleteDoc(movieDocument);
+      });
+    });
     setWatchedList((current: any) =>
       current.filter((value: any) => targetMovie !== value)
     );
   };
-  // ;
 
   const submit = (movie: any) => {
     confirmAlert({
@@ -66,17 +111,17 @@ const WatchedList = () => {
                     query: {
                       id: movie.id,
                       title: movie.title,
-                      mediaType: movie.media_type,
+                      mediaType: movie.mediaType,
                       overview: movie.overview,
-                      releaseDate: movie.release_date,
+                      releaseDate: movie.releaseDate,
                       video: movie.video,
-                      posterPath: movie.poster_path,
+                      posterPath: movie.posterPath,
                     },
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`${requests.image}${movie.poster_path}`}
+                    src={`${requests.image}${movie.posterPath}`}
                     alt="movie image"
                     style={{ backgroundColor: "#dbdbdb" }}
                   />
@@ -92,7 +137,7 @@ const WatchedList = () => {
                         background: "rgba(255, 255, 255, 0.94)",
                       },
                     }}
-                    title={movie.title ? movie.title : movie.name}
+                    title={movie.title ? movie.title : movie.title}
                     // subtitle={movie.name}
                     actionIcon={
                       <IconButton
