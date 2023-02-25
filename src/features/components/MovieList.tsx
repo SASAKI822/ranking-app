@@ -1,15 +1,13 @@
 import * as React from "react";
 import Link from "next/link";
-import { useRecoilState } from "recoil";
-import { WatchListState } from "../../lib/atom";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import { requests } from "@/lib/MovieApi";
 import { db } from "@/lib/firebase";
-import { addDoc, collection, getDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
+import { Movie } from "./MovieGenre";
 
 type MoviesProps = {
   Movies: string[];
@@ -25,9 +23,11 @@ type typeMovies = {
 const MovieList = ({ Movies }: MoviesProps) => {
   // Input入力値をKeyword に入れる
 
-  const [watchList, setWatchList] = useRecoilState(WatchListState);
-
-  const handleAddWatch = async (e: any, movie: any) => {
+  const handleAddWatch = async (
+    e: React.MouseEvent<HTMLInputElement>,
+    movie: Movie
+  ) => {
+    e.preventDefault();
     const collectionPath = collection(
       db,
       "users",
@@ -42,11 +42,6 @@ const MovieList = ({ Movies }: MoviesProps) => {
       video: movie.video,
       overview: movie.overview,
       posterPath: movie.poster_path,
-    });
-
-    e.preventDefault();
-    setWatchList((a) => {
-      return [...a, movie];
     });
   };
   return (
@@ -105,9 +100,7 @@ const MovieList = ({ Movies }: MoviesProps) => {
                         sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                         aria-label={`info about ${movie.title}`}
                         // 見た映画登録ボタン
-                        onClick={(
-                          e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-                        ) => {
+                        onClick={(e: any) => {
                           handleAddWatch(e, movie);
                         }}
                       >

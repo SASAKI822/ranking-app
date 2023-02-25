@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Inter } from "@next/font/google";
 import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
@@ -23,9 +22,6 @@ const signin: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  };
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -33,6 +29,7 @@ const signin: React.FC = () => {
   const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
+
   const handleSignin = async () => {
     await signInWithEmailAndPassword(auth, email, password)
       .then(() => {

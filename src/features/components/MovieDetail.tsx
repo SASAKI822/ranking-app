@@ -4,7 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
@@ -13,15 +13,13 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { TabContext, TabList } from "@mui/lab";
 import TabPanel from "@mui/lab/TabPanel";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 const MovieDetail = () => {
   const [movieCast, setMovieCast] = useState<any>([]);
   const [movieVideo, setMovieVideo] = useState<any>([]);
   const [trailerMovie, setTrailerMovie] = useState<any>([]);
-  const setRegisterActorList = useSetRecoilState(RegisterActorListState);
-
-  //MovieInfo　情報　id, title 取得
-  const movieInfo = useRecoilValue(MovieInfoState);
 
   // ルーター string 型から number 型へ変換
   const router = useRouter();
@@ -84,8 +82,8 @@ const MovieDetail = () => {
       let ignoreTv: boolean = false;
       const fetchData = async () => {
         if (!ignoreTv) {
-          const tvUrl = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/videos?api_key=${API_KEY}`;
-          const CastUrl = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/aggregate_credits?api_key=${API_KEY}`;
+          const tvUrl: string = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/videos?api_key=${API_KEY}`;
+          const CastUrl: string = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/aggregate_credits?api_key=${API_KEY}`;
 
           const request = await axios
             .get(tvUrl)
@@ -130,9 +128,28 @@ const MovieDetail = () => {
   }, [movieVideo]);
 
   const [value, setValue] = useState<string>("0");
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+  };
+
+  // 俳優を登録
+  const handleAddActor = async (
+    e: React.MouseEvent<HTMLInputElement>,
+    actor: any
+  ) => {
+    e.preventDefault();
+    const collectionPath = collection(
+      db,
+      "users",
+      "3afv8SDIvjimSBLiXZsM",
+      "actors"
+    );
+
+    const actorsDocumentRef = await addDoc(collectionPath, {
+      id: actor.id,
+      name: actor.name,
+      profilePath: actor.profile_path,
+    });
   };
 
   return (
@@ -237,13 +254,8 @@ const MovieDetail = () => {
                         <IconButton
                           sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                           aria-label={`info about ${cast.title}`}
-                          onClick={(
-                            e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-                          ) => {
-                            e.preventDefault();
-                            setRegisterActorList((a: any) => {
-                              return [...a, cast];
-                            });
+                          onClick={(e: any) => {
+                            handleAddActor(e, cast);
                           }}
                         >
                           +

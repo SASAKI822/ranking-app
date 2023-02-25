@@ -1,34 +1,32 @@
 import { API_KEY, requests } from "@/lib/MovieApi";
 import axios from "axios";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { ActorInfoState, MovieInfoState } from "@/lib/atom";
+import { useRecoilState } from "recoil";
+import { MovieInfoState } from "@/lib/atom";
 import MovieList from "./MovieList";
 
-type typeActorCareer = {
+interface typeActorCareer {
   profile_path: string;
   birthday: string;
   place_of_birth: string;
   biography: string;
-};
+}
 
 const ActorDetail = () => {
-  const [actorCareer, setActorCareer] = useState<typeActorCareer[]>([]);
+  const [actorCareer, setActorCareer] = useState<typeActorCareer>({
+    profile_path: "",
+    birthday: "",
+    place_of_birth: "",
+    biography: "",
+  });
+
   // ルーター
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const personId: string | string[] | undefined = router.query.id;
   const actorName: string | string[] | undefined = router.query.name;
 
-  const setActorInfo = useSetRecoilState(ActorInfoState);
-
   const [actorMovies, setActorMovies] = useRecoilState(MovieInfoState);
-
-  // atom 参照
-  // const { id } = useRecoilValue(ActorInfoState);
-  // const { name } = useRecoilValue(ActorInfoState);
-
-  // personId と 俳優名を代入
 
   const actorInfoUrl: string = `https://api.themoviedb.org/3/person/${personId}?api_key=${API_KEY}`;
   const actorMovieUrl: string = `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${API_KEY}`;

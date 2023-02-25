@@ -21,6 +21,12 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
+type Actor = {
+  id: string;
+  name: string;
+  img: string;
+  profilePath: string;
+};
 const actorList = () => {
   const [registerActorList, setRegisterActorList] = useRecoilState(
     RegisterActorListState
@@ -43,12 +49,15 @@ const actorList = () => {
   }, [registerActorList]);
 
   // 登録actor を削除
-  const handleDelete = async (e: any, targetActor: any) => {
+
+  const handleDelete = async (
+    e: React.MouseEvent<HTMLElement>,
+    targetActor: Actor
+  ) => {
     const actorsRef = collection(db, "users", "3afv8SDIvjimSBLiXZsM", "actors");
     const q = query(actorsRef, where("id", "==", targetActor.id));
     getDocs(q).then((querySnapshot) => {
       querySnapshot.docs.map((document) => {
-        console.log(document);
         const actorDocument = doc(
           db,
           "users",
@@ -61,14 +70,14 @@ const actorList = () => {
     });
   };
 
-  const submit = (actor: any) => {
+  const submit = (actor: Actor) => {
     confirmAlert({
       title: "本当に消しますか？",
 
       buttons: [
         {
           label: "Yes",
-          onClick: (e: any) => handleDelete(e, actor),
+          onClick: (e: React.MouseEvent<HTMLElement>) => handleDelete(e, actor),
         },
         {
           label: "No",
@@ -110,7 +119,7 @@ const actorList = () => {
           >
             {registerActorList &&
               registerActorList.length > 0 &&
-              registerActorList.map((actor: any) => (
+              registerActorList.map((actor: Actor) => (
                 <>
                   {actor.profilePath && (
                     <ImageListItem

@@ -1,5 +1,4 @@
 import Header from "@/components/layouts/Header";
-import { requests } from "@/lib/MovieApi";
 import React from "react";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
@@ -8,7 +7,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import MovieList from "@/features/components/MovieList";
 
 const Movie = () => {
-  const SearchMovieResult: any = useRecoilValue(searchMovieResultState);
+  const SearchMovieResult = useRecoilValue(searchMovieResultState);
   const [movieKeyword, setMovieKeyword] = useRecoilState(searchMovieKey);
   return (
     <>
@@ -32,7 +31,7 @@ const Movie = () => {
           <Grid sx={{ marginTop: "30px", marginBottom: "90px" }}>
             <h2 style={{ padding: "10px" }}>検索結果:{movieKeyword}</h2>
           </Grid>
-          <MovieList Movies={SearchMovieResult} fetchUrl={requests.search} />
+          <MovieList Movies={SearchMovieResult} />
         </Grid>
       </Grid>
     </>

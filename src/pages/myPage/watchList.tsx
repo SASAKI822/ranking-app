@@ -1,27 +1,11 @@
 import Header from "@/components/layouts/Header";
 import SidebarNav from "@/components/layouts/Sidebar";
 import WatchList from "@/features/components/WatchList";
-import { WatchListState } from "@/lib/atom";
 import { Grid } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
 
 // 見たことある映画リスト
 const watchedList = () => {
-  const [watchedList, setWatchedList] = useRecoilState(WatchListState);
-  const [watchList, setWatchList] = useRecoilState(WatchListState); // 削除機能
-  const handleWatchDelete = (e: any, targetMovie: any) => {
-    e.preventDefault();
-    setWatchList((current: any) =>
-      current.filter((value: any) => targetMovie !== value)
-    );
-    setWatchedList((a: any) => {
-      return [...a, targetMovie];
-    });
-  };
-
-  //  <button onClick={(e) => handleDelete(e, movie)}>削除</button>
-
   return (
     <>
       <Grid container direction="row" sx={{ width: "100%" }}>

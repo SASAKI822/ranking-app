@@ -3,13 +3,10 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import Link from "next/link";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { Box, Drawer, List, ListItem, ListItemIcon } from "@mui/material";
-
 import { useRecoilState } from "recoil";
 import { SidebarState } from "@/lib/atom";
 import DocumentScannerOutlinedIcon from "@mui/icons-material/DocumentScannerOutlined";
-
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
-
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import SportsHandballIcon from "@mui/icons-material/SportsHandball";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
@@ -20,6 +17,7 @@ import FlutterDashIcon from "@mui/icons-material/FlutterDash";
 import ColorizeIcon from "@mui/icons-material/Colorize";
 import SickIcon from "@mui/icons-material/Sick";
 import Person4Icon from "@mui/icons-material/Person4";
+
 export default function SidebarNav() {
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
 

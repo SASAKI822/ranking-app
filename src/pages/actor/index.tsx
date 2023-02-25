@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
 import Header from "@/components/layouts/Header";
 import { searchActorKey, searchActorResultState } from "@/lib/atom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { styled } from "@mui/material/styles";
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
@@ -17,7 +17,9 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const Actor = () => {
-  const searchActorResult: any = useRecoilValue(searchActorResultState);
+  const [searchActorResult, setSearchActorResult] = useRecoilState(
+    searchActorResultState
+  );
   const [actorKeyword, setActorKeyword] = useRecoilState(searchActorKey);
   return (
     <>

@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
@@ -8,7 +7,6 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
-
 import { requests } from "@/lib/MovieApi";
 import { confirmAlert } from "react-confirm-alert";
 import { db } from "@/lib/firebase";
@@ -19,10 +17,9 @@ import {
   where,
   doc,
   deleteDoc,
-  addDoc,
-  QuerySnapshot,
 } from "firebase/firestore";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { WatchList } from "./WatchList";
 
 // Header コンポーネント
 
@@ -42,10 +39,15 @@ const WatchedList = () => {
     }
 
     fetchData();
-  }, []);
+  }, [setWatchedList, watchedList]);
 
   // 削除機能
-  const handleWatchedDelete = (e: any, targetMovie: any) => {
+  const handleWatchedDelete = (
+    e: React.MouseEvent<HTMLElement>,
+    targetMovie: WatchList
+  ) => {
+    const usersId = collection(db, "users");
+
     const moviesRef = collection(
       db,
       "users",
@@ -65,19 +67,17 @@ const WatchedList = () => {
         deleteDoc(movieDocument);
       });
     });
-    setWatchedList((current: any) =>
-      current.filter((value: any) => targetMovie !== value)
-    );
   };
 
-  const submit = (movie: any) => {
+  const submit = (movie: WatchList) => {
     confirmAlert({
       title: "本当に消しますか？",
 
       buttons: [
         {
           label: "Yes",
-          onClick: (e) => handleWatchedDelete(e, movie),
+          onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            handleWatchedDelete(e, movie),
         },
         {
           label: "No",
@@ -98,7 +98,7 @@ const WatchedList = () => {
       >
         {watchedList &&
           watchedList.length > 0 &&
-          watchedList.map((movie: any) => {
+          watchedList.map((movie: WatchList) => {
             return (
               <ImageListItem
                 key={movie.img}
@@ -143,7 +143,7 @@ const WatchedList = () => {
                       <IconButton
                         sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                         aria-label={`info about ${movie.title}`}
-                        onClick={(e) => {
+                        onClick={(e: React.MouseEvent<HTMLElement>) => {
                           submit(movie);
                           e.preventDefault();
                         }}

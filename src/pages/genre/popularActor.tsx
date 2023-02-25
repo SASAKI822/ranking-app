@@ -19,10 +19,11 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-const popularActor: any = () => {
+const popularActor = () => {
   const [popularActor, setPopularActor] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const handleChange = (e: any, value: any) => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const handleChange = (e: React.ChangeEvent<HTMLElement>, value: number) => {
     e.preventDefault();
     setCurrentPage(value);
   };

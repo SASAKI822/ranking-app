@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { WatchedListState, WatchListState } from "@/lib/atom";
+import { WatchedListState } from "@/lib/atom";
 import { requests } from "@/lib/MovieApi";
 import IconButton from "@mui/material/IconButton";
 import ImageList from "@mui/material/ImageList";
@@ -18,6 +18,18 @@ import {
   addDoc,
 } from "firebase/firestore";
 
+export type WatchList = {
+  id: string;
+  name: string;
+  title: string;
+  img: string;
+  mediaType: string;
+  overview: string;
+  releaseDate: string;
+  video: string;
+  posterPath: string;
+  backdropPath: string;
+};
 const WatchList = () => {
   const [watchedList, setWatchedList] = useRecoilState(WatchedListState);
   const [watchList, setWatchList] = useState<any>([]);
@@ -38,7 +50,10 @@ const WatchList = () => {
   console.log(watchList);
 
   // 削除機能
-  const handleWatchDelete = (e: any, targetMovie: any) => {
+  const handleWatchDelete = (
+    e: React.MouseEvent<HTMLElement>,
+    targetMovie: WatchList
+  ) => {
     e.preventDefault();
 
     // watchedリストへ追加
@@ -72,19 +87,18 @@ const WatchList = () => {
         );
 
         deleteDoc(movieDocument);
-        console.log(movieDocument);
       });
     });
 
-    setWatchList((current: any) =>
-      current.filter((value: any) => targetMovie !== value)
+    setWatchList((current: WatchList[]) =>
+      current.filter((value: WatchList) => targetMovie !== value)
     );
 
-    setWatchedList((value: any) => {
+    setWatchedList((value: WatchList[]) => {
       return [...value, targetMovie];
     });
   };
-  console.log(watchedList);
+
   return (
     <>
       <h2 style={{ marginTop: "20px", padding: "10px" }}>見る映画リスト</h2>
@@ -99,7 +113,7 @@ const WatchList = () => {
       >
         {watchList &&
           watchList.length > 0 &&
-          watchList.map((movie: any) => {
+          watchList.map((movie: WatchList) => {
             return (
               <ImageListItem
                 key={movie.img}
@@ -144,7 +158,9 @@ const WatchList = () => {
                         sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                         aria-label={`info about ${movie.title}`}
                         // 見た映画登録ボタン
-                        onClick={(e) => handleWatchDelete(e, movie)}
+                        onClick={(
+                          e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                        ) => handleWatchDelete(e, movie)}
                       >
                         +
                       </IconButton>

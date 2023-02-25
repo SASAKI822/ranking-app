@@ -2,10 +2,9 @@ import Header from "@/components/layouts/Header";
 import SidebarNav from "@/components/layouts/Sidebar";
 
 import WatchedList from "@/features/components/WatchedList";
-import { WatchedListState } from "@/lib/atom";
+
 import { Grid } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
 
 // 見たことある映画リスト
 const watchedList = () => {

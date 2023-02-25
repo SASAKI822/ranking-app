@@ -4,7 +4,7 @@ import { ImageList, ImageListItem } from "@mui/material";
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 
 import IconButton from "@mui/material/IconButton";
@@ -16,13 +16,19 @@ type Props = {
   Actors: [];
   title: string;
 };
-const ActorList = ({ Actors, title }: Props) => {
-  const [registerActorList, setRegisterActorList] = useRecoilState(
-    RegisterActorListState
-  );
 
+export type Actor = {
+  id: string;
+  name: string;
+  image: string;
+  profile_path: string;
+};
+const ActorList = ({ Actors, title }: Props) => {
   // 俳優を登録
-  const handleAddActor = async (e: any, actor: any) => {
+  const handleAddActor = async (
+    e: React.MouseEvent<HTMLInputElement>,
+    actor: Actor
+  ) => {
     e.preventDefault();
     const collectionPath = collection(
       db,
@@ -35,10 +41,6 @@ const ActorList = ({ Actors, title }: Props) => {
       id: actor.id,
       name: actor.name,
       profilePath: actor.profile_path,
-    });
-
-    setRegisterActorList((a) => {
-      return [...a, actor];
     });
   };
 

@@ -100,3 +100,10 @@ export const SidebarState: RecoilState<boolean> = atom({
   key: "sidebarState",
   default: false,
 });
+
+export const usersState = atom({
+  key: "usersState",
+  default: {
+    id: "",
+  },
+});

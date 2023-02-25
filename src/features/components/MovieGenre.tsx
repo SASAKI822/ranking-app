@@ -3,7 +3,7 @@ import { requests } from "@/lib/MovieApi";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
@@ -21,9 +21,12 @@ type Props = {
 export type Movie = {
   id: string;
   name: string;
+  img: string;
   title: string;
+  media_type: string;
   overview: string;
   release_date: string;
+  video: string;
   poster_path: string;
   backdrop_path: string;
 };
@@ -37,7 +40,20 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   const [release, setRelease] = useState<boolean>(false);
   const [average, setAverage] = useState<boolean>(false);
 
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([
+    {
+      id: "",
+      name: "",
+      img: "",
+      title: "",
+      media_type: "",
+      overview: "",
+      release_date: "",
+      video: "",
+      poster_path: "",
+      backdrop_path: "",
+    },
+  ]);
   const [watchList, setWatchList] = useRecoilState(WatchListState);
   const allYears = [];
   const thisYear: number = new Date().getFullYear();
@@ -49,10 +65,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
     return <option key={value}>{value}</option>;
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    value: number
-  ) => {
+  const handleChange = (e: { preventDefault: () => void }, value: number) => {
     e.preventDefault();
     setCurrentPage(value);
   };
@@ -107,32 +120,32 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   }, [fetchUrl, currentPage, year, average]);
 
   // 人気順
-  const handleFilterPopularDescMovie = (e: any) => {
+  const handleFilterPopularDescMovie = () => {
     setPopular(true);
     setRelease(false);
     setAverage(false);
     setCurrentPage(1);
-    e.preventDefault();
   };
 
   // 最近の映画
-  const handleReleaseDateDescMovie = (e: any) => {
+  const handleReleaseDateDescMovie = () => {
     setRelease(true);
     setPopular(false);
     setAverage(false);
     setCurrentPage(1);
-    e.preventDefault();
   };
 
   //評価が高い順
-  const handleVoteAverageDescMovie = (e: any) => {
+  const handleVoteAverageDescMovie = () => {
     setRelease(false);
     setPopular(false);
     setAverage(true);
     setCurrentPage(1);
-    e.preventDefault();
   };
-  const handleAddWatch = async (e: any, movie: any) => {
+  const handleAddWatch = async (
+    e: React.MouseEvent<HTMLInputElement>,
+    movie: Movie
+  ) => {
     e.preventDefault();
     const collectionPath = collection(
       db,
@@ -149,12 +162,8 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
       overview: movie.overview,
       posterPath: movie.poster_path,
     });
-
-    setWatchList((a: any) => {
-      return [...a, movie];
-    });
   };
-  console.log(currentPage);
+
   return (
     <>
       <div style={{ marginTop: "20px", padding: "10px" }}>
@@ -214,7 +223,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
       >
         {movies &&
           movies.length > 0 &&
-          movies.map((movie: any) => {
+          movies.map((movie: Movie) => {
             return (
               <>
                 <ImageListItem
