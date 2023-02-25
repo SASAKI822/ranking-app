@@ -1,40 +1,36 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { loginState } from "./atom";
+import { loginState, uIdState } from "./atom";
 import { auth } from "./firebase";
-
-// type AuthContextProps = {
-//   currentUser: user | null | undefined;
-//   signInInCheck: boolean;
-// };
 
 const AuthContext: any = createContext();
 export function useAuthContext() {
   return useContext(AuthContext);
 }
+
 const AuthProvider = ({ children }: any) => {
-  const [user, setUser] = useState("");
+  const [userId, setUserId] = useRecoilState(uIdState);
   const [signInCheck, setSignInCheck] = useRecoilState(loginState);
-  const value = {
-    user,
-  };
 
   useEffect(() => {
     const unsubscribed = auth.onAuthStateChanged((user: any) => {
       if (user) {
         setSignInCheck(true);
-        setUser(user);
+        setUserId(user.uid);
       } else {
         setSignInCheck(false);
       }
     });
+
     return () => {
       unsubscribed();
     };
-  }, []);
-  console.log(signInCheck);
+  }, [setUserId, setSignInCheck]);
+
   return (
-    <AuthContext.Provider value={signInCheck}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ userId, signInCheck }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

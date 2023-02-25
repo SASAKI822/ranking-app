@@ -1,4 +1,4 @@
-import { RegisterActorListState, SidebarState } from "@/lib/atom";
+import { RegisterActorListState, SidebarState, uIdState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
@@ -27,18 +27,31 @@ type Actor = {
   img: string;
   profilePath: string;
 };
-const actorList = () => {
+const ActorList = () => {
   const [registerActorList, setRegisterActorList] = useRecoilState(
     RegisterActorListState
   );
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
+  const [userId, setUserId] = useRecoilState(uIdState); // 登録actor を削除
+
+  const handleDelete = async (
+    e: React.MouseEvent<HTMLElement>,
+    targetActor: Actor
+  ) => {
+    const actorsRef = collection(db, "users", userId, "actors");
+    const q = query(actorsRef, where("id", "==", targetActor.id));
+    getDocs(q).then((querySnapshot) => {
+      querySnapshot.docs.map((document) => {
+        const actorDocument = doc(db, "users", userId, "actors", document.id);
+        deleteDoc(actorDocument);
+      });
+    });
+  };
 
   // 登録actor を表示
   useEffect(() => {
     async function fetchData() {
-      const actorsRef = query(
-        collection(db, "users", "3afv8SDIvjimSBLiXZsM", "actors")
-      );
+      const actorsRef = query(collection(db, "users", userId, "actors"));
 
       getDocs(actorsRef).then((querySnapshot) => {
         setRegisterActorList(
@@ -47,29 +60,7 @@ const actorList = () => {
       });
     }
     fetchData();
-  }, [registerActorList]);
-
-  // 登録actor を削除
-
-  const handleDelete = async (
-    e: React.MouseEvent<HTMLElement>,
-    targetActor: Actor
-  ) => {
-    const actorsRef = collection(db, "users", "3afv8SDIvjimSBLiXZsM", "actors");
-    const q = query(actorsRef, where("id", "==", targetActor.id));
-    getDocs(q).then((querySnapshot) => {
-      querySnapshot.docs.map((document) => {
-        const actorDocument = doc(
-          db,
-          "users",
-          "3afv8SDIvjimSBLiXZsM",
-          "actors",
-          document.id
-        );
-        deleteDoc(actorDocument);
-      });
-    });
-  };
+  }, [registerActorList, handleDelete]);
 
   const submit = (actor: Actor) => {
     confirmAlert({
@@ -185,7 +176,7 @@ const actorList = () => {
                               }}
                               aria-label={`info about ${actor.name}`}
                               // 俳優登録ボタン
-                              onClick={(e: any) => {
+                              onClick={(e: React.MouseEvent<HTMLElement>) => {
                                 submit(actor);
                                 e.preventDefault();
                               }}
@@ -206,4 +197,4 @@ const actorList = () => {
   );
 };
 
-export default actorList;
+export default ActorList;

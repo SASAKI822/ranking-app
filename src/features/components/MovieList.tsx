@@ -5,12 +5,14 @@ import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import { requests } from "@/lib/MovieApi";
-import { db } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { Movie } from "./MovieGenre";
+import { InfoType, uIdState } from "@/lib/atom";
+import { useRecoilState } from "recoil";
 
 type MoviesProps = {
-  Movies: string[];
+  movies: InfoType[];
 };
 
 type typeMovies = {
@@ -20,20 +22,16 @@ type typeMovies = {
 
 // Header コンポーネント
 
-const MovieList = ({ Movies }: MoviesProps) => {
+const MovieList = ({ movies }: MoviesProps) => {
   // Input入力値をKeyword に入れる
+  const [userId, setUserId] = useRecoilState(uIdState);
 
   const handleAddWatch = async (
     e: React.MouseEvent<HTMLInputElement>,
     movie: Movie
   ) => {
     e.preventDefault();
-    const collectionPath = collection(
-      db,
-      "users",
-      "3afv8SDIvjimSBLiXZsM",
-      "movies"
-    );
+    const collectionPath = collection(db, "users", userId, "movies");
     const moviesDocumentRef = await addDoc(collectionPath, {
       id: movie.id,
       title: movie.title,
@@ -54,9 +52,9 @@ const MovieList = ({ Movies }: MoviesProps) => {
             "repeat(auto-fill, minmax(180px, 1fr))!important",
         }}
       >
-        {Movies &&
-          Movies.length > 0 &&
-          Movies.map((movie: any) => {
+        {movies &&
+          movies.length > 0 &&
+          movies.map((movie: any) => {
             return (
               <ImageListItem
                 key={movie.img}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { WatchedListState } from "@/lib/atom";
+import { uIdState, WatchedListState } from "@/lib/atom";
 import { requests } from "@/lib/MovieApi";
 import IconButton from "@mui/material/IconButton";
 import ImageList from "@mui/material/ImageList";
@@ -33,12 +33,10 @@ export type WatchList = {
 const WatchList = () => {
   const [watchedList, setWatchedList] = useRecoilState(WatchedListState);
   const [watchList, setWatchList] = useState<any>([]);
-
+  const [userId, setUserId] = useRecoilState(uIdState);
   useEffect(() => {
     async function fetchData() {
-      const moviesRef = query(
-        collection(db, "users", "3afv8SDIvjimSBLiXZsM", "movies")
-      );
+      const moviesRef = query(collection(db, "users", userId, "movies"));
 
       getDocs(moviesRef).then((querySnapshot) => {
         setWatchList(querySnapshot.docs.map((doc) => ({ ...doc.data() })));
@@ -57,12 +55,7 @@ const WatchList = () => {
     e.preventDefault();
 
     // watchedリストへ追加
-    const watchedMovieRef = collection(
-      db,
-      "users",
-      "3afv8SDIvjimSBLiXZsM",
-      "watchedMovie"
-    );
+    const watchedMovieRef = collection(db, "users", userId, "watchedMovie");
     const moviesDocumentRef = addDoc(watchedMovieRef, {
       id: targetMovie.id,
       title: targetMovie.title,
@@ -74,17 +67,11 @@ const WatchList = () => {
     });
 
     // 削除機能
-    const moviesRef = collection(db, "users", "3afv8SDIvjimSBLiXZsM", "movies");
+    const moviesRef = collection(db, "users", userId, "movies");
     const q = query(moviesRef, where("id", "==", targetMovie.id));
     getDocs(q).then((querySnapshot) => {
       querySnapshot.docs.map((document) => {
-        const movieDocument = doc(
-          db,
-          "users",
-          "3afv8SDIvjimSBLiXZsM",
-          "movies",
-          document.id
-        );
+        const movieDocument = doc(db, "users", userId, "movies", document.id);
 
         deleteDoc(movieDocument);
       });

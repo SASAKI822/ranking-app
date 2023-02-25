@@ -54,12 +54,6 @@ const Horror = () => {
         <MovieGenre
           title="ホラー"
           fetchUrl={requests.genre.fetchHorrorMovies}
-          filterAscUrl={
-            requests.genre.fetchHorrorMovies + requests.filter.releaseDateDesc
-          }
-          filterDescUrl={
-            requests.genre.fetchHorrorMovies + requests.filter.releaseDateDesc
-          }
         />
       </Grid>
     </Grid>

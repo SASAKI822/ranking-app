@@ -9,7 +9,7 @@ import axios from "axios";
 import { requests } from "@/lib/MovieApi";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { SidebarState } from "@/lib/atom";
+import { SidebarState, uIdState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
@@ -21,12 +21,13 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-const popularActor = () => {
+const PopularActor = () => {
   const [popularActor, setPopularActor] = useState([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
+  const [userId, setUserId] = useRecoilState(uIdState);
 
-  const handleChange = (e: React.ChangeEvent<HTMLElement>, value: number) => {
+  const handleChange = (e: React.ChangeEvent<unknown>, value: number) => {
     e.preventDefault();
     setCurrentPage(value);
   };
@@ -86,7 +87,7 @@ const popularActor = () => {
           lg={10}
           xl={10.5}
         >
-          <ActorList Actors={popularActor} title="人気俳優" />
+          <ActorList actors={popularActor} title="人気俳優" />
           <Stack spacing={2} sx={{ color: "white", margin: "40px 0" }}>
             <Pagination
               count={60}
@@ -113,4 +114,4 @@ const popularActor = () => {
   );
 };
 
-export default popularActor;
+export default PopularActor;

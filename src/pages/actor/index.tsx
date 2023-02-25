@@ -74,7 +74,7 @@ const Actor = () => {
             <h2>検索結果:{actorKeyword}</h2>
           </div>
 
-          <ActorList Actors={searchActorResult} />
+          <ActorList actors={searchActorResult} title="" />
         </Grid>
       </Grid>
     </>

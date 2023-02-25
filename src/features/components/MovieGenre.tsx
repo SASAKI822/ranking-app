@@ -1,4 +1,4 @@
-import { WatchListState } from "@/lib/atom";
+import { uIdState, WatchListState } from "@/lib/atom";
 import { requests } from "@/lib/MovieApi";
 import axios from "axios";
 import Link from "next/link";
@@ -31,9 +31,9 @@ export type Movie = {
   backdrop_path: string;
 };
 
-const MovieGenre: any = ({ title, fetchUrl }: Props) => {
+const MovieGenre = ({ title, fetchUrl }: Props) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-
+  const [userId, setUserId] = useRecoilState(uIdState);
   // フィルター　年
   const [year, setYear] = useState(new Date().getFullYear());
   const [popular, setPopular] = useState<boolean>(true);
@@ -74,13 +74,13 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   // 人気順
   useEffect(() => {
     if (popular) {
-      async function fetchData() {
+      const fetchData = async () => {
         const request = await axios.get(
           fetchUrl + `&page=${currentPage}` + `&year=${year}`
         );
         setMovies(request.data.results);
         return request;
-      }
+      };
       fetchData();
     }
   }, [fetchUrl, currentPage, year, popular]);
@@ -88,7 +88,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   // 最近の映画
   useEffect(() => {
     if (release) {
-      async function fetchData() {
+      const fetchData = async () => {
         const request = await axios.get(
           fetchUrl +
             `&page=${currentPage}` +
@@ -97,7 +97,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
         );
         setMovies(request.data.results);
         return request;
-      }
+      };
       fetchData();
     }
   }, [fetchUrl, currentPage, year, release]);
@@ -105,7 +105,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   //評価が高い順
   useEffect(() => {
     if (average) {
-      async function fetchData() {
+      const fetchData = async () => {
         const request = await axios.get(
           fetchUrl +
             `&page=${currentPage}` +
@@ -114,7 +114,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
         );
         setMovies(request.data.results);
         return request;
-      }
+      };
       fetchData();
     }
   }, [fetchUrl, currentPage, year, average]);
@@ -147,12 +147,7 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
     movie: Movie
   ) => {
     e.preventDefault();
-    const collectionPath = collection(
-      db,
-      "users",
-      "3afv8SDIvjimSBLiXZsM",
-      "movies"
-    );
+    const collectionPath = collection(db, "users", userId, "movies");
     const moviesDocumentRef = await addDoc(collectionPath, {
       id: movie.id,
       title: movie.title,
@@ -305,14 +300,3 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
 };
 
 export default MovieGenre;
-{
-  /* <IconButton
-                          sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                          aria-label={`info about ${movie.title}`}
-                          onClick={() => {
-                            setWatchList((a: any) => {
-                              return [...a, movie];
-                            });
-                          }}
-                        ></IconButton> */
-}

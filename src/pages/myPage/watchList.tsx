@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 // 見たことある映画リスト
-const watchedList = () => {
+const WatchMovieList = () => {
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
   return (
     <>
@@ -60,4 +60,4 @@ const watchedList = () => {
   );
 };
 
-export default watchedList;
+export default WatchMovieList;

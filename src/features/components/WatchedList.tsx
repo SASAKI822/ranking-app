@@ -2,7 +2,7 @@ import * as React from "react";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
-import { WatchedListState } from "../../lib/atom";
+import { uIdState, WatchedListState } from "../../lib/atom";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
@@ -25,12 +25,12 @@ import { WatchList } from "./WatchList";
 
 const WatchedList = () => {
   const [watchedList, setWatchedList] = useRecoilState(WatchedListState);
-
+  const [userId, setUserId] = useRecoilState(uIdState);
   // watchedList表示
   useEffect(() => {
     async function fetchData() {
       const watchedMovieRef = query(
-        collection(db, "users", "3afv8SDIvjimSBLiXZsM", "watchedMovie")
+        collection(db, "users", userId, "watchedMovie")
       );
 
       getDocs(watchedMovieRef).then((querySnapshot) => {
@@ -46,21 +46,14 @@ const WatchedList = () => {
     e: React.MouseEvent<HTMLElement>,
     targetMovie: WatchList
   ) => {
-    const usersId = collection(db, "users");
-
-    const moviesRef = collection(
-      db,
-      "users",
-      "3afv8SDIvjimSBLiXZsM",
-      "watchedMovie"
-    );
+    const moviesRef = collection(db, "users", userId, "watchedMovie");
     const q = query(moviesRef, where("id", "==", targetMovie.id));
     getDocs(q).then((querySnapshot) => {
       querySnapshot.docs.map((document) => {
         const movieDocument = doc(
           db,
           "users",
-          "3afv8SDIvjimSBLiXZsM",
+          userId,
           "watchedMovie",
           document.id
         );

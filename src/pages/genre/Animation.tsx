@@ -51,16 +51,7 @@ const Animation = () => {
         lg={10}
         xl={10.5}
       >
-        <MovieGenre
-          title="アニメ"
-          fetchUrl={requests.genre.fetchAnimation}
-          filterAscUrl={
-            requests.genre.fetchAnimation + requests.filter.releaseDateDesc
-          }
-          filterDescUrl={
-            requests.genre.fetchAnimation + requests.filter.releaseDateDesc
-          }
-        />
+        <MovieGenre title="アニメ" fetchUrl={requests.genre.fetchAnimation} />
       </Grid>
     </Grid>
   );

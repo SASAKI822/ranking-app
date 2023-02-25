@@ -14,20 +14,21 @@ import { TabContext, TabList } from "@mui/lab";
 import TabPanel from "@mui/lab/TabPanel";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { uIdState } from "@/lib/atom";
 
 const MovieDetail = () => {
   const [movieCast, setMovieCast] = useState<any>([]);
   const [movieVideo, setMovieVideo] = useState<any>([]);
   const [trailerMovie, setTrailerMovie] = useState<any>([]);
-
+  const [userId, setUserId] = useRecoilState(uIdState);
   // ルーター string 型から number 型へ変換
   const router = useRouter();
   const title: string | string[] | undefined = router.query.title;
   const posterPath: string | string[] | undefined = router.query.posterPath;
   const overview: string | string[] | undefined = router.query.overview;
   const releaseDate: string | string[] | undefined = router.query.releaseDate;
-  const movieOrTvDetailIdString: any = router.query.id;
-  const movieOrTvDetailId: any = parseInt(movieOrTvDetailIdString);
+  const movieOrTvDetailIdString = router.query.id as string;
+  const movieOrTvDetailId = parseInt(movieOrTvDetailIdString);
   const movieDetailMediaType: string | string[] | undefined =
     router.query.mediaType;
 
@@ -137,12 +138,7 @@ const MovieDetail = () => {
     actor: any
   ) => {
     e.preventDefault();
-    const collectionPath = collection(
-      db,
-      "users",
-      "3afv8SDIvjimSBLiXZsM",
-      "actors"
-    );
+    const collectionPath = collection(db, "users", userId, "actors");
 
     const actorsDocumentRef = await addDoc(collectionPath, {
       id: actor.id,

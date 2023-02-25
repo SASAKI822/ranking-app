@@ -51,7 +51,13 @@ export default function SidebarNav() {
             <MenuItem
               component={<Link href={{ pathname: "/movie" }}></Link>}
               icon={<HomeOutlinedIcon />}
-              style={{ color: "white", "&	.Mui-focusVisible": {} }}
+              style={{ color: "white" }}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Home
             </MenuItem>
@@ -59,6 +65,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/myPage/watchList" }}></Link>}
               icon={<BookmarkAddIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               見る映画
             </MenuItem>
@@ -68,6 +80,12 @@ export default function SidebarNav() {
                 <Link href={{ pathname: "/myPage/watchedList" }}></Link>
               }
               icon={<MovieIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               見た映画
             </MenuItem>
@@ -75,6 +93,12 @@ export default function SidebarNav() {
               style={{ color: "white", borderBottom: "1px solid" }}
               component={<Link href={{ pathname: "/myPage/actor" }}></Link>}
               icon={<HowToRegIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               登録俳優
             </MenuItem>
@@ -84,6 +108,12 @@ export default function SidebarNav() {
                 <Link href={{ pathname: "/genre/popularActor" }}></Link>
               }
               icon={<Person4Icon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               人気俳優
             </MenuItem>
@@ -91,6 +121,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/topRated" }}></Link>}
               icon={<WhatshotIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Top Rated
             </MenuItem>
@@ -99,6 +135,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/action" }}></Link>}
               icon={<ColorizeIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Action
             </MenuItem>
@@ -106,6 +148,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/horror" }}></Link>}
               icon={<SickIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Horror
             </MenuItem>
@@ -113,6 +161,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/romance" }}></Link>}
               icon={<VolunteerActivismIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Romance
             </MenuItem>
@@ -120,6 +174,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/document" }}></Link>}
               icon={<DocumentScannerOutlinedIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Document
             </MenuItem>
@@ -127,6 +187,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/comedy" }}></Link>}
               icon={<EmojiEmotionsIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Comedy
             </MenuItem>
@@ -134,6 +200,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/animation" }}></Link>}
               icon={<FlutterDashIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Animation
             </MenuItem>
@@ -141,6 +213,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/adventure" }}></Link>}
               icon={<SportsHandballIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Adventure
             </MenuItem>
@@ -168,6 +246,7 @@ export default function SidebarNav() {
             borderRightStyle: "none",
             marginTop: "63px",
           },
+          "&.Mui-selected&.hover": { color: "black" },
           display: { xs: "block", md: "none" },
         }}
       >
@@ -207,6 +286,12 @@ export default function SidebarNav() {
               component={<Link href={{ pathname: "/movie" }}></Link>}
               icon={<HomeOutlinedIcon />}
               style={{ color: "white" }}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Home
             </MenuItem>
@@ -214,6 +299,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/myPage/watchList" }}></Link>}
               icon={<BookmarkAddIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               見る映画
             </MenuItem>
@@ -223,6 +314,12 @@ export default function SidebarNav() {
                 <Link href={{ pathname: "/myPage/watchedList" }}></Link>
               }
               icon={<MovieIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               見た映画
             </MenuItem>
@@ -230,6 +327,12 @@ export default function SidebarNav() {
               style={{ color: "white", borderBottom: "1px solid" }}
               component={<Link href={{ pathname: "/myPage/actor" }}></Link>}
               icon={<HowToRegIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               登録俳優
             </MenuItem>
@@ -239,6 +342,12 @@ export default function SidebarNav() {
                 <Link href={{ pathname: "/genre/popularActor" }}></Link>
               }
               icon={<Person4Icon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               人気俳優
             </MenuItem>
@@ -247,6 +356,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/topRated" }}></Link>}
               icon={<WhatshotIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Top Rated
             </MenuItem>
@@ -254,6 +369,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/action" }}></Link>}
               icon={<ColorizeIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Action
             </MenuItem>
@@ -261,6 +382,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/horror" }}></Link>}
               icon={<SickIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Horror
             </MenuItem>
@@ -268,6 +395,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/romance" }}></Link>}
               icon={<VolunteerActivismIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Romance
             </MenuItem>
@@ -275,6 +408,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/document" }}></Link>}
               icon={<DocumentScannerOutlinedIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Document
             </MenuItem>
@@ -282,6 +421,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/comedy" }}></Link>}
               icon={<EmojiEmotionsIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Comedy
             </MenuItem>
@@ -289,6 +434,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/animation" }}></Link>}
               icon={<FlutterDashIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Animation
             </MenuItem>
@@ -296,6 +447,12 @@ export default function SidebarNav() {
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/adventure" }}></Link>}
               icon={<SportsHandballIcon />}
+              onMouseEnter={(e: any) =>
+                (e.target.style.backgroundColor = "#1e1e1e")
+              }
+              onMouseLeave={(e: any) =>
+                (e.target.style.backgroundColor = "#0f0f0f")
+              }
             >
               Adventure
             </MenuItem>

@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-const signin: React.FC = () => {
+const SignIn: React.FC = () => {
   const router = useRouter();
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -83,11 +83,7 @@ const signin: React.FC = () => {
               value={password}
               onChange={handleChangePassword}
             />
-            {/* <FormControlLabel
-            label="パスワードを忘れました"
-            labelPlacement="end"
-            control={<Checkbox size="small" />}
-          /> */}
+
             <Box mt={6}>
               <Button
                 type="submit"
@@ -98,16 +94,6 @@ const signin: React.FC = () => {
                 ログインする
               </Button>
 
-              {/* <Typography>
-            <Link href="#">パスワードを忘れましたか？</Link>
-          </Typography> */}
-
-              {/* <Typography
-                variant="caption"
-                sx={{ display: "block", textAlign: "end", mt: 1 }}
-              >
-                <Link href="/register">パスワードを忘れましたか？</Link>
-              </Typography> */}
               <Typography
                 variant="caption"
                 sx={{ display: "block", textAlign: "end", mt: 0.5 }}
@@ -123,4 +109,4 @@ const signin: React.FC = () => {
   );
 };
 
-export default signin;
+export default SignIn;

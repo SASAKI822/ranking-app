@@ -54,12 +54,6 @@ const Action = () => {
           <MovieGenre
             title="アクション"
             fetchUrl={requests.genre.fetchActionMovies}
-            filterAscUrl={
-              requests.genre.fetchActionMovies + requests.filter.releaseDateDesc
-            }
-            filterDescUrl={
-              requests.genre.fetchActionMovies + requests.filter.releaseDateDesc
-            }
           />
         </Grid>
       </Grid>

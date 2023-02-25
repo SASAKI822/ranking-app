@@ -5,12 +5,15 @@ import React, { useEffect, useState } from "react";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
+import { ActorListItem, uIdState } from "@/lib/atom";
+import { useRecoilState } from "recoil";
 
 // Header で入力された俳優一覧
 type Props = {
-  Actors: [];
   title: string;
+  actors: ActorListItem[];
+  // titleはPropsとして利用しないのでオプショナルにする
 };
 
 export type Actor = {
@@ -19,19 +22,16 @@ export type Actor = {
   img: string;
   profile_path: string;
 };
-const ActorList = ({ Actors, title }: Props) => {
+const ActorList = ({ actors, title }: Props) => {
+  const [userId, setUserId] = useRecoilState(uIdState);
+
   // 俳優を登録
   const handleAddActor = async (
     e: React.MouseEvent<HTMLInputElement>,
     actor: Actor
   ) => {
     e.preventDefault();
-    const collectionPath = collection(
-      db,
-      "users",
-      "3afv8SDIvjimSBLiXZsM",
-      "actors"
-    );
+    const collectionPath = collection(db, "users", userId, "actors");
 
     const actorsDocumentRef = await addDoc(collectionPath, {
       id: actor.id,
@@ -55,9 +55,9 @@ const ActorList = ({ Actors, title }: Props) => {
         }}
         cols={4}
       >
-        {Actors &&
-          Actors.length > 0 &&
-          Actors.map((actor: Actor) => (
+        {actors &&
+          actors.length > 0 &&
+          actors.map((actor: any) => (
             <>
               {actor.profile_path && (
                 <ImageListItem

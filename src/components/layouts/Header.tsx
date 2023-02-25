@@ -96,6 +96,8 @@ const Header = () => {
   // Enterキーを押すと起動されMovie入力値をmovieKeywordに入れる
   const onSearchMovie = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // nullの場合は処理を終了
     if (!inputMovieElement.current) return;
     setMovieKeyword(inputMovieElement.current.value);
     router.push("/movie");

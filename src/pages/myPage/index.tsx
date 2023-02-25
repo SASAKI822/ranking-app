@@ -1,7 +1,7 @@
 import ActorList from "@/features/components/ActorListContent";
 import { requests } from "@/lib/MovieApi";
 
-const mypage = () => {
+const MyPage = () => {
   return (
     <>
       <ActorList actorUrl={requests.actor} />
@@ -9,4 +9,4 @@ const mypage = () => {
   );
 };
 
-export default mypage;
+export default MyPage;

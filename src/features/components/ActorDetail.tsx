@@ -74,7 +74,7 @@ const ActorDetail = () => {
         </div>
         <p>{actorCareer.biography}</p>
       </div>
-      <MovieList Movies={actorMovies} />
+      <MovieList movies={actorMovies} />
     </>
   );
 };

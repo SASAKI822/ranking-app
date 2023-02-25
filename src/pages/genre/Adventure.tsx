@@ -52,14 +52,6 @@ const Comedy = () => {
         <MovieGenre
           title="アドベンチャー"
           fetchUrl={requests.genre.fetchAdventureMovies}
-          filterAscUrl={
-            requests.genre.fetchAdventureMovies +
-            requests.filter.releaseDateDesc
-          }
-          filterDescUrl={
-            requests.genre.fetchAdventureMovies +
-            requests.filter.releaseDateDesc
-          }
         />
       </Grid>
     </Grid>

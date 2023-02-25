@@ -63,16 +63,7 @@ const TopRated = () => {
           lg={10}
           xl={10.5}
         >
-          <MovieGenre
-            title="トップ"
-            fetchUrl={requests.genre.fetchTopRated}
-            filterAscUrl={
-              requests.genre.fetchTopRated + requests.filter.releaseDateDesc
-            }
-            filterDescUrl={
-              requests.genre.fetchTopRated + requests.filter.releaseDateDesc
-            }
-          />
+          <MovieGenre title="トップ" fetchUrl={requests.genre.fetchTopRated} />
         </Grid>
       </Grid>
     </>

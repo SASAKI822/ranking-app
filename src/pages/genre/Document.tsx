@@ -54,14 +54,6 @@ const Document = () => {
         <MovieGenre
           title="ドキュメント"
           fetchUrl={requests.genre.fetchDocumentaryMovies}
-          filterAscUrl={
-            requests.genre.fetchDocumentaryMovies +
-            requests.filter.releaseDateDesc
-          }
-          filterDescUrl={
-            requests.genre.fetchDocumentaryMovies +
-            requests.filter.releaseDateDesc
-          }
         />
       </Grid>
     </Grid>
