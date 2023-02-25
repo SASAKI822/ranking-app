@@ -6,6 +6,7 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { ActorListItem } from "@/lib/atom";
 
 // Header で入力された俳優一覧
 type Props = {
