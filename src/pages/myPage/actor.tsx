@@ -1,4 +1,4 @@
-import { RegisterActorListState } from "@/lib/atom";
+import { RegisterActorListState, SidebarState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
@@ -33,6 +33,7 @@ const ActorList = () => {
   const [registerActorList, setRegisterActorList] = useRecoilState(
     RegisterActorListState
   );
+  const [isOpened, setIsOpened] = useRecoilState(SidebarState);
 
   // 登録actor を表示
   useEffect(() => {
@@ -89,7 +90,14 @@ const ActorList = () => {
   };
   return (
     <>
-      <Grid container direction="row" sx={{ width: "100%" }}>
+      <Grid
+        container
+        direction="row"
+        sx={{ width: "100%" }}
+        onClick={(e) => {
+          isOpened ? setIsOpened(false) : isOpened;
+        }}
+      >
         <Grid
           item
           sx={{
@@ -102,10 +110,28 @@ const ActorList = () => {
         >
           <Header />
         </Grid>
-        <Grid item sx={{ width: "100%" }} md={2}>
+        <Grid
+          item
+          sx={{
+            width: "100%",
+          }}
+          xs={0}
+          sm={0}
+          md={2.2}
+          lg={1.8}
+          xl={1.3}
+        >
           <SidebarNav />
         </Grid>
-        <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
+        <Grid
+          item
+          sx={{ width: "100%", marginTop: "70px" }}
+          xs={12}
+          sm={12}
+          md={9.5}
+          lg={10}
+          xl={10.5}
+        >
           <div style={{ marginTop: "20px", padding: "10px" }}>
             <h2>登録俳優</h2>
           </div>

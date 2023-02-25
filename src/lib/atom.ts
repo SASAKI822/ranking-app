@@ -136,3 +136,8 @@ export const usersState = atom({
     id: "",
   },
 });
+
+export const loginState = atom({
+  key: "loginState",
+  default: false,
+});

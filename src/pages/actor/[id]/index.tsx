@@ -5,6 +5,8 @@ import SidebarNav from "@/components/layouts/Sidebar";
 
 import { styled } from "@mui/material/styles";
 import { Grid } from "@mui/material";
+import { SidebarState } from "@/lib/atom";
+import { useRecoilState } from "recoil";
 
 // actor/[id] 俳優出演映画表示
 export const DrawerHeader = styled("div")(({ theme }) => ({
@@ -18,9 +20,17 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
 
 // actor/[id] 映画詳細表示
 const Actor = () => {
+  const [isOpened, setIsOpened] = useRecoilState(SidebarState);
   return (
     <>
-      <Grid container direction="row" sx={{ width: "100%" }}>
+      <Grid
+        container
+        direction="row"
+        sx={{ width: "100%" }}
+        onClick={(e) => {
+          isOpened ? setIsOpened(false) : isOpened;
+        }}
+      >
         <Grid
           item
           sx={{
@@ -33,10 +43,28 @@ const Actor = () => {
         >
           <Header />
         </Grid>
-        <Grid item sx={{ width: "100%" }} md={2}>
+        <Grid
+          item
+          sx={{
+            width: "100%",
+          }}
+          xs={0}
+          sm={0}
+          md={2.2}
+          lg={1.8}
+          xl={1.3}
+        >
           <SidebarNav />
         </Grid>
-        <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
+        <Grid
+          item
+          sx={{ width: "100%", marginTop: "70px" }}
+          xs={12}
+          sm={12}
+          md={9.5}
+          lg={10}
+          xl={10.5}
+        >
           <ActorDetail />
         </Grid>
       </Grid>

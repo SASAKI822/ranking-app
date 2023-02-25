@@ -1,4 +1,3 @@
-import { MovieInfoState, RegisterActorListState } from "@/lib/atom";
 import { API_KEY, requests } from "@/lib/MovieApi";
 import axios from "axios";
 import Link from "next/link";
@@ -46,8 +45,8 @@ const MovieDetail = () => {
 
       const fetchData = async () => {
         if (!ignore) {
-          const movieUrl: string = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/videos?api_key=${API_KEY}`;
-          const CastUrl: string = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/credits?api_key=${API_KEY}`;
+          const movieUrl: string = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/videos?api_key=${API_KEY}&language=ja`;
+          const CastUrl: string = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/credits?api_key=${API_KEY}&language=ja`;
 
           const request = await axios
             .get(movieUrl)
@@ -83,8 +82,8 @@ const MovieDetail = () => {
       let ignoreTv: boolean = false;
       const fetchData = async () => {
         if (!ignoreTv) {
-          const tvUrl: string = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/videos?api_key=${API_KEY}`;
-          const CastUrl: string = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/aggregate_credits?api_key=${API_KEY}`;
+          const tvUrl: string = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/videos?api_key=${API_KEY}&language=ja`;
+          const CastUrl: string = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/aggregate_credits?api_key=${API_KEY}&language=ja`;
 
           const request = await axios
             .get(tvUrl)
@@ -230,7 +229,10 @@ const MovieDetail = () => {
           movieCast.map((cast: any) => (
             <>
               {cast.profile_path && (
-                <ImageListItem key={cast.img}>
+                <ImageListItem
+                  key={cast.img}
+                  sx={{ maxWidth: "185px", placeSelf: "center" }}
+                >
                   <Link
                     style={{ textAlign: "center" }}
                     key={cast.id}
@@ -249,6 +251,18 @@ const MovieDetail = () => {
                       alt="actor image"
                     />
                     <ImageListItemBar
+                      sx={{
+                        letterSpacing: "1px",
+                        background: "rgba(0, 0, 0, 0.7);",
+                        fontFamily: "Raleway",
+                        "&.MuiImageListItemBar-titleWrap ": {
+                          padding: "15px 16px",
+                        },
+
+                        "&.MuiImageListItemBar-subtitle": {
+                          letterSpacing: "1px",
+                        },
+                      }}
                       title={cast.name}
                       subtitle={cast.character}
                       actionIcon={

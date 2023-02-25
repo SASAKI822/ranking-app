@@ -3,7 +3,11 @@ import React from "react";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
 import Header from "@/components/layouts/Header";
-import { searchActorKey, searchActorResultState } from "@/lib/atom";
+import {
+  searchActorKey,
+  searchActorResultState,
+  SidebarState,
+} from "@/lib/atom";
 import { useRecoilState } from "recoil";
 import { styled } from "@mui/material/styles";
 
@@ -21,9 +25,17 @@ const Actor = () => {
     searchActorResultState
   );
   const [actorKeyword, setActorKeyword] = useRecoilState(searchActorKey);
+  const [isOpened, setIsOpened] = useRecoilState(SidebarState);
   return (
     <>
-      <Grid container direction="row" sx={{ width: "100%" }}>
+      <Grid
+        container
+        direction="row"
+        sx={{ width: "100%" }}
+        onClick={(e) => {
+          isOpened ? setIsOpened(false) : isOpened;
+        }}
+      >
         <Grid
           item
           sx={{
@@ -36,10 +48,28 @@ const Actor = () => {
         >
           <Header />
         </Grid>
-        <Grid item sx={{ width: "100%" }} md={2}>
+        <Grid
+          item
+          sx={{
+            width: "100%",
+          }}
+          xs={0}
+          sm={0}
+          md={2.2}
+          lg={1.8}
+          xl={1.3}
+        >
           <SidebarNav />
         </Grid>
-        <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
+        <Grid
+          item
+          sx={{ width: "100%", marginTop: "70px" }}
+          xs={12}
+          sm={12}
+          md={9.5}
+          lg={10}
+          xl={10.5}
+        >
           <div style={{ marginTop: "20px", padding: "10px" }}>
             <h2>検索結果:{actorKeyword}</h2>
           </div>

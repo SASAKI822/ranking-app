@@ -28,8 +28,8 @@ const ActorDetail = () => {
 
   const [actorMovies, setActorMovies] = useRecoilState(MovieInfoState);
 
-  const actorInfoUrl: string = `https://api.themoviedb.org/3/person/${personId}?api_key=${API_KEY}`;
-  const actorMovieUrl: string = `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${API_KEY}`;
+  const actorInfoUrl: string = `https://api.themoviedb.org/3/person/${personId}?api_key=${API_KEY}&language=ja`;
+  const actorMovieUrl: string = `https://api.themoviedb.org/3/person/${personId}/combined_credits?api_key=${API_KEY}&language=ja`;
 
   //俳優出演映画をactorMovie に格納
   useEffect(() => {

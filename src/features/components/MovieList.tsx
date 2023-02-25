@@ -87,6 +87,7 @@ const MovieList = ({ movies }: MoviesProps) => {
                   />
                   <ImageListItemBar
                     sx={{
+                      background: "rgba(0, 0, 0, 0.7);",
                       "& .MuiImageListItemBar-title": {
                         textAlign: "start",
                         overflow: "auto",
@@ -100,7 +101,10 @@ const MovieList = ({ movies }: MoviesProps) => {
                     // subtitle={movie.name}
                     actionIcon={
                       <IconButton
-                        sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                        sx={{
+                          color: "rgba(255, 255, 255, 0.54)",
+                          height: "30px",
+                        }}
                         aria-label={`info about ${movie.title}`}
                         // 見た映画登録ボタン
                         onClick={(e: any) => {

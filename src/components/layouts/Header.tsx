@@ -3,6 +3,7 @@ import { NextRouter, useRouter } from "next/router";
 import axios, { AxiosResponse } from "axios";
 import { useRecoilState } from "recoil";
 import {
+  loginState,
   searchActorKey,
   searchActorResultState,
   searchMovieKey,
@@ -26,6 +27,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Link from "next/link";
+import { auth } from "@/lib/firebase";
 
 // Header Css 記述
 const Search = styled("div")(({ theme }) => ({
@@ -95,7 +97,7 @@ const Header = () => {
   const onSearchMovie = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // nullの場合は処理を終了
-    if (!inputMovieElement.current) return
+    if (!inputMovieElement.current) return;
     setMovieKeyword(inputMovieElement.current.value);
     router.push("/movie");
   };
@@ -163,16 +165,29 @@ const Header = () => {
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null,
+    newAlignment: string | null
   ) => {
-    if (!newAlignment) return
-    setAlignment(newAlignment);
+    if (newAlignment !== null) {
+      setAlignment(newAlignment);
+    }
   };
 
+  // サインイン、サインアウト
+  const [signInCheck, setSignInCheck] = useRecoilState(loginState);
+  const handleLogout = () => {
+    auth.signOut();
+  };
+
+  const handleLogoIn = () => {
+    router.push("signin");
+  };
 
   return (
     <>
       <Box
+        onClick={(e) => {
+          isOpened ? setIsOpened(false) : isOpened;
+        }}
         sx={{
           flexGrow: 1,
           background: "#0f0f0f",
@@ -195,14 +210,16 @@ const Header = () => {
               }}
               onClick={() => setIsOpened(!isOpened)}
             />
+
             <Typography
               variant="h6"
               noWrap
               component="div"
               sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
             >
-              Ranking
+              <Link href={{ pathname: "/movie" }}>Ranking</Link>
             </Typography>
+
             <ToggleButtonGroup
               color="info"
               value={alignment}
@@ -265,7 +282,19 @@ const Header = () => {
               })()}
             </Search>
             <Link href={{ pathname: "/signin" }}>
-              <Button color="inherit">Login</Button>
+              {signInCheck ? (
+                <Button color="inherit" onClick={handleLogout}>
+                  <div style={{ lineHeight: 1.1 }}>
+                    <h3>
+                      Log<span style={{ display: "block" }}>out</span>
+                    </h3>
+                  </div>
+                </Button>
+              ) : (
+                <Button color="inherit" onClick={handleLogoIn}>
+                  <h3>Login</h3>
+                </Button>
+              )}
             </Link>
           </Toolbar>
         </AppBar>

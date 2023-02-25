@@ -51,7 +51,7 @@ export default function SidebarNav() {
             <MenuItem
               component={<Link href={{ pathname: "/movie" }}></Link>}
               icon={<HomeOutlinedIcon />}
-              style={{ color: "white" }}
+              style={{ color: "white", "&	.Mui-focusVisible": {} }}
             >
               Home
             </MenuItem>
@@ -200,7 +200,7 @@ export default function SidebarNav() {
             style={{
               color: "white",
               backgroundColor: "#0f0f0f",
-              height: "100%",
+              height: "auto",
             }}
           >
             <MenuItem
