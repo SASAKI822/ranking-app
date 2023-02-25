@@ -28,12 +28,13 @@ const TopRated = () => {
         <MovieGenre
           title="トップ"
           fetchUrl={requests.genre.fetchTopRated}
-          filterAscUrl={
-            requests.genre.fetchTopRated + requests.filter.releaseDateDesc
-          }
-          filterDescUrl={
-            requests.genre.fetchTopRated + requests.filter.releaseDateDesc
-          }
+          // MovieGenreコンポーネントのfilterAscUrlとfilterDescUrlをコメントアウト
+          // filterAscUrl={
+          //   requests.genre.fetchTopRated + requests.filter.releaseDateDesc
+          // }
+          // filterDescUrl={
+          //   requests.genre.fetchTopRated + requests.filter.releaseDateDesc
+          // }
         />
       </Grid>
     </Grid>

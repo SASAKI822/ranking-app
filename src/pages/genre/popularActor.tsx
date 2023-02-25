@@ -19,11 +19,14 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-const popularActor = () => {
+// JSXの書かれたコンポーネントは大文字で始める
+const PopularActor = () => {
   const [popularActor, setPopularActor] = useState([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const handleChange = (e: React.ChangeEvent<HTMLElement>, value: number) => {
+  // 以下ドキュメントに従って修正
+  // https://mui.com/material-ui/react-pagination/#controlled-pagination
+  const handleChange = (e: React.ChangeEvent<unknown>, value: number) => {
     e.preventDefault();
     setCurrentPage(value);
   };
@@ -58,7 +61,8 @@ const popularActor = () => {
           <SidebarNav />
         </Grid>
         <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
-          <ActorList Actors={popularActor} title="人気俳優" />
+          {/* 小文字に変換されたことに合わせて修正 */}
+          <ActorList actors={popularActor} title="人気俳優" />
           <Stack spacing={2} sx={{ color: "white", margin: "40px 0" }}>
             <Pagination
               count={60}
@@ -85,4 +89,4 @@ const popularActor = () => {
   );
 };
 
-export default popularActor;
+export default PopularActor;

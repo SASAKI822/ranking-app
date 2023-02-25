@@ -4,8 +4,10 @@ import WatchList from "@/features/components/WatchList";
 import { Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 
+// JSXの書かれたコンポーネントは大文字始まり
+// 名前が被っていたため修正
 // 見たことある映画リスト
-const watchedList = () => {
+const WatchMovieList = () => {
   return (
     <>
       <Grid container direction="row" sx={{ width: "100%" }}>
@@ -32,4 +34,4 @@ const watchedList = () => {
   );
 };
 
-export default watchedList;
+export default WatchMovieList;

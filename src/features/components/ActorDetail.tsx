@@ -74,7 +74,8 @@ const ActorDetail = () => {
         </div>
         <p>{actorCareer.biography}</p>
       </div>
-      <MovieList Movies={actorMovies} />
+      {/* 大文字始まりを小文字に変更 */}
+      <MovieList movies={actorMovies} />
     </>
   );
 };

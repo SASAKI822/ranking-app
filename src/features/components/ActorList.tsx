@@ -1,4 +1,4 @@
-import { RegisterActorListState } from "@/lib/atom";
+import { ActorListItem, RegisterActorListState } from "@/lib/atom";
 import { requests } from "@/lib/MovieApi";
 import { ImageList, ImageListItem } from "@mui/material";
 
@@ -13,8 +13,11 @@ import { db } from "@/lib/firebase";
 
 // Header で入力された俳優一覧
 type Props = {
-  Actors: [];
-  title: string;
+  // 大文字始まりを小文字に変更
+  // APIのレスポンスを元に肩を定義
+  actors: ActorListItem[];
+  // titleはPropsとして利用しないのでオプショナルにする
+  title?: string;
 };
 
 export type Actor = {
@@ -23,7 +26,9 @@ export type Actor = {
   image: string;
   profile_path: string;
 };
-const ActorList = ({ Actors, title }: Props) => {
+
+// JSXを用いるコンポーネントの場合は大文字で始める
+const ActorList = ({ actors, title }: Props) => {
   // 俳優を登録
   const handleAddActor = async (
     e: React.MouseEvent<HTMLInputElement>,
@@ -59,9 +64,9 @@ const ActorList = ({ Actors, title }: Props) => {
         }}
         cols={4}
       >
-        {Actors &&
-          Actors.length > 0 &&
-          Actors.map((actor: any) => (
+        {actors &&
+          actors.length > 0 &&
+          actors.map((actor: any) => (
             <>
               {actor.profile_path && (
                 <ImageListItem

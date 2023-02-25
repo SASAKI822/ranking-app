@@ -18,7 +18,8 @@ import { auth } from "../lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Router, { useRouter } from "next/router";
 
-const Signup = () => {
+// 英語のスペルミスを防ぐために、コンポーネント名はキャメルケースで書く
+const SignUp = () => {
   const router = useRouter();
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -98,4 +99,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignUp;

@@ -27,7 +27,9 @@ type Actor = {
   img: string;
   profilePath: string;
 };
-const actorList = () => {
+
+// JSXを用いるコンポーネントの場合は大文字で始める
+const ActorList = () => {
   const [registerActorList, setRegisterActorList] = useRecoilState(
     RegisterActorListState
   );
@@ -158,8 +160,9 @@ const actorList = () => {
                                 height: "30px",
                               }}
                               aria-label={`info about ${actor.name}`}
+                              // 適した型に修正
                               // 俳優登録ボタン
-                              onClick={(e: any) => {
+                              onClick={(e: React.MouseEvent<HTMLElement>) => {
                                 submit(actor);
                                 e.preventDefault();
                               }}
@@ -180,4 +183,4 @@ const actorList = () => {
   );
 };
 
-export default actorList;
+export default ActorList;

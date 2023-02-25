@@ -94,6 +94,8 @@ const Header = () => {
   // Enterキーを押すと起動されMovie入力値をmovieKeywordに入れる
   const onSearchMovie = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // nullの場合は処理を終了
+    if (!inputMovieElement.current) return
     setMovieKeyword(inputMovieElement.current.value);
     router.push("/movie");
   };
@@ -139,6 +141,7 @@ const Header = () => {
         .get(ActorUrl)
         .then((response) => {
           const data = response.data.results;
+          console.log(data)
           setSearchActorResult(data);
         })
         .catch((error) => {
@@ -158,11 +161,14 @@ const Header = () => {
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
   const [alignment, setAlignment] = useState("Movie");
 
-  const handleChange = (newAlignment: string | null) => {
-    if (newAlignment !== null) {
-      setAlignment(newAlignment);
-    }
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string | null,
+  ) => {
+    if (!newAlignment) return
+    setAlignment(newAlignment);
   };
+
 
   return (
     <>

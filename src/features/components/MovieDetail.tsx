@@ -27,8 +27,9 @@ const MovieDetail = () => {
   const posterPath: string | string[] | undefined = router.query.posterPath;
   const overview: string | string[] | undefined = router.query.overview;
   const releaseDate: string | string[] | undefined = router.query.releaseDate;
-  const movieOrTvDetailIdString: any = router.query.id;
-  const movieOrTvDetailId: any = parseInt(movieOrTvDetailIdString);
+  // asを使用することで型を変換することができる
+  const movieOrTvDetailIdString = router.query.id as string
+  const movieOrTvDetailId = parseInt(movieOrTvDetailIdString)
   const movieDetailMediaType: string | string[] | undefined =
     router.query.mediaType;
 

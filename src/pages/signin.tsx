@@ -16,7 +16,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-const signin: React.FC = () => {
+// JSXの書かれたコンポーネントは大文字で始める
+// 英語のスペルミスを防ぐために、コンポーネント名はキャメルケースで書く
+const SignIn: React.FC = () => {
   const router = useRouter();
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -123,4 +125,4 @@ const signin: React.FC = () => {
   );
 };
 
-export default signin;
+export default SignIn;

@@ -8,9 +8,12 @@ import { requests } from "@/lib/MovieApi";
 import { db } from "@/lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { Movie } from "./MovieGenre";
+import { InfoType } from "@/lib/atom";
 
 type MoviesProps = {
-  Movies: string[];
+  // 小文字始まりに変更
+  // 使用する型に合わせて変更
+  movies: InfoType[];
 };
 
 type typeMovies = {
@@ -18,9 +21,9 @@ type typeMovies = {
   title: string;
 };
 
+// JSXを用いるコンポーネントの場合は大文字で始める
 // Header コンポーネント
-
-const MovieList = ({ Movies }: MoviesProps) => {
+const MovieList = ({ movies }: MoviesProps) => {
   // Input入力値をKeyword に入れる
 
   const handleAddWatch = async (
@@ -54,9 +57,9 @@ const MovieList = ({ Movies }: MoviesProps) => {
             "repeat(auto-fill, minmax(180px, 1fr))!important",
         }}
       >
-        {Movies &&
-          Movies.length > 0 &&
-          Movies.map((movie: any) => {
+        {movies &&
+          movies.length > 0 &&
+          movies.map((movie: any) => {
             return (
               <ImageListItem
                 key={movie.img}
