@@ -6,8 +6,10 @@ import { Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 
+// JSXの書かれたコンポーネントは大文字始まり
+// 名前が被っていたため修正
 // 見たことある映画リスト
-const watchedList = () => {
+const WatchMovieList = () => {
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
   return (
     <>
@@ -60,4 +62,4 @@ const watchedList = () => {
   );
 };
 
-export default watchedList;
+export default WatchMovieList;

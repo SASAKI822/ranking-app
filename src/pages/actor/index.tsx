@@ -73,8 +73,8 @@ const Actor = () => {
           <div style={{ marginTop: "20px", padding: "10px" }}>
             <h2>検索結果:{actorKeyword}</h2>
           </div>
-
-          <ActorList Actors={searchActorResult} />
+          {/* 小文字始まりに変更したため修正 */}
+          <ActorList actors={searchActorResult} />
         </Grid>
       </Grid>
     </>

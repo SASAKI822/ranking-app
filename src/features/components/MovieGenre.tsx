@@ -31,7 +31,8 @@ export type Movie = {
   backdrop_path: string;
 };
 
-const MovieGenre: any = ({ title, fetchUrl }: Props) => {
+// JSXを用いるコンポーネントの場合は大文字で始める
+const MovieGenre = ({ title, fetchUrl }: Props) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   // フィルター　年
@@ -74,7 +75,8 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   // 人気順
   useEffect(() => {
     if (popular) {
-      async function fetchData() {
+      // JavaScriptの仕様によるエラーの回避
+      const fetchData = async () => {
         const request = await axios.get(
           fetchUrl + `&page=${currentPage}` + `&year=${year}`
         );
@@ -88,7 +90,8 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   // 最近の映画
   useEffect(() => {
     if (release) {
-      async function fetchData() {
+      // JavaScriptの仕様によるエラーの回避
+      const fetchData = async () => {
         const request = await axios.get(
           fetchUrl +
             `&page=${currentPage}` +
@@ -105,7 +108,8 @@ const MovieGenre: any = ({ title, fetchUrl }: Props) => {
   //評価が高い順
   useEffect(() => {
     if (average) {
-      async function fetchData() {
+      // JavaScriptの仕様によるエラーの回避
+      const fetchData = async () => {
         const request = await axios.get(
           fetchUrl +
             `&page=${currentPage}` +

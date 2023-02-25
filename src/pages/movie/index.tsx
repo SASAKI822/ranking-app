@@ -61,7 +61,8 @@ const Movie = () => {
           <Grid sx={{ marginTop: "30px", marginBottom: "90px" }}>
             <h2 style={{ padding: "10px" }}>検索結果:{movieKeyword}</h2>
           </Grid>
-          <MovieList Movies={SearchMovieResult} />
+          {/* 小文字に変更されたことによる修正 */}
+          <MovieList movies={SearchMovieResult} />
         </Grid>
       </Grid>
     </>
