@@ -1,12 +1,8 @@
-import { RegisterActorListState } from "@/lib/atom";
 import { requests } from "@/lib/MovieApi";
 import { ImageList, ImageListItem } from "@mui/material";
-
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
-
 import IconButton from "@mui/material/IconButton";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -20,7 +16,7 @@ type Props = {
 export type Actor = {
   id: string;
   name: string;
-  image: string;
+  img: string;
   profile_path: string;
 };
 const ActorList = ({ Actors, title }: Props) => {
@@ -61,7 +57,7 @@ const ActorList = ({ Actors, title }: Props) => {
       >
         {Actors &&
           Actors.length > 0 &&
-          Actors.map((actor: any) => (
+          Actors.map((actor: Actor) => (
             <>
               {actor.profile_path && (
                 <ImageListItem
@@ -82,6 +78,7 @@ const ActorList = ({ Actors, title }: Props) => {
                     <img src={`${requests.image}${actor.profile_path}`} />
                     <ImageListItemBar
                       sx={{
+                        background: "rgba(0, 0, 0, 0.7);",
                         "& .MuiImageListItemBar-title": {
                           textAlign: "start",
                           overflow: "auto",
@@ -99,7 +96,7 @@ const ActorList = ({ Actors, title }: Props) => {
                             color: "rgba(255, 255, 255, 0.6)",
                             height: "30px",
                           }}
-                          aria-label={`info about ${actor.title}`}
+                          aria-label={`info about ${actor.name}`}
                           // 俳優登録ボタン
                           onClick={(e: any) => {
                             handleAddActor(e, actor);

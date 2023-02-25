@@ -9,6 +9,8 @@ import axios from "axios";
 import { requests } from "@/lib/MovieApi";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { SidebarState } from "@/lib/atom";
+import { useRecoilState } from "recoil";
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -22,6 +24,7 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
 const popularActor = () => {
   const [popularActor, setPopularActor] = useState([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isOpened, setIsOpened] = useRecoilState(SidebarState);
 
   const handleChange = (e: React.ChangeEvent<HTMLElement>, value: number) => {
     e.preventDefault();
@@ -41,7 +44,14 @@ const popularActor = () => {
 
   return (
     <>
-      <Grid container direction="row" sx={{ width: "100%" }}>
+      <Grid
+        container
+        direction="row"
+        sx={{ width: "100%" }}
+        onClick={(e) => {
+          isOpened ? setIsOpened(false) : isOpened;
+        }}
+      >
         <Grid
           item
           sx={{
@@ -54,10 +64,28 @@ const popularActor = () => {
         >
           <Header />
         </Grid>
-        <Grid item sx={{ width: "100%" }} md={2}>
+        <Grid
+          item
+          sx={{
+            width: "100%",
+          }}
+          xs={0}
+          sm={0}
+          md={2.2}
+          lg={1.8}
+          xl={1.3}
+        >
           <SidebarNav />
         </Grid>
-        <Grid item sx={{ width: "100%", marginTop: "70px" }} md={10}>
+        <Grid
+          item
+          sx={{ width: "100%", marginTop: "70px" }}
+          xs={12}
+          sm={12}
+          md={9.5}
+          lg={10}
+          xl={10.5}
+        >
           <ActorList Actors={popularActor} title="人気俳優" />
           <Stack spacing={2} sx={{ color: "white", margin: "40px 0" }}>
             <Pagination
