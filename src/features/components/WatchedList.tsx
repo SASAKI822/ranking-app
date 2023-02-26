@@ -33,7 +33,7 @@ const WatchedList = () => {
         collection(db, "users", userId, "watchedMovie")
       );
 
-      getDocs(watchedMovieRef).then((querySnapshot) => {
+      await getDocs(watchedMovieRef).then((querySnapshot) => {
         setWatchedList(querySnapshot.docs.map((doc) => ({ ...doc.data() })));
       });
     }

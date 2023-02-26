@@ -1,11 +1,22 @@
+import { loginState, uIdState } from "@/lib/atom";
 import { Inter } from "@next/font/google";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
-  return (
-    <>
-      <h1>Home</h1>
-    </>
-  );
-}
+const Home = () => {
+  const [signInCheck, setSignInCheck] = useRecoilState(loginState);
+  const router = useRouter();
+  useEffect(() => {
+    if (signInCheck === true) {
+      router.replace("movie");
+    } else {
+      router.replace("signin");
+    }
+  }, [signInCheck]);
+  return <></>;
+};
+
+export default Home;

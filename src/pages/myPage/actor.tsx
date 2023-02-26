@@ -1,4 +1,9 @@
-import { RegisterActorListState, SidebarState, uIdState } from "@/lib/atom";
+import {
+  loginState,
+  RegisterActorListState,
+  SidebarState,
+  uIdState,
+} from "@/lib/atom";
 import { useRecoilState } from "recoil";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
@@ -19,7 +24,7 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 
 type Actor = {
   id: string;
@@ -28,11 +33,28 @@ type Actor = {
   profilePath: string;
 };
 const ActorList = () => {
+  const [userId, setUserId] = useRecoilState(uIdState);
+  const [signInCheck, setSignInCheck] = useRecoilState(loginState);
+
+  // useEffect(() => {
+  //   const unsubscribed = auth.onAuthStateChanged((user: any) => {
+  //     if (user) {
+  //       setSignInCheck(true);
+  //       setUserId(user.uid);
+  //     } else {
+  //       setSignInCheck(false);
+  //     }
+  //   });
+
+  //   return () => {
+  //     unsubscribed();
+  //   };
+  // }, [setUserId, setSignInCheck]);
+
   const [registerActorList, setRegisterActorList] = useRecoilState(
     RegisterActorListState
   );
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
-  const [userId, setUserId] = useRecoilState(uIdState); // 登録actor を削除
 
   const handleDelete = async (
     e: React.MouseEvent<HTMLElement>,
@@ -40,7 +62,7 @@ const ActorList = () => {
   ) => {
     const actorsRef = collection(db, "users", userId, "actors");
     const q = query(actorsRef, where("id", "==", targetActor.id));
-    getDocs(q).then((querySnapshot) => {
+    await getDocs(q).then((querySnapshot) => {
       querySnapshot.docs.map((document) => {
         const actorDocument = doc(db, "users", userId, "actors", document.id);
         deleteDoc(actorDocument);
@@ -53,7 +75,7 @@ const ActorList = () => {
     async function fetchData() {
       const actorsRef = query(collection(db, "users", userId, "actors"));
 
-      getDocs(actorsRef).then((querySnapshot) => {
+      await getDocs(actorsRef).then((querySnapshot) => {
         setRegisterActorList(
           querySnapshot.docs.map((doc) => ({ ...doc.data() }))
         );

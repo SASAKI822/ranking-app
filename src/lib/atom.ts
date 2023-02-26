@@ -139,4 +139,5 @@ export const loginState = atom({
 export const uIdState = atom({
   key: "uIdState",
   default: "",
+  // effects_UNSTABLE: [persistAtom],
 });

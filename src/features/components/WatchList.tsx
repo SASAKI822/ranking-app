@@ -38,7 +38,7 @@ const WatchList = () => {
     async function fetchData() {
       const moviesRef = query(collection(db, "users", userId, "movies"));
 
-      getDocs(moviesRef).then((querySnapshot) => {
+      await getDocs(moviesRef).then((querySnapshot) => {
         setWatchList(querySnapshot.docs.map((doc) => ({ ...doc.data() })));
       });
     }
