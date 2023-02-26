@@ -5,8 +5,16 @@ import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import { requests } from "@/lib/MovieApi";
-import { auth, db } from "@/lib/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import {
+  addDoc,
+  deleteDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { Movie } from "./MovieGenre";
 import { InfoType, uIdState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
@@ -34,14 +42,24 @@ const MovieList = ({ movies }: MoviesProps) => {
     const collectionPath = collection(db, "users", userId, "movies");
     const moviesDocumentRef = await addDoc(collectionPath, {
       id: movie.id,
-      title: movie.title,
+      title: movie.title ? movie.title : "",
       mediaType: movie.media_type ? movie.media_type : "",
       releaseDate: movie.release_date ? movie.release_date : "",
-      video: movie.video,
-      overview: movie.overview,
-      posterPath: movie.poster_path,
+      video: movie.video ? movie.video : "",
+      overview: movie.overview ? movie.overview : "",
+      posterPath: movie.poster_path ? movie.poster_path : "",
+    });
+    // 削除機能
+    const q = query(collectionPath, where("id", "==", movie.id));
+    getDocs(q).then((querySnapshot) => {
+      querySnapshot.docs.map((document) => {
+        const movieDocument = doc(db, "users", userId, "movies", document.id);
+        console.log(movieDocument);
+        deleteDoc(movieDocument);
+      });
     });
   };
+
   return (
     <>
       <ImageList

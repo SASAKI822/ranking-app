@@ -1,4 +1,5 @@
 import { atom, RecoilState } from "recoil";
+import { recoilPersist } from "recoil-persist";
 
 export type InfoType = {
   id: string;
@@ -136,8 +137,14 @@ export const loginState = atom({
   default: false,
 });
 
+const { persistAtom } = recoilPersist({
+  //追加
+  key: "recoil-persist",
+  storage: typeof window === "undefined" ? undefined : sessionStorage,
+});
+
 export const uIdState = atom({
   key: "uIdState",
   default: "",
-  // effects_UNSTABLE: [persistAtom],
+  effects_UNSTABLE: [persistAtom],
 });

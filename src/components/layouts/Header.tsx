@@ -77,7 +77,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Header = () => {
   // Input入力値をmovieKeywordに入れる
   const [movieKeyword, setMovieKeyword] = useRecoilState(searchMovieKey);
-  const inputMovieElement = useRef<HTMLInputElement | null>(null);
+  const inputMovieElement: any = useRef<string | null>(null);
 
   // Input入力値をactorKeywordに入れる
   const [actorKeyword, setActorKeyword] = useRecoilState(searchActorKey);

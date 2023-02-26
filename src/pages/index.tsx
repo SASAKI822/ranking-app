@@ -16,7 +16,6 @@ const Home = () => {
       router.replace("signin");
     }
   }, [signInCheck]);
-  return <></>;
 };
 
 export default Home;
