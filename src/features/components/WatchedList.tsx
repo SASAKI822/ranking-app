@@ -26,6 +26,7 @@ import { WatchList } from "./WatchList";
 const WatchedList = () => {
   const [watchedList, setWatchedList] = useRecoilState(WatchedListState);
   const [userId, setUserId] = useRecoilState(uIdState);
+
   // watchedList表示
   useEffect(() => {
     async function fetchData() {
@@ -48,6 +49,8 @@ const WatchedList = () => {
   ) => {
     const moviesRef = collection(db, "users", userId, "watchedMovie");
     const q = query(moviesRef, where("id", "==", targetMovie.id));
+
+    // 映画削除
     getDocs(q).then((querySnapshot) => {
       querySnapshot.docs.map((document) => {
         const movieDocument = doc(
@@ -62,6 +65,7 @@ const WatchedList = () => {
     });
   };
 
+  // 俳優消すときalert
   const submit = (movie: WatchList) => {
     confirmAlert({
       title: "本当に消しますか？",

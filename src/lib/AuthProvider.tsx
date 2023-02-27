@@ -1,9 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, createContext, useContext } from "react";
 import { useRecoilState } from "recoil";
 import { loginState, uIdState } from "./atom";
 import { auth } from "./firebase";
 
-const AuthProvider = () => {
+const AuthContext = createContext();
+
+export function useAuthContext() {
+  return useContext(AuthContext);
+}
+const AuthProvider = ({ children }: any) => {
   const [userId, setUserId] = useRecoilState(uIdState);
   const [signInCheck, setSignInCheck] = useRecoilState(loginState);
 
@@ -21,6 +26,11 @@ const AuthProvider = () => {
       unsubscribed();
     };
   }, [setUserId, setSignInCheck]);
+  return (
+    <AuthContext.Provider value={{ userId, signInCheck }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

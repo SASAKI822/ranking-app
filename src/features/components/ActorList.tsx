@@ -1,15 +1,16 @@
 import { requests } from "@/lib/MovieApi";
 import { ImageList, ImageListItem } from "@mui/material";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
-import { addDoc, collection } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase";
-import { ActorListItem, uIdState } from "@/lib/atom";
+import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { ActorListItem, RegisterActorListState, uIdState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
 
 // Header で入力された俳優一覧
+
 type Props = {
   title: string;
   actors: ActorListItem[];
@@ -22,8 +23,12 @@ export type Actor = {
   img: string;
   profile_path: string;
 };
+
 const ActorList = ({ actors, title }: Props) => {
   const [userId, setUserId] = useRecoilState(uIdState);
+  const [registerActorList, setRegisterActorList] = useRecoilState(
+    RegisterActorListState
+  );
 
   // 俳優を登録
   const handleAddActor = async (
@@ -31,13 +36,25 @@ const ActorList = ({ actors, title }: Props) => {
     actor: Actor
   ) => {
     e.preventDefault();
-    const collectionPath = collection(db, "users", userId, "actors");
 
-    const actorsDocumentRef = await addDoc(collectionPath, {
-      id: actor.id,
-      name: actor.name,
-      profilePath: actor.profile_path,
+    // 俳優重複フィルター
+    const contain = registerActorList.filter((value: any) => {
+      return value.id === actor.id;
     });
+    if (contain.length === 0) {
+      const collectionPath = collection(db, "users", userId, "actors");
+      const q = query(collectionPath);
+      setRegisterActorList([actor]);
+      await getDocs(q).then((querySnapshot) => {
+        const actorsDocumentRef = addDoc(collectionPath, {
+          id: actor.id,
+          name: actor.name,
+          profilePath: actor.profile_path,
+        });
+      });
+    } else {
+      window.alert("すでに追加されています。");
+    }
   };
 
   return (

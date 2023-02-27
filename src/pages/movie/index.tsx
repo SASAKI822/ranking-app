@@ -14,6 +14,7 @@ const Movie = () => {
   const SearchMovieResult = useRecoilValue(searchMovieResultState);
   const [movieKeyword, setMovieKeyword] = useRecoilState(searchMovieKey);
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
+  console.log(SearchMovieResult);
   return (
     <>
       <Grid

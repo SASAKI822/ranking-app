@@ -6,58 +6,52 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import { requests } from "@/lib/MovieApi";
 import { db } from "@/lib/firebase";
-import {
-  addDoc,
-  deleteDoc,
-  collection,
-  doc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { addDoc, collection, getDocs, query } from "firebase/firestore";
 import { Movie } from "./MovieGenre";
-import { InfoType, uIdState } from "@/lib/atom";
+import { InfoType, uIdState, WatchListState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
 
 type MoviesProps = {
   movies: InfoType[];
 };
 
-type typeMovies = {
-  id: string;
-  title: string;
-};
-
 // Header コンポーネント
 
 const MovieList = ({ movies }: MoviesProps) => {
-  // Input入力値をKeyword に入れる
   const [userId, setUserId] = useRecoilState(uIdState);
+  const [watchList, setWatchList] = useRecoilState(WatchListState);
 
+  // 映画登録
   const handleAddWatch = async (
     e: React.MouseEvent<HTMLInputElement>,
     movie: Movie
   ) => {
     e.preventDefault();
-    const collectionPath = collection(db, "users", userId, "movies");
-    const moviesDocumentRef = await addDoc(collectionPath, {
-      id: movie.id,
-      title: movie.title ? movie.title : "",
-      mediaType: movie.media_type ? movie.media_type : "",
-      releaseDate: movie.release_date ? movie.release_date : "",
-      video: movie.video ? movie.video : "",
-      overview: movie.overview ? movie.overview : "",
-      posterPath: movie.poster_path ? movie.poster_path : "",
+
+    // 映画重複フィルター
+    const contain = watchList.filter((value: any) => {
+      return value.id === movie.id;
     });
-    // 削除機能
-    const q = query(collectionPath, where("id", "==", movie.id));
-    getDocs(q).then((querySnapshot) => {
-      querySnapshot.docs.map((document) => {
-        const movieDocument = doc(db, "users", userId, "movies", document.id);
-        console.log(movieDocument);
-        deleteDoc(movieDocument);
+
+    // 　映画追加
+    if (contain.length === 0) {
+      const collectionPath = collection(db, "users", userId, "movies");
+      const q = query(collectionPath);
+      setWatchList([movie]);
+      await getDocs(q).then((querySnapshot) => {
+        const moviesDocumentRef = addDoc(collectionPath, {
+          id: movie.id,
+          title: movie.title ? movie.title : "",
+          mediaType: movie.media_type ? movie.media_type : "",
+          releaseDate: movie.release_date ? movie.release_date : "",
+          video: movie.video ? movie.video : "",
+          overview: movie.overview ? movie.overview : "",
+          posterPath: movie.poster_path ? movie.poster_path : "",
+        });
       });
-    });
+    } else {
+      window.alert("すでに追加されています。");
+    }
   };
 
   return (

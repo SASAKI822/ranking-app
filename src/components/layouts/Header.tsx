@@ -1,6 +1,6 @@
-import * as React from "react";
+import { useRef, useEffect, useState } from "react";
 import { NextRouter, useRouter } from "next/router";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useRecoilState } from "recoil";
 import {
   loginState,
@@ -11,10 +11,9 @@ import {
   SidebarState,
 } from "@/lib/atom";
 import { API_KEY } from "@/lib/MovieApi";
-
-import { useRef, useEffect, useState } from "react";
+import Link from "next/link";
+import { auth } from "@/lib/firebase";
 import { styled, alpha } from "@mui/material/styles";
-
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -23,11 +22,8 @@ import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import Link from "next/link";
-import { auth } from "@/lib/firebase";
 
 // Header Css 記述
 const Search = styled("div")(({ theme }) => ({
@@ -93,6 +89,16 @@ const Header = () => {
     searchActorResultState
   );
 
+  // ハンバーガーメニュー開閉
+  const [isOpened, setIsOpened] = useRecoilState(SidebarState);
+
+  // 映画検索　俳優検索切り替え
+  const [alignment, setAlignment] = useState("Movie");
+
+  // サインインチェック
+  const [signInCheck, setSignInCheck] = useRecoilState(loginState);
+
+  const router: NextRouter = useRouter();
   // Enterキーを押すと起動されMovie入力値をmovieKeywordに入れる
   const onSearchMovie = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -136,6 +142,7 @@ const Header = () => {
     SearchData();
   }, [MovieUrl, movieKeyword, setSearchMovieResult]);
 
+  // actorKeywordを基にactorUrlからデータを所得しSearchActorResultに格納
   const ActorUrl: string = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}&page=1&page2`;
 
   useEffect(() => {
@@ -155,14 +162,7 @@ const Header = () => {
     SearchData();
   }, [ActorUrl, actorKeyword, setSearchActorResult]);
 
-  // keyword に応じたapiを取得し、searchMovieにdataを格納する。
-
-  const router: NextRouter = useRouter();
-
-  // ハンバーガーメニュー開閉
-  const [isOpened, setIsOpened] = useRecoilState(SidebarState);
-  const [alignment, setAlignment] = useState("Movie");
-
+  // 映画検索　俳優検索切り替え関数
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string | null
@@ -172,14 +172,13 @@ const Header = () => {
     }
   };
 
-  // サインイン、サインアウト
-  const [signInCheck, setSignInCheck] = useRecoilState(loginState);
-  const handleLogout = () => {
-    auth.signOut();
-  };
-
+  // サインイン関数
   const handleLogoIn = () => {
     router.push("signin");
+  };
+  //　サインアウト関数
+  const handleLogout = () => {
+    auth.signOut();
   };
 
   return (

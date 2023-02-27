@@ -3,7 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
@@ -12,15 +12,19 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { TabContext, TabList } from "@mui/lab";
 import TabPanel from "@mui/lab/TabPanel";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { uIdState } from "@/lib/atom";
+import { RegisterActorListState, uIdState } from "@/lib/atom";
 
 const MovieDetail = () => {
   const [movieCast, setMovieCast] = useState<any>([]);
   const [movieVideo, setMovieVideo] = useState<any>([]);
   const [trailerMovie, setTrailerMovie] = useState<any>([]);
   const [userId, setUserId] = useRecoilState(uIdState);
+  const [value, setValue] = useState<string>("0");
+  const [registerActorList, setRegisterActorList] = useRecoilState(
+    RegisterActorListState
+  );
   // ルーター string 型から number 型へ変換
   const router = useRouter();
   const title: string | string[] | undefined = router.query.title;
@@ -32,7 +36,7 @@ const MovieDetail = () => {
   const movieDetailMediaType: string | string[] | undefined =
     router.query.mediaType;
 
-  // メディアタイプによって格納先分ける
+  // メディアタイプによって格納先分ける　movie or tv
   useEffect(() => {
     // Tv 情報 cast 情報を格納
     if (
@@ -78,6 +82,7 @@ const MovieDetail = () => {
       return () => {
         ignore = true;
       };
+      // テレビ
     } else if (movieDetailMediaType === "tv") {
       let ignoreTv: boolean = false;
       const fetchData = async () => {
@@ -122,12 +127,11 @@ const MovieDetail = () => {
       const trailerMovies: string[] = movieVideo.filter((value: any) => {
         return value.type === "Trailer";
       });
-
       setTrailerMovie(trailerMovies);
     }
   }, [movieVideo]);
 
-  const [value, setValue] = useState<string>("0");
+  // ビデオタブ
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -138,13 +142,25 @@ const MovieDetail = () => {
     actor: any
   ) => {
     e.preventDefault();
-    const collectionPath = collection(db, "users", userId, "actors");
 
-    const actorsDocumentRef = await addDoc(collectionPath, {
-      id: actor.id,
-      name: actor.name,
-      profilePath: actor.profile_path,
+    // 俳優重複フィルター
+    const contain = registerActorList.filter((value: any) => {
+      return value.id === actor.id;
     });
+    if (contain.length === 0) {
+      const collectionPath = collection(db, "users", userId, "actors");
+      const q = query(collectionPath);
+      setRegisterActorList([actor]);
+      await getDocs(q).then((querySnapshot) => {
+        const actorsDocumentRef = addDoc(collectionPath, {
+          id: actor.id,
+          name: actor.name,
+          profilePath: actor.profile_path,
+        });
+      });
+    } else {
+      window.alert("すでに追加されています。");
+    }
   };
 
   return (
@@ -172,7 +188,7 @@ const MovieDetail = () => {
                   }}
                 >
                   <TabList onChange={handleChange} aria-label="tab of number">
-                    {trailerMovie.map((movie: any, index: any) => (
+                    {trailerMovie.map((movie: any, index: number) => (
                       <Tab
                         key={index}
                         label={`${index}`}
@@ -181,7 +197,7 @@ const MovieDetail = () => {
                       />
                     ))}
                   </TabList>
-                  {trailerMovie.map((movie: any, index: any) => (
+                  {trailerMovie.map((movie: any, index: number) => (
                     <TabPanel
                       key={movie.key}
                       value={index.toString()}

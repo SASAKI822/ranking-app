@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { uIdState, WatchedListState } from "@/lib/atom";
+import { uIdState, WatchedListState, WatchListState } from "@/lib/atom";
 import { requests } from "@/lib/MovieApi";
 import IconButton from "@mui/material/IconButton";
 import ImageList from "@mui/material/ImageList";
@@ -32,8 +32,10 @@ export type WatchList = {
 };
 const WatchList = () => {
   const [watchedList, setWatchedList] = useRecoilState(WatchedListState);
-  const [watchList, setWatchList] = useState<any>([]);
+  const [watchList, setWatchList] = useRecoilState(WatchListState);
   const [userId, setUserId] = useRecoilState(uIdState);
+
+  // 登録映画を表示
   useEffect(() => {
     async function fetchData() {
       const moviesRef = query(collection(db, "users", userId, "movies"));
@@ -45,7 +47,6 @@ const WatchList = () => {
 
     fetchData();
   }, []);
-  console.log(watchList);
 
   // 削除機能
   const handleWatchDelete = (

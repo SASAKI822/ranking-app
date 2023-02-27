@@ -10,9 +10,17 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 
+import { db } from "@/lib/firebase";
+import {
+  addDoc,
+  deleteDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 type Props = {
   fetchUrl: string;
   title: string;
@@ -147,16 +155,30 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
     movie: Movie
   ) => {
     e.preventDefault();
-    const collectionPath = collection(db, "users", userId, "movies");
-    const moviesDocumentRef = await addDoc(collectionPath, {
-      id: movie.id,
-      title: movie.title,
-      mediaType: movie.media_type ? movie.media_type : "",
-      releaseDate: movie.release_date ? movie.release_date : "",
-      video: movie.video,
-      overview: movie.overview,
-      posterPath: movie.poster_path,
+
+    // 映画重複フィルター
+    const contain = watchList.filter((value: any) => {
+      return value.id === movie.id;
     });
+    // 　映画追加
+    if (contain.length === 0) {
+      const collectionPath = collection(db, "users", userId, "movies");
+      const q = query(collectionPath);
+      setWatchList([movie]);
+      await getDocs(q).then((querySnapshot) => {
+        const moviesDocumentRef = addDoc(collectionPath, {
+          id: movie.id,
+          title: movie.title ? movie.title : "",
+          mediaType: movie.media_type ? movie.media_type : "",
+          releaseDate: movie.release_date ? movie.release_date : "",
+          video: movie.video ? movie.video : "",
+          overview: movie.overview ? movie.overview : "",
+          posterPath: movie.poster_path ? movie.poster_path : "",
+        });
+      });
+    } else {
+      window.alert("すでに追加されています。");
+    }
   };
 
   return (
