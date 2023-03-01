@@ -5,9 +5,9 @@
 ## Features
 - サインアップ機能
 - サインイン機能
-- 検索機能
-- 映画を検索
+- サインアウト機能
 - レスポンシブデザイン
+- 映画、俳優を検索
 - 映画、俳優登録機能
 
 ## Installation and Setup Instructions
