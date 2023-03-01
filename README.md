@@ -12,6 +12,9 @@
 
 ## Installation and Setup Instructions
 クローン: `git clone https://github.com/SASAKI822/ranking-app`  
+パッケージの更新の確認: `npm install -g npm-check-updates`  
+更新パッケージの確認: `ncu`  
+package.jsonを更新: `ncu -u`  
 インストール: `npm install`  
 テスト スイートを実行: `npm test`  
 サーバーを起動 `npm start`  
