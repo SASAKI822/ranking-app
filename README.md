@@ -11,6 +11,7 @@
 - 映画、俳優登録機能
 
 ## Installation and Setup Instructions
+クローン: `git clone https://github.com/ogom/react-comment-box-example.git`
 インストール: `npm install`  
 テスト スイートを実行: `npm test`  
 サーバーを起動 `npm start`  
