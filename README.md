@@ -8,6 +8,4 @@
 テスト スイートを実行: `npm test`  
 サーバーを起動 `npm start`  
 アプリにアクセス: `localhost:3000`  
-## Usage
-## Getting Started
-## Build Setup　
+Cancel changes
