@@ -6,6 +6,7 @@ import Header from "@/components/layouts/Header";
 import SidebarNav from "@/components/layouts/Sidebar";
 import { SidebarState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
+
 const Animation = () => {
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
   return (

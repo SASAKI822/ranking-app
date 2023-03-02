@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
 import Header from "@/components/layouts/Header";
-
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { requests } from "@/lib/MovieApi";

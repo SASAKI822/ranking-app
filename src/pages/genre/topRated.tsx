@@ -3,7 +3,6 @@ import Header from "@/components/layouts/Header";
 import SidebarNav from "@/components/layouts/Sidebar";
 import MovieGenre from "@/features/components/MovieGenre";
 import { requests } from "@/lib/MovieApi";
-
 import { Grid } from "@mui/material";
 import { SidebarState } from "@/lib/atom";
 import { useRecoilState } from "recoil";

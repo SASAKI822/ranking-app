@@ -6,7 +6,8 @@ import Header from "@/components/layouts/Header";
 import SidebarNav from "@/components/layouts/Sidebar";
 import { SidebarState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
-const Comedy = () => {
+
+const Adventure = () => {
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
   return (
     <Grid
@@ -58,4 +59,4 @@ const Comedy = () => {
   );
 };
 
-export default Comedy;
+export default Adventure;
