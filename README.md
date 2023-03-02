@@ -9,7 +9,7 @@
 ![image3](https://user-images.githubusercontent.com/104541982/222118507-61d4a1cf-3832-4fdf-af7c-104476bd9335.png)   
 ***
 ## demo
-https://ranking-app-alpha.vercel.app　　
+https://ranking-app-alpha.vercel.app
 
 ## テスト用アカウント
 - メールアドレス：test@test.com　　
