@@ -24,7 +24,7 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase";
+import { db } from "@/lib/firebase";
 
 type Actor = {
   id: string;
@@ -35,21 +35,6 @@ type Actor = {
 const ActorList = () => {
   const [userId, setUserId] = useRecoilState(uIdState);
   const [signInCheck, setSignInCheck] = useRecoilState(loginState);
-
-  // useEffect(() => {
-  //   const unsubscribed = auth.onAuthStateChanged((user: any) => {
-  //     if (user) {
-  //       setSignInCheck(true);
-  //       setUserId(user.uid);
-  //     } else {
-  //       setSignInCheck(false);
-  //     }
-  //   });
-
-  //   return () => {
-  //     unsubscribed();
-  //   };
-  // }, [setUserId, setSignInCheck]);
 
   const [registerActorList, setRegisterActorList] = useRecoilState(
     RegisterActorListState

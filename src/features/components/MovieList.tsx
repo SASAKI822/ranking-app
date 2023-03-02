@@ -57,7 +57,7 @@ const MovieList = ({ movies }: MoviesProps) => {
   return (
     <>
       <ImageList
-        gap={8}
+        gap={10}
         sx={{
           mb: 8,
           gridTemplateColumns:

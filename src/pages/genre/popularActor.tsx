@@ -99,13 +99,13 @@ const PopularActor = () => {
                   backgroundColor: "#0f0f0f",
                 },
                 background: "white",
-                margin: "auto",
+                margin: { xs: " 0 auto 50px" },
                 textAlign: "center",
                 padding: "20px",
                 color: "white",
+                width: { sm: "400px" },
               }}
               onChange={handleChange}
-              size="large"
             />
           </Stack>
         </Grid>

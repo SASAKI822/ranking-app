@@ -24,6 +24,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import Switch from "@mui/material/Switch";
 
 // Header Css 記述
 const Search = styled("div")(({ theme }) => ({
@@ -180,7 +181,13 @@ const Header = () => {
   const handleLogout = () => {
     auth.signOut();
   };
+  const label = { inputProps: { "aria-label": "Switch demo" } };
+  const [checked, setChecked] = useState(false);
 
+  const switchHandler = (event: any) => {
+    setChecked(event.target.checked);
+  };
+  console.log(checked);
   return (
     <>
       <Box
@@ -200,7 +207,7 @@ const Header = () => {
             background: "#0f0f0f",
           }}
         >
-          <Toolbar sx={{ minHeight: "63px" }}>
+          <Toolbar sx={{ minHeight: { xs: "60px", sm: "63px" } }}>
             <MenuOutlinedIcon
               sx={{
                 display: { sm: "block", md: "none" },
@@ -224,7 +231,7 @@ const Header = () => {
               value={alignment}
               exclusive
               onChange={handleChange}
-              sx={{ background: "white" }}
+              sx={{ background: "white", display: { xs: "none", sm: "block" } }}
               aria-label="Platform"
             >
               <ToggleButton
@@ -240,46 +247,88 @@ const Header = () => {
                 Actor
               </ToggleButton>
             </ToggleButtonGroup>
-            <Search>
+            <Search sx={{ display: "block" }}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-
-              {(() => {
-                if (alignment === "Movie") {
-                  return (
-                    <>
-                      <form onSubmit={onSearchMovie}>
-                        <StyledInputBase
-                          placeholder="映画検索"
-                          inputProps={{ "aria-label": "search" }}
-                          inputRef={inputMovieElement}
-                          sx={{
-                            width: "20ch",
-                            "&.MuiInputBase-root.MuiInputBase-input": {
-                              width: "14ch",
-                            },
-                          }}
-                        />
-                      </form>
-                    </>
-                  );
-                } else if (alignment === "Actor") {
-                  return (
-                    <>
-                      <form onSubmit={onSearchActor}>
-                        <StyledInputBase
-                          placeholder="俳優を検索"
-                          inputProps={{ "aria-label": "search" }}
-                          inputRef={inputActorElement}
-                          sx={{ width: "20ch" }}
-                        />
-                      </form>
-                    </>
-                  );
-                }
-              })()}
+              <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                {(() => {
+                  if (alignment === "Movie") {
+                    return (
+                      <>
+                        <form onSubmit={onSearchMovie}>
+                          <StyledInputBase
+                            placeholder="映画検索"
+                            inputProps={{ "aria-label": "search" }}
+                            inputRef={inputMovieElement}
+                            sx={{
+                              width: "20ch",
+                              "&.MuiInputBase-root.MuiInputBase-input": {
+                                width: "14ch",
+                              },
+                            }}
+                          />
+                        </form>
+                      </>
+                    );
+                  } else if (alignment === "Actor") {
+                    return (
+                      <>
+                        <form onSubmit={onSearchActor}>
+                          <StyledInputBase
+                            placeholder="俳優を検索"
+                            inputProps={{ "aria-label": "search" }}
+                            inputRef={inputActorElement}
+                            sx={{ width: "20ch" }}
+                          />
+                        </form>
+                      </>
+                    );
+                  }
+                })()}
+              </Box>
+              <Box sx={{ display: { xs: "block", sm: "none" } }}>
+                {(() => {
+                  if (checked === false) {
+                    return (
+                      <>
+                        <form onSubmit={onSearchMovie}>
+                          <StyledInputBase
+                            placeholder="映画検索"
+                            inputProps={{ "aria-label": "search" }}
+                            inputRef={inputMovieElement}
+                            sx={{
+                              width: "20ch",
+                              "&.MuiInputBase-root.MuiInputBase-input": {
+                                width: "14ch",
+                              },
+                            }}
+                          />
+                        </form>
+                      </>
+                    );
+                  } else if (checked === true) {
+                    return (
+                      <>
+                        <form onSubmit={onSearchActor}>
+                          <StyledInputBase
+                            placeholder="俳優を検索"
+                            inputProps={{ "aria-label": "search" }}
+                            inputRef={inputActorElement}
+                            sx={{ width: "20ch" }}
+                          />
+                        </form>
+                      </>
+                    );
+                  }
+                })()}
+              </Box>
             </Search>
+            <Switch
+              onChange={switchHandler}
+              {...label}
+              sx={{ display: { xs: "block", sm: "none" } }}
+            />
             <Link href={{ pathname: "/signin" }}>
               {signInCheck ? (
                 <Button color="inherit" onClick={handleLogout}>

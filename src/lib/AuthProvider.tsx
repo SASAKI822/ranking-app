@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { loginState, uIdState } from "./atom";
 import { auth } from "./firebase";
 
-const AuthContext = createContext();
+const AuthContext = createContext<any | undefined>(undefined);
 
 export function useAuthContext() {
   return useContext(AuthContext);
