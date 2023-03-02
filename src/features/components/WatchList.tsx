@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { uIdState, WatchedListState, WatchListState } from "@/lib/atom";
 import { requests } from "@/lib/MovieApi";
 import IconButton from "@mui/material/IconButton";
