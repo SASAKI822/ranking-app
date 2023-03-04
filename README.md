@@ -13,7 +13,16 @@ https://ranking-app-alpha.vercel.app
 
 ## テスト用アカウント
 - メールアドレス：test@test.com　　
-- パスワード　　：123123
+- パスワード　　：123123  
+## 開発環境  
+### フロントエンド
+- React
+- Next.js
+- Typescript
+- Recoil
+- material ui
+### バックエンド
+- Firebase
 ## Features
 - サインアップ機能
 - サインイン機能
