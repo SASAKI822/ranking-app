@@ -118,7 +118,7 @@ const Header = () => {
   };
 
   // movieKeywordを基にmovieUrlからデータを所得しSearchMovieResultに格納
-  const MovieUrl: string = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&language=ja`;
+  const MovieUrl: string = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`;
 
   useEffect(() => {
     async function SearchData() {
@@ -144,7 +144,7 @@ const Header = () => {
   }, [MovieUrl, movieKeyword, setSearchMovieResult]);
 
   // actorKeywordを基にactorUrlからデータを所得しSearchActorResultに格納
-  const ActorUrl: string = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}&page=1&page2`;
+  const ActorUrl: string = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}`;
 
   useEffect(() => {
     async function SearchData() {
@@ -187,7 +187,7 @@ const Header = () => {
   const switchHandler = (event: any) => {
     setChecked(event.target.checked);
   };
-  console.log(checked);
+  console.log(alignment);
   return (
     <>
       <Box

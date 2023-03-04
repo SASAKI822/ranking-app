@@ -89,8 +89,6 @@ const WatchList = () => {
 
   return (
     <>
-      <h2 style={{ marginTop: "20px", padding: "10px" }}>見る映画リスト</h2>
-
       <ImageList
         gap={8}
         sx={{

@@ -25,7 +25,7 @@ const PopularActor = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
   const [userId, setUserId] = useRecoilState(uIdState);
-
+  const [page, setPage] = useState<number>(20);
   const handleChange = (e: React.ChangeEvent<unknown>, value: number) => {
     e.preventDefault();
     setCurrentPage(value);
@@ -35,13 +35,14 @@ const PopularActor = () => {
       const data = await axios
         .get(requests.genre.popularActor + `&page=${currentPage}`)
         .then((response) => {
+          setPage(response.data.total_pages);
           setPopularActor(response.data.results);
         });
       return data;
     }
     fetchData();
   }, [currentPage]);
-
+  console.log(page);
   return (
     <>
       <Grid
@@ -89,7 +90,7 @@ const PopularActor = () => {
           <ActorList actors={popularActor} title="人気俳優" />
           <Stack spacing={2} sx={{ color: "white", margin: "40px 0" }}>
             <Pagination
-              count={60}
+              count={page}
               variant="outlined"
               shape="rounded"
               color={"standard"}

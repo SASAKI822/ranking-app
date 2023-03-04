@@ -72,7 +72,7 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
   const yearList = allYears.map((value: number) => {
     return <option key={value}>{value}</option>;
   });
-
+  const [page, setPage] = useState<number>(20);
   const handleChange = (e: { preventDefault: () => void }, value: number) => {
     e.preventDefault();
     setCurrentPage(value);
@@ -86,6 +86,7 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
         const request = await axios.get(
           fetchUrl + `&page=${currentPage}` + `&year=${year}`
         );
+        setPage(request.data.total_pages);
         setMovies(request.data.results);
         return request;
       };
@@ -103,6 +104,7 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
             requests.filter.releaseDateDesc +
             `&year=${year}`
         );
+        setPage(request.data.total_pages);
         setMovies(request.data.results);
         return request;
       };
@@ -120,6 +122,7 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
             requests.filter.voteAverageDesc +
             `&year=${year}`
         );
+        setPage(request.data.total_pages);
         setMovies(request.data.results);
         return request;
       };
@@ -298,7 +301,7 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
       </ImageList>
       <Stack spacing={2} sx={{ color: "white", margin: "40px 0" }}>
         <Pagination
-          count={100}
+          count={page}
           variant="outlined"
           shape="rounded"
           color={"standard"}

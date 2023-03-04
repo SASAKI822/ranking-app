@@ -53,6 +53,11 @@ const WatchMovieList = () => {
           lg={10}
           xl={10.5}
         >
+          <Grid sx={{ marginTop: "20px", marginBottom: "90px" }}>
+            <h2 style={{ marginTop: "20px", padding: "10px" }}>
+              見る映画リスト
+            </h2>
+          </Grid>
           <WatchList />
         </Grid>
       </Grid>
