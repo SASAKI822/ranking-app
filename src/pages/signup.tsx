@@ -15,7 +15,11 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import Link from "next/link";
 import { app } from "../lib/firebase";
 import { auth } from "../lib/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import Router, { useRouter } from "next/router";
 
 const SignUp = () => {
@@ -33,7 +37,17 @@ const SignUp = () => {
         console.error(error);
       });
   };
-
+  const provider = new GoogleAuthProvider();
+  const googleRegister = async (e: any) => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        router.push("/mypage");
+        const userObject = result.user;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const handleChangeEmail = (e: any) => {
     setEmail(e.target.value);
   };
@@ -82,7 +96,15 @@ const SignUp = () => {
               >
                 新規登録
               </Button>
-
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                onClick={googleRegister}
+                sx={{ display: "block", mt: "10px" }}
+              >
+                Google新規登録
+              </Button>
               <Typography
                 variant="caption"
                 sx={{ display: "block", textAlign: "end", mt: 1 }}

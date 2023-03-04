@@ -93,10 +93,18 @@ const SignIn: React.FC = () => {
               >
                 ログインする
               </Button>
-
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                onClick={handleGoogleSignin}
+                sx={{ display: "block", mt: "10px" }}
+              >
+                Googleでログイン
+              </Button>
               <Typography
                 variant="caption"
-                sx={{ display: "block", textAlign: "end", mt: 0.5 }}
+                sx={{ display: "block", textAlign: "end", mt: 1 }}
               >
                 アカウントを登録する
                 <Link href="/signup">signup</Link>
