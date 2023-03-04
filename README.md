@@ -9,13 +9,18 @@
 ![image3](https://user-images.githubusercontent.com/104541982/222118507-61d4a1cf-3832-4fdf-af7c-104476bd9335.png)   
 ***
 ## demo
+https://ranking-app-alpha.vercel.app
+
+## テスト用アカウント
+- メールアドレス：test@test.com　　
+- パスワード　　：123123
 ## Features
 - サインアップ機能
 - サインイン機能
 - サインアウト機能
 - レスポンシブデザイン
 - 映画、俳優を検索
-- 映画、俳優登録機能
+- 映画、俳優登録機能  
 
 ## Installation and Setup Instructions
 クローン: `git clone https://github.com/SASAKI822/ranking-app`  
