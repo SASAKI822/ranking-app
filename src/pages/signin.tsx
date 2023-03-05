@@ -15,12 +15,18 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { useForm } from "react-hook-form";
 
 const SignIn: React.FC = () => {
   const router = useRouter();
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -31,6 +37,7 @@ const SignIn: React.FC = () => {
   };
 
   const handleSignin = async () => {
+    (data: any) => console.log("onSubmit:", data);
     await signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         router.push("/movie");
@@ -46,7 +53,6 @@ const SignIn: React.FC = () => {
     signInWithPopup(auth, provider).then((result) => {
       const credential: any = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
-      console.log(token);
       router.push("/movie");
     });
   };
@@ -75,32 +81,34 @@ const SignIn: React.FC = () => {
             </Typography>
 
             <TextField
-              name="email"
               label="E-mail"
               variant="standard" // border無しになる
               sx={{ mt: "5px" }}
               fullWidth
-              value={email}
-              onChange={handleChangeEmail}
+              id="email"
+              {...register("email", { required: true })}
             />
-
+            {errors.email && (
+              <div style={{ color: "red" }}>※入力が必須の項目です</div>
+            )}
             <TextField
               sx={{ mt: "5px" }}
-              name="password"
               label="Password"
               type="password"
               variant="standard"
               fullWidth
-              value={password}
-              onChange={handleChangePassword}
+              id="password"
+              {...register("password", { required: true })}
             />
-
+            {errors.password && (
+              <div style={{ color: "red" }}>※入力が必須の項目です</div>
+            )}
             <Box mt={6}>
               <Button
                 type="submit"
                 variant="contained"
                 fullWidth
-                onClick={handleSignin}
+                onClick={handleSubmit(handleSignin)}
               >
                 ログインする
               </Button>

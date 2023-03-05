@@ -42,7 +42,7 @@ const PopularActor = () => {
     }
     fetchData();
   }, [currentPage]);
-  console.log(page);
+
   return (
     <>
       <Grid

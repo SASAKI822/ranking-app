@@ -13,7 +13,7 @@ import {
 import { Container } from "@mui/system";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import Link from "next/link";
-import { app } from "../lib/firebase";
+
 import { auth } from "../lib/firebase";
 import {
   createUserWithEmailAndPassword,
@@ -21,17 +21,23 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import Router, { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 
 const SignUp = () => {
   const router = useRouter();
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleRegister = async (e: any) => {
+  const handleSignUp = async (e: any) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
-        router.push("/mypage");
+        router.push("/movie");
       })
       .catch((error) => {
         console.error(error);
@@ -41,7 +47,7 @@ const SignUp = () => {
   const googleRegister = async (e: any) => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        router.push("/mypage");
+        router.push("/movie");
         const userObject = result.user;
       })
       .catch((error) => {
@@ -76,34 +82,35 @@ const SignUp = () => {
             <Typography variant={"h5"} sx={{ m: "30px" }} align="center">
               Register
             </Typography>
-
             <TextField
-              name="email"
               label="E-mail"
               variant="standard"
               sx={{ mt: "5px" }}
               fullWidth
-              value={email}
-              onChange={handleChangeEmail}
+              id="email"
+              {...register("email", { required: true })}
             />
-
+            {errors.email && (
+              <div style={{ color: "red" }}>※入力が必須の項目です</div>
+            )}
             <TextField
               sx={{ mt: "5px" }}
-              name="password"
               label="Password"
               type="password"
               variant="standard"
               fullWidth
-              value={password}
-              onChange={handleChangePassword}
+              id="password"
+              {...register("password", { required: true })}
             />
-
+            {errors.password && (
+              <div style={{ color: "red" }}>※入力が必須の項目です</div>
+            )}
             <Box mt={6}>
               <Button
                 type="submit"
                 variant="contained"
                 fullWidth
-                onClick={handleRegister}
+                onClick={handleSubmit(handleSignUp)}
               >
                 新規登録
               </Button>
