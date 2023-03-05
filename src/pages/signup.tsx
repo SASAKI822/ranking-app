@@ -123,13 +123,21 @@ const SignUp = () => {
               >
                 Google新規登録
               </Button>
-              <Typography
-                variant="caption"
-                sx={{ display: "block", textAlign: "end", mt: 1 }}
-              >
-                アカウントを持っていますか？
-                <Link href="/signin">SignIn</Link>
-              </Typography>
+              <Grid item xs>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    display: "block",
+                    textAlign: "end",
+                    mt: 2,
+
+                    textDecoration: "underline",
+                    color: "#1976d2",
+                  }}
+                >
+                  <Link href={"signin"}>アカウントをお持ちの方</Link>
+                </Typography>
+              </Grid>
             </Box>
           </Paper>
         </Grid>

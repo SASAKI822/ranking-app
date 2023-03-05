@@ -121,13 +121,21 @@ const SignIn: React.FC = () => {
               >
                 Googleでログイン
               </Button>
-              <Typography
-                variant="caption"
-                sx={{ display: "block", textAlign: "end", mt: 1 }}
-              >
-                アカウントを登録する
-                <Link href="/signup">signup</Link>
-              </Typography>
+              <Grid item xs>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    display: "block",
+                    textAlign: "end",
+                    mt: 2,
+
+                    textDecoration: "underline",
+                    color: "#1976d2",
+                  }}
+                >
+                  <Link href={"signup"}>アカウントを登録する</Link>
+                </Typography>
+              </Grid>
             </Box>
           </Paper>
         </Grid>
