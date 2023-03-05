@@ -29,8 +29,9 @@ https://ranking-app-alpha.vercel.app
 - サインアップ機能(email, google)
 - サインイン機能(email, google)
 - サインアウト機能
+- API取得　(The Movie Database API)
 - 映画、俳優を検索
-- 映画、俳優一覧(絞り込み/ページネーション)
+- 映画、俳優一覧(ジャンル/絞り込み/ページネーション)
 - 映画、俳優登録機能  
 - レスポンシブデザイン
 
