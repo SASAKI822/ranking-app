@@ -16,11 +16,11 @@ https://ranking-app-alpha.vercel.app
 - パスワード　　：123123  
 ## 開発環境  
 ### フロントエンド
-- React
+- React.js
 - Next.js
 - Typescript
 - Recoil
-- material ui
+- Material UI
 ### バックエンド
 - Firebase
 ### デプロイ
@@ -35,11 +35,11 @@ https://ranking-app-alpha.vercel.app
 - レスポンシブデザイン
 
 ## Installation and Setup Instructions
-クローン: `git clone https://github.com/SASAKI822/ranking-app`  
-パッケージの更新の確認: `npm install -g npm-check-updates`  
-更新パッケージの確認: `ncu`  
-package.jsonを更新: `ncu -u`  
-インストール: `npm install`  
-テスト スイートを実行: `npm test`  
-サーバーを起動 `npm start`  
-アプリにアクセス: `localhost:3000`  
+1. クローン: `git clone https://github.com/SASAKI822/ranking-app`  
+1. パッケージの更新の確認: `npm install -g npm-check-updates`  
+1. 更新パッケージの確認: `ncu`  
+1. package.jsonを更新: `ncu -u`  
+1. インストール: `npm install`  
+1. テスト スイートを実行: `npm test`  
+1. サーバーを起動 `npm start`  
+1. アプリにアクセス: `localhost:3000`  
