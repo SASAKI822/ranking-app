@@ -1,7 +1,7 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NextRouter, useRouter } from "next/router";
 import axios from "axios";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   loginState,
   searchActorKey,
@@ -74,21 +74,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Header = () => {
   // Input入力値をmovieKeywordに入れる
   const [movieKeyword, setMovieKeyword] = useRecoilState(searchMovieKey);
-  const inputMovieElement: any = useRef<string | null>(null);
+  const [inputMovie, setInputMovie] = useState("");
 
   // Input入力値をactorKeywordに入れる
   const [actorKeyword, setActorKeyword] = useRecoilState(searchActorKey);
-  const inputActorElement: any = useRef<string | null>(null);
+  const [inputActor, setInputActor] = useState("");
 
   // movieKeywordを基に得たmovie情報を格納
-  const [SearchMovieResult, setSearchMovieResult] = useRecoilState(
-    searchMovieResultState
-  );
+  const setSearchMovieResult = useSetRecoilState(searchMovieResultState);
 
   // actorKeywordを基に得たactor情報を格納
-  const [searchActorResult, setSearchActorResult] = useRecoilState(
-    searchActorResultState
-  );
+  const setSearchActorResult = useSetRecoilState(searchActorResultState);
 
   // ハンバーガーメニュー開閉
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
@@ -97,38 +93,31 @@ const Header = () => {
   const [alignment, setAlignment] = useState("Movie");
 
   // サインインチェック
-  const [signInCheck, setSignInCheck] = useRecoilState(loginState);
+  const signInCheck = useRecoilValue(loginState);
 
   const router: NextRouter = useRouter();
+
   // Enterキーを押すと起動されMovie入力値をmovieKeywordに入れる
   const onSearchMovie = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // nullの場合は処理を終了
-    if (!inputMovieElement.current) return;
-    setMovieKeyword(inputMovieElement.current.value);
+    setMovieKeyword(inputMovie);
     router.push("/movie");
   };
 
   // Enterキーを押すと起動され俳優入力値をKeywordに入れる
   const onSearchActor = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setActorKeyword(inputActorElement.current.value);
+    setActorKeyword(inputActor);
     router.push("/actor");
   };
 
-  // movieKeywordを基にmovieUrlからデータを所得しSearchMovieResultに格納
-  const MovieUrl: string = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`;
-
   useEffect(() => {
+    // movieKeywordを基にmovieUrlからデータを所得しSearchMovieResultに格納
+    const MovieUrl: string = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${movieKeyword}`;
+
     async function SearchData() {
-      const request = await axios
-        .get(MovieUrl, {
-          params: {
-            query: movieKeyword,
-            page: 1,
-          },
-        })
+      await axios
+        .get(MovieUrl)
         .then((response) => {
           const data = response.data.results;
 
@@ -137,18 +126,16 @@ const Header = () => {
         .catch((error) => {
           console.log(error.response);
         });
-
-      return request;
     }
     SearchData();
-  }, [MovieUrl, movieKeyword, setSearchMovieResult]);
-
-  // actorKeywordを基にactorUrlからデータを所得しSearchActorResultに格納
-  const ActorUrl: string = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}`;
+  }, [movieKeyword, setSearchMovieResult]);
 
   useEffect(() => {
+    // actorKeywordを基にactorUrlからデータを所得しSearchActorResultに格納
+    const ActorUrl: string = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}`;
+
     async function SearchData() {
-      const request = await axios
+      await axios
         .get(ActorUrl)
         .then((response) => {
           const data = response.data.results;
@@ -157,11 +144,9 @@ const Header = () => {
         .catch((error) => {
           console.log(error.response);
         });
-
-      return request;
     }
     SearchData();
-  }, [ActorUrl, actorKeyword, setSearchActorResult]);
+  }, [actorKeyword, setSearchActorResult]);
 
   // 映画検索　俳優検索切り替え関数
   const handleChange = (
@@ -175,7 +160,7 @@ const Header = () => {
 
   // サインイン関数
   const handleLogoIn = () => {
-    router.push("signin");
+    router.push("/signin");
   };
   //　サインアウト関数
   const handleLogout = () => {
@@ -187,7 +172,7 @@ const Header = () => {
   const switchHandler = (event: any) => {
     setChecked(event.target.checked);
   };
-  console.log(alignment);
+
   return (
     <>
       <Box
@@ -260,7 +245,8 @@ const Header = () => {
                           <StyledInputBase
                             placeholder="映画検索"
                             inputProps={{ "aria-label": "search" }}
-                            inputRef={inputMovieElement}
+                            value={inputMovie}
+                            onChange={(e) => setInputMovie(e.target.value)}
                             sx={{
                               width: "20ch",
                               "&.MuiInputBase-root.MuiInputBase-input": {
@@ -278,7 +264,8 @@ const Header = () => {
                           <StyledInputBase
                             placeholder="俳優を検索"
                             inputProps={{ "aria-label": "search" }}
-                            inputRef={inputActorElement}
+                            value={inputActor}
+                            onChange={(e) => setInputActor(e.target.value)}
                             sx={{ width: "20ch" }}
                           />
                         </form>
@@ -296,7 +283,8 @@ const Header = () => {
                           <StyledInputBase
                             placeholder="映画検索"
                             inputProps={{ "aria-label": "search" }}
-                            inputRef={inputMovieElement}
+                            value={inputMovie}
+                            onChange={(e) => setInputMovie(e.target.value)}
                             sx={{
                               width: "20ch",
                               "&.MuiInputBase-root.MuiInputBase-input": {
@@ -314,7 +302,8 @@ const Header = () => {
                           <StyledInputBase
                             placeholder="俳優を検索"
                             inputProps={{ "aria-label": "search" }}
-                            inputRef={inputActorElement}
+                            value={inputActor}
+                            onChange={(e) => setInputActor(e.target.value)}
                             sx={{ width: "20ch" }}
                           />
                         </form>

@@ -133,7 +133,7 @@ export default function SidebarNav() {
 
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/action" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Action" }}></Link>}
               icon={<ColorizeIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -146,7 +146,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/horror" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Horror" }}></Link>}
               icon={<SickIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -159,7 +159,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/romance" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Romance" }}></Link>}
               icon={<VolunteerActivismIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -172,7 +172,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/document" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Document" }}></Link>}
               icon={<DocumentScannerOutlinedIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -185,7 +185,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/comedy" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Comedy" }}></Link>}
               icon={<EmojiEmotionsIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -198,7 +198,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/animation" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Animation" }}></Link>}
               icon={<FlutterDashIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -211,7 +211,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/adventure" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Adventure" }}></Link>}
               icon={<SportsHandballIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -367,7 +367,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/action" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Action" }}></Link>}
               icon={<ColorizeIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -380,7 +380,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/horror" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Horror" }}></Link>}
               icon={<SickIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -393,7 +393,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/romance" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Romance" }}></Link>}
               icon={<VolunteerActivismIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -406,7 +406,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/document" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Document" }}></Link>}
               icon={<DocumentScannerOutlinedIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -419,7 +419,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/comedy" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Comedy" }}></Link>}
               icon={<EmojiEmotionsIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -432,7 +432,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/animation" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Animation" }}></Link>}
               icon={<FlutterDashIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")
@@ -445,7 +445,7 @@ export default function SidebarNav() {
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/adventure" }}></Link>}
+              component={<Link href={{ pathname: "/genre/Adventure" }}></Link>}
               icon={<SportsHandballIcon />}
               onMouseEnter={(e: any) =>
                 (e.target.style.backgroundColor = "#1e1e1e")

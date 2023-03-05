@@ -45,7 +45,7 @@ export type ActorListItem = {
 // keyword映画検索
 export const searchMovieKey = atom({
   key: "searchMovieKey",
-  default: [],
+  default: "",
 });
 
 // keyword映画検索結果
@@ -57,7 +57,7 @@ export const searchMovieResultState = atom({
 // keyword俳優検索
 export const searchActorKey = atom({
   key: "searchActorKey",
-  default: "Tom",
+  default: "",
 });
 
 // keyword俳優検索結果

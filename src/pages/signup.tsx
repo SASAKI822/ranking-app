@@ -58,8 +58,19 @@ const SignUp = () => {
     <>
       <Container>
         <Grid container>
-          <Paper elevation={10} sx={{ p: 4, m: "80px auto", height: "70vh" }}>
-            <Avatar sx={{ m: "20px auto", bgcolor: "primary.main" }}>
+          <Paper
+            elevation={10}
+            sx={{
+              padding: 12,
+              "@media screen and (max-width:600px)": {
+                paddingLeft: 3,
+                paddingRight: 3,
+              },
+              m: "60px auto",
+              maxWidth: "450px",
+            }}
+          >
+            <Avatar sx={{ m: "0 auto", bgcolor: "primary.main" }}>
               <HowToRegIcon />
             </Avatar>
             <Typography variant={"h5"} sx={{ m: "30px" }} align="center">
@@ -101,7 +112,7 @@ const SignUp = () => {
                 variant="contained"
                 fullWidth
                 onClick={googleRegister}
-                sx={{ display: "block", mt: "10px" }}
+                sx={{ display: "block", mt: "15px" }}
               >
                 Google新規登録
               </Button>
