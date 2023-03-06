@@ -10,17 +10,9 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-
 import { db } from "@/lib/firebase";
-import {
-  addDoc,
-  deleteDoc,
-  collection,
-  doc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { addDoc, collection, getDocs, query } from "firebase/firestore";
+
 type Props = {
   fetchUrl: string;
   title: string;
@@ -40,7 +32,9 @@ export type Movie = {
 };
 
 const MovieGenre = ({ title, fetchUrl }: Props) => {
+  // ページネーション　現在のページ
   const [currentPage, setCurrentPage] = useState<number>(1);
+  // ユーザーid
   const [userId, setUserId] = useRecoilState(uIdState);
   // フィルター　年
   const [year, setYear] = useState(new Date().getFullYear());
@@ -62,23 +56,27 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
       backdrop_path: "",
     },
   ]);
+  // 見る映画リスト
   const [watchList, setWatchList] = useRecoilState(WatchListState);
+
+  // フィルター　年
   const allYears = [];
   const thisYear: number = new Date().getFullYear();
   for (let i = 1990; i <= thisYear; i++) {
     allYears.unshift(i);
   }
-
   const yearList = allYears.map((value: number) => {
     return <option key={value}>{value}</option>;
   });
+
+  // ページネーション
   const [page, setPage] = useState<number>(20);
   const handleChange = (e: { preventDefault: () => void }, value: number) => {
     e.preventDefault();
     setCurrentPage(value);
   };
-  // fetchUrlのジャンルの映画が入る
 
+  // fetchUrlのジャンルの映画が入る
   // 人気順
   useEffect(() => {
     if (popular) {
@@ -153,6 +151,8 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
     setAverage(true);
     setCurrentPage(1);
   };
+
+  // 映画追加
   const handleAddWatch = async (
     e: React.MouseEvent<HTMLInputElement>,
     movie: Movie

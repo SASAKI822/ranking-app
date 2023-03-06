@@ -17,17 +17,28 @@ import { db } from "@/lib/firebase";
 import { RegisterActorListState, uIdState } from "@/lib/atom";
 
 const MovieDetail = () => {
+  //  映画出演俳優
   const [movieCast, setMovieCast] = useState<any>([]);
+
+  // tv情報
   const [movieVideo, setMovieVideo] = useState<any>([]);
+
+  // 映画のビデオ
   const [trailerMovie, setTrailerMovie] = useState<any>([]);
+
+  // ユーザーid
   const [userId, setUserId] = useRecoilState(uIdState);
+
+  // ビデオタブ
   const [value, setValue] = useState<string>("0");
+
+  // 登録俳優リスト
   const [registerActorList, setRegisterActorList] = useRecoilState(
     RegisterActorListState
   );
   // ルーター string 型から number 型へ変換
   const router = useRouter();
-  const title: string | string[] | undefined = router.query.title;
+  const title = router.query.title;
   const posterPath: string | string[] | undefined = router.query.posterPath;
   const overview: string | string[] | undefined = router.query.overview;
   const releaseDate: string | string[] | undefined = router.query.releaseDate;

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   Grid,
   Box,
@@ -9,33 +8,37 @@ import {
   Avatar,
   Typography,
 } from "@mui/material";
-
 import { Container } from "@mui/system";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import Link from "next/link";
-
 import { auth } from "../lib/firebase";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
-const SignUp = () => {
+type InputValue = {
+  email: string;
+  password: string;
+};
+
+const SignUp: React.FC = () => {
   const router = useRouter();
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<InputValue>();
 
-  const handleSignUp = async (e: any) => {
-    createUserWithEmailAndPassword(auth, email, password)
+  /**
+   * メールアドレスとパスワードで登録する
+   */
+  const handleSignUp = async (data: InputValue) => {
+    await createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((result) => {
         router.push("/movie");
       })
@@ -43,23 +46,21 @@ const SignUp = () => {
         console.error(error);
       });
   };
+
+  /**
+   * Google登録する
+   */
   const provider = new GoogleAuthProvider();
   const googleRegister = async (e: any) => {
     signInWithPopup(auth, provider)
       .then((result) => {
         router.push("/movie");
-        const userObject = result.user;
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  const handleChangeEmail = (e: any) => {
-    setEmail(e.target.value);
-  };
-  const handleChangePassword = (e: any) => {
-    setPassword(e.target.value);
-  };
+
   return (
     <>
       <Container>

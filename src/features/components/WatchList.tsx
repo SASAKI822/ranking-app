@@ -31,8 +31,13 @@ export type WatchList = {
   backdropPath: string;
 };
 const WatchList = () => {
+  // 見た映画リスト
   const [watchedList, setWatchedList] = useRecoilState(WatchedListState);
+
+  // 見る映画るリスト
   const [watchList, setWatchList] = useRecoilState(WatchListState);
+
+  // ユーザーid
   const [userId, setUserId] = useRecoilState(uIdState);
 
   // 登録映画を表示
@@ -138,7 +143,6 @@ const WatchList = () => {
                       },
                     }}
                     title={movie.title ? movie.title : movie.name}
-                    // subtitle={movie.name}
                     actionIcon={
                       <IconButton
                         sx={{ color: "rgba(255, 255, 255, 0.54)" }}

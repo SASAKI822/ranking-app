@@ -1,9 +1,4 @@
-import {
-  loginState,
-  RegisterActorListState,
-  SidebarState,
-  uIdState,
-} from "@/lib/atom";
+import { RegisterActorListState, SidebarState, uIdState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
@@ -33,14 +28,17 @@ type Actor = {
   profilePath: string;
 };
 const ActorList = () => {
+  // ユーザーid
   const [userId, setUserId] = useRecoilState(uIdState);
-  const [signInCheck, setSignInCheck] = useRecoilState(loginState);
 
+  // 登録俳優
   const [registerActorList, setRegisterActorList] = useRecoilState(
     RegisterActorListState
   );
+  // サイドバー開閉
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
 
+  // 俳優削除
   const handleDelete = async (
     e: React.MouseEvent<HTMLElement>,
     targetActor: Actor
@@ -69,6 +67,7 @@ const ActorList = () => {
     fetchData();
   }, [registerActorList, handleDelete]);
 
+  // 俳優削除するときalert
   const submit = (actor: Actor) => {
     confirmAlert({
       title: "本当に消しますか？",

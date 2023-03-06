@@ -1,4 +1,3 @@
-import * as React from "react";
 import Link from "next/link";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -18,7 +17,9 @@ type MoviesProps = {
 // Header コンポーネント
 
 const MovieList = ({ movies }: MoviesProps) => {
+  // ユーザーid
   const [userId, setUserId] = useRecoilState(uIdState);
+  // 映画リスト
   const [watchList, setWatchList] = useRecoilState(WatchListState);
 
   // 映画登録

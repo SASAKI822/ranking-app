@@ -8,7 +8,7 @@ import axios from "axios";
 import { requests } from "@/lib/MovieApi";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { SidebarState, uIdState } from "@/lib/atom";
+import { SidebarState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
@@ -21,15 +21,25 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const PopularActor = () => {
+  // 人気俳優
   const [popularActor, setPopularActor] = useState([]);
+
+  // ページネーション 現在のページ
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  // サイドバー開閉
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
-  const [userId, setUserId] = useRecoilState(uIdState);
+
+  // ページ数
   const [page, setPage] = useState<number>(20);
+
+  // ページネーション変更関数
   const handleChange = (e: React.ChangeEvent<unknown>, value: number) => {
     e.preventDefault();
     setCurrentPage(value);
   };
+
+  // 俳優一覧取得
   useEffect(() => {
     async function fetchData() {
       const data = await axios

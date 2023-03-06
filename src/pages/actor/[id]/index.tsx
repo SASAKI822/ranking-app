@@ -2,7 +2,6 @@ import Header from "@/components/layouts/Header";
 import ActorDetail from "@/features/components/ActorDetail";
 import React from "react";
 import SidebarNav from "@/components/layouts/Sidebar";
-
 import { styled } from "@mui/material/styles";
 import { Grid } from "@mui/material";
 import { SidebarState } from "@/lib/atom";

@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 const inter = Inter({ subsets: ["latin"] });
 
 const Home = () => {
+  // サインチェック
   const [signInCheck, setSignInCheck] = useRecoilState(loginState);
   const router = useRouter();
   useEffect(() => {

@@ -1,7 +1,6 @@
 import { requests } from "@/lib/MovieApi";
 import { ImageList, ImageListItem } from "@mui/material";
 import Link from "next/link";
-import React from "react";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import { addDoc, collection, getDocs, query } from "firebase/firestore";
@@ -25,7 +24,10 @@ export type Actor = {
 };
 
 const ActorList = ({ actors, title }: Props) => {
+  //　ユーザーid
   const [userId, setUserId] = useRecoilState(uIdState);
+
+  // 登録俳優リスト
   const [registerActorList, setRegisterActorList] = useRecoilState(
     RegisterActorListState
   );

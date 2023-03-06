@@ -1,5 +1,4 @@
 import Header from "@/components/layouts/Header";
-import React from "react";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
 import {
@@ -11,10 +10,13 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import MovieList from "@/features/components/MovieList";
 
 const Movie = () => {
+  // 映画キーワード検索結果
   const SearchMovieResult = useRecoilValue(searchMovieResultState);
+  // 映画キーワード
   const [movieKeyword, setMovieKeyword] = useRecoilState(searchMovieKey);
+  // サイドバー開閉
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
-  console.log(SearchMovieResult);
+
   return (
     <>
       <Grid

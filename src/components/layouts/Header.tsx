@@ -166,6 +166,8 @@ const Header = () => {
   const handleLogout = () => {
     auth.signOut();
   };
+
+  // 映画検索　俳優検索切り替えレスポンシブ
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const [checked, setChecked] = useState(false);
 

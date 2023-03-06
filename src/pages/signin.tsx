@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
@@ -17,38 +16,36 @@ import Typography from "@mui/material/Typography";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useForm } from "react-hook-form";
 
+type InputValue = {
+  email: string;
+  password: string;
+};
+
 const SignIn: React.FC = () => {
   const router = useRouter();
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<InputValue>();
 
-  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const handleSignin = async () => {
-    (data: any) => console.log("onSubmit:", data);
-    await signInWithEmailAndPassword(auth, email, password)
+  /**
+   * メールアドレスとパスワードでログインする
+   */
+  const handleSignIn = async (data: InputValue) => {
+    await signInWithEmailAndPassword(auth, data.email, data.password)
       .then(() => {
         router.push("/movie");
       })
       .catch((error) => {
-        alert(error);
         console.log(error);
       });
   };
 
-  const handleGoogleSignin = async () => {
+  /**
+   * Googleログインする
+   */
+  const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider).then((result) => {
       const credential: any = GoogleAuthProvider.credentialFromResult(result);
@@ -108,7 +105,7 @@ const SignIn: React.FC = () => {
                 type="submit"
                 variant="contained"
                 fullWidth
-                onClick={handleSubmit(handleSignin)}
+                onClick={handleSubmit(handleSignIn)}
               >
                 ログインする
               </Button>
@@ -116,7 +113,7 @@ const SignIn: React.FC = () => {
                 type="submit"
                 variant="contained"
                 fullWidth
-                onClick={handleGoogleSignin}
+                onClick={handleGoogleSignIn}
                 sx={{ display: "block", mt: "15px" }}
               >
                 Googleでログイン
@@ -128,7 +125,6 @@ const SignIn: React.FC = () => {
                     display: "block",
                     textAlign: "end",
                     mt: 2,
-
                     textDecoration: "underline",
                     color: "#1976d2",
                   }}

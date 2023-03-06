@@ -9,9 +9,13 @@ export function useAuthContext() {
   return useContext(AuthContext);
 }
 const AuthProvider = ({ children }: any) => {
+  // ユーザーid
   const [userId, setUserId] = useRecoilState(uIdState);
+
+  // サインインチェック
   const [signInCheck, setSignInCheck] = useRecoilState(loginState);
 
+  // サインインチェック関数
   useEffect(() => {
     const unsubscribed = auth.onAuthStateChanged((user: any) => {
       if (user) {
@@ -26,6 +30,7 @@ const AuthProvider = ({ children }: any) => {
       unsubscribed();
     };
   }, [setUserId, setSignInCheck]);
+
   return (
     <AuthContext.Provider value={{ userId, signInCheck }}>
       {children}

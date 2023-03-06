@@ -21,10 +21,15 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const Actor = () => {
+  // 俳優検索結果
   const [searchActorResult, setSearchActorResult] = useRecoilState(
     searchActorResultState
   );
+
+  // 俳優検索キーワード
   const [actorKeyword, setActorKeyword] = useRecoilState(searchActorKey);
+
+  // サイドバー開閉
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
   return (
     <>

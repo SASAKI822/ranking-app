@@ -19,6 +19,7 @@ import SickIcon from "@mui/icons-material/Sick";
 import Person4Icon from "@mui/icons-material/Person4";
 
 export default function SidebarNav() {
+  // サイドバー開閉
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
 
   return (

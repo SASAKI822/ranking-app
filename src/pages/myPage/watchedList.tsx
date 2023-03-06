@@ -3,7 +3,6 @@ import SidebarNav from "@/components/layouts/Sidebar";
 import WatchedList from "@/features/components/WatchedList";
 import { SidebarState } from "@/lib/atom";
 import { Grid } from "@mui/material";
-import React from "react";
 import { useRecoilState } from "recoil";
 
 // 見たことある映画リスト

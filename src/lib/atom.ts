@@ -120,11 +120,13 @@ export const MovieGenreIdState = atom({
   },
 });
 
+// サイドバー開閉状態
 export const SidebarState = atom({
   key: "sidebarState",
   default: false,
 });
 
+//　ユーザー状態
 export const usersState = atom({
   key: "usersState",
   default: {
@@ -132,17 +134,20 @@ export const usersState = atom({
   },
 });
 
+// ログイン状態
 export const loginState = atom({
   key: "loginState",
   default: false,
 });
 
+// リコイル　sessionStorage で保存
 const { persistAtom } = recoilPersist({
   //追加
   key: "recoil-persist",
   storage: typeof window === "undefined" ? undefined : sessionStorage,
 });
 
+// ユーザーid 保存
 export const uIdState = atom({
   key: "uIdState",
   default: "",

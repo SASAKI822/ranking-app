@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { uIdState, WatchedListState } from "../../lib/atom";
@@ -24,7 +24,9 @@ import { WatchList } from "./WatchList";
 // Header コンポーネント
 
 const WatchedList = () => {
+  // 映画リスト
   const [watchedList, setWatchedList] = useRecoilState(WatchedListState);
+  // ユーザーid
   const [userId, setUserId] = useRecoilState(uIdState);
 
   // watchedList表示
