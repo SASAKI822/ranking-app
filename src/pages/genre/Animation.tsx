@@ -52,7 +52,7 @@ const Animation = () => {
         lg={10}
         xl={10.5}
       >
-        <MovieGenre title="アニメ" fetchUrl={requests.genre.fetchAnimation} />
+        <MovieGenre title="アニメ" fetchUrl={requests.GENRE.FETCH_ANIMATION} />
       </Grid>
     </Grid>
   );

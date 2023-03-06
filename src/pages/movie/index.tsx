@@ -13,7 +13,7 @@ const Movie = () => {
   // 映画キーワード検索結果
   const SearchMovieResult = useRecoilValue(searchMovieResultState);
   // 映画キーワード
-  const [movieKeyword, setMovieKeyword] = useRecoilState(searchMovieKey);
+  const movieKeyword = useRecoilValue(searchMovieKey);
   // サイドバー開閉
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
 

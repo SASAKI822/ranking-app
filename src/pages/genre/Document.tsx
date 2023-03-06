@@ -54,7 +54,7 @@ const Document = () => {
       >
         <MovieGenre
           title="ドキュメント"
-          fetchUrl={requests.genre.fetchDocumentaryMovies}
+          fetchUrl={requests.GENRE.FETCH_DOCUMENTARY_MOVIES}
         />
       </Grid>
     </Grid>

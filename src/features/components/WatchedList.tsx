@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect } from "react";
 import Link from "next/link";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { uIdState, WatchedListState } from "../../lib/atom";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -27,7 +27,7 @@ const WatchedList = () => {
   // 映画リスト
   const [watchedList, setWatchedList] = useRecoilState(WatchedListState);
   // ユーザーid
-  const [userId, setUserId] = useRecoilState(uIdState);
+  const userId = useRecoilValue(uIdState);
 
   // watchedList表示
   useEffect(() => {
@@ -42,7 +42,8 @@ const WatchedList = () => {
     }
 
     fetchData();
-  }, [setWatchedList, watchedList]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchedList]);
 
   // 削除機能
   const handleWatchedDelete = (
@@ -120,7 +121,7 @@ const WatchedList = () => {
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`${requests.image}${movie.posterPath}`}
+                    src={`${requests.IMAGE}${movie.posterPath}`}
                     alt="movie image"
                     style={{ backgroundColor: "#dbdbdb" }}
                   />

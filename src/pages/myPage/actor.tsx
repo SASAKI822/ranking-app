@@ -1,5 +1,5 @@
 import { RegisterActorListState, SidebarState, uIdState } from "@/lib/atom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
 import Header from "@/components/layouts/Header";
@@ -29,7 +29,7 @@ type Actor = {
 };
 const ActorList = () => {
   // ユーザーid
-  const [userId, setUserId] = useRecoilState(uIdState);
+  const userId = useRecoilValue(uIdState);
 
   // 登録俳優
   const [registerActorList, setRegisterActorList] = useRecoilState(
@@ -160,7 +160,7 @@ const ActorList = () => {
                           },
                         }}
                       >
-                        <img src={`${requests.image}${actor.profilePath}`} />
+                        <img src={`${requests.IMAGE}${actor.profilePath}`} />
                         <ImageListItemBar
                           sx={{
                             "& .MuiImageListItemBar-title": {

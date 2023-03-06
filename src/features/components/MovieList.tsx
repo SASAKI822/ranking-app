@@ -89,7 +89,7 @@ const MovieList = ({ movies }: MoviesProps) => {
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`${requests.image}${movie.poster_path}`}
+                    src={`${requests.IMAGE}${movie.poster_path}`}
                     alt="movie image"
                     style={{ backgroundColor: "#dbdbdb" }}
                   />

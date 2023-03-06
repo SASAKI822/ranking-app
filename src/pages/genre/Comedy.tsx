@@ -54,7 +54,7 @@ const Comedy = () => {
       >
         <MovieGenre
           title="コメディー"
-          fetchUrl={requests.genre.fetchComedyMovies}
+          fetchUrl={requests.GENRE.FETCH_COMEDY_MOVIES}
         />
       </Grid>
     </Grid>

@@ -99,7 +99,7 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
         const request = await axios.get(
           fetchUrl +
             `&page=${currentPage}` +
-            requests.filter.releaseDateDesc +
+            requests.FILTER.RELEASE_DATE_DESC +
             `&year=${year}`
         );
         setPage(request.data.total_pages);
@@ -117,7 +117,7 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
         const request = await axios.get(
           fetchUrl +
             `&page=${currentPage}` +
-            requests.filter.voteAverageDesc +
+            requests.FILTER.VOTE_AVERAGE_DESC +
             `&year=${year}`
         );
         setPage(request.data.total_pages);
@@ -160,29 +160,28 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
     e.preventDefault();
 
     // 映画重複フィルター
-    const contain = watchList.filter((value: any) => {
-      return value.id === movie.id;
+    const containMovie = watchList.find((movie: any) => {
+      return movie.id === movie.id;
     });
-    // 　映画追加
-    if (contain.length === 0) {
+    if (containMovie === undefined) {
       const collectionPath = collection(db, "users", userId, "movies");
-      const q = query(collectionPath);
-      setWatchList([movie]);
-      await getDocs(q).then((querySnapshot) => {
-        const moviesDocumentRef = addDoc(collectionPath, {
-          id: movie.id,
-          title: movie.title ? movie.title : "",
-          mediaType: movie.media_type ? movie.media_type : "",
-          releaseDate: movie.release_date ? movie.release_date : "",
-          video: movie.video ? movie.video : "",
-          overview: movie.overview ? movie.overview : "",
-          posterPath: movie.poster_path ? movie.poster_path : "",
-        });
+      // Firestoreに登録
+      addDoc(collectionPath, {
+        id: movie.id,
+        title: movie.title ? movie.title : "",
+        mediaType: movie.media_type ? movie.media_type : "",
+        releaseDate: movie.release_date ? movie.release_date : "",
+        video: movie.video ? movie.video : "",
+        overview: movie.overview ? movie.overview : "",
+        posterPath: movie.poster_path ? movie.poster_path : "",
+      }).then(() => {
+        setWatchList([...watchList, movie]);
       });
     } else {
       window.alert("すでに追加されています。");
     }
   };
+  // 　映画追加
 
   return (
     <>
@@ -264,7 +263,7 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
                     }}
                   >
                     <img
-                      src={`${requests.image}${movie.poster_path}`}
+                      src={`${requests.IMAGE}${movie.poster_path}`}
                       alt=""
                       style={{ backgroundColor: "#dbdbdb" }}
                     />

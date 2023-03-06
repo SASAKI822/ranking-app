@@ -7,17 +7,8 @@ import { Grid } from "@mui/material";
 import { SidebarState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
 
-export const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
 // movie/[id] 映画詳細表示
-const Movie = () => {
+const MovieInfo = () => {
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
   return (
     <>
@@ -70,4 +61,4 @@ const Movie = () => {
   );
 };
 
-export default Movie;
+export default MovieInfo;

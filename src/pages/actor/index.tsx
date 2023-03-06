@@ -8,26 +8,14 @@ import {
   searchActorResultState,
   SidebarState,
 } from "@/lib/atom";
-import { useRecoilState } from "recoil";
-import { styled } from "@mui/material/styles";
-
-export const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const Actor = () => {
   // 俳優検索結果
-  const [searchActorResult, setSearchActorResult] = useRecoilState(
-    searchActorResultState
-  );
+  const searchActorResult = useRecoilValue(searchActorResultState);
 
   // 俳優検索キーワード
-  const [actorKeyword, setActorKeyword] = useRecoilState(searchActorKey);
+  const actorKeyword = useRecoilValue(searchActorKey);
 
   // サイドバー開閉
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);

@@ -179,7 +179,7 @@ const MovieDetail = () => {
         <div style={{ display: "flex", padding: "5px" }}>
           <div style={{ marginBottom: "10px" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`${requests.image}/${posterPath}`} alt="movie image" />
+            <img src={`${requests.IMAGE}/${posterPath}`} alt="movie image" />
           </div>
           <div style={{ width: "100%", padding: "20px" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -268,7 +268,7 @@ const MovieDetail = () => {
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={`${requests.image}${cast.profile_path}`}
+                      src={`${requests.IMAGE}${cast.profile_path}`}
                       alt="actor image"
                     />
                     <ImageListItemBar

@@ -2,23 +2,12 @@ import Header from "@/components/layouts/Header";
 import ActorDetail from "@/features/components/ActorDetail";
 import React from "react";
 import SidebarNav from "@/components/layouts/Sidebar";
-import { styled } from "@mui/material/styles";
 import { Grid } from "@mui/material";
 import { SidebarState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
 
-// actor/[id] 俳優出演映画表示
-export const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
 // actor/[id] 映画詳細表示
-const Actor = () => {
+const ActorInfo = () => {
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
   return (
     <>
@@ -71,4 +60,4 @@ const Actor = () => {
   );
 };
 
-export default Actor;
+export default ActorInfo;

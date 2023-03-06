@@ -62,7 +62,10 @@ const TopRated = () => {
           lg={10}
           xl={10.5}
         >
-          <MovieGenre title="トップ" fetchUrl={requests.genre.fetchTopRated} />
+          <MovieGenre
+            title="トップ"
+            fetchUrl={requests.GENRE.FETCH_TOP_RATED}
+          />
         </Grid>
       </Grid>
     </>

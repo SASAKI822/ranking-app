@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil";
 import { MovieInfoState } from "@/lib/atom";
 import MovieList from "./MovieList";
 
-interface typeActorCareer {
+interface TypeActorCareer {
   profile_path: string;
   birthday: string;
   place_of_birth: string;
@@ -15,7 +15,7 @@ interface typeActorCareer {
 
 const ActorDetail = () => {
   // 俳優情報
-  const [actorCareer, setActorCareer] = useState<typeActorCareer>({
+  const [actorCareer, setActorCareer] = useState<TypeActorCareer>({
     profile_path: "",
     birthday: "",
     place_of_birth: "",
@@ -42,8 +42,6 @@ const ActorDetail = () => {
         .catch((error) => {
           console.error(error);
         });
-
-      return request;
     }
     fetchData();
   }, [actorInfoUrl]);
@@ -60,6 +58,7 @@ const ActorDetail = () => {
       return request;
     }
     fetchActorData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actorMovieUrl]);
 
   return (
@@ -67,7 +66,7 @@ const ActorDetail = () => {
       <div style={{ marginBottom: "40px", padding: "20px" }}>
         <div style={{ display: "flex", padding: "5px" }}>
           <div style={{ marginBottom: "10px" }}>
-            <img src={`${requests.image}${actorCareer.profile_path}`} />
+            <img src={`${requests.IMAGE}${actorCareer.profile_path}`} />
           </div>
           <div style={{ width: "100%", margin: "20px" }}>
             <h1 style={{ marginBottom: "20px" }}>{actorName}</h1>

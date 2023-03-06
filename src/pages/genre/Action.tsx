@@ -53,7 +53,7 @@ const Action = () => {
         >
           <MovieGenre
             title="アクション"
-            fetchUrl={requests.genre.fetchActionMovies}
+            fetchUrl={requests.GENRE.FETCH_ACTION_MOVIES}
           />
         </Grid>
       </Grid>

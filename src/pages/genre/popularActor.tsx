@@ -3,22 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import SidebarNav from "@/components/layouts/Sidebar";
 import Header from "@/components/layouts/Header";
-import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { requests } from "@/lib/MovieApi";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { SidebarState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
-
-export const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
 
 const PopularActor = () => {
   // 人気俳優
@@ -43,12 +33,11 @@ const PopularActor = () => {
   useEffect(() => {
     async function fetchData() {
       const data = await axios
-        .get(requests.genre.popularActor + `&page=${currentPage}`)
+        .get(requests.GENRE.POPULAR_ACTOR + `&page=${currentPage}`)
         .then((response) => {
           setPage(response.data.total_pages);
           setPopularActor(response.data.results);
         });
-      return data;
     }
     fetchData();
   }, [currentPage]);

@@ -6,7 +6,7 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import Link from "next/link";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { db } from "@/lib/firebase";
 import {
   collection,
@@ -38,7 +38,7 @@ const WatchList = () => {
   const [watchList, setWatchList] = useRecoilState(WatchListState);
 
   // ユーザーid
-  const [userId, setUserId] = useRecoilState(uIdState);
+  const userId = useRecoilValue(uIdState);
 
   // 登録映画を表示
   useEffect(() => {
@@ -51,10 +51,11 @@ const WatchList = () => {
     }
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 削除機能
-  const handleWatchDelete = (
+  const handleWatchDelete = async (
     e: React.MouseEvent<HTMLElement>,
     targetMovie: WatchList
   ) => {
@@ -62,7 +63,7 @@ const WatchList = () => {
 
     // watchedリストへ追加
     const watchedMovieRef = collection(db, "users", userId, "watchedMovie");
-    const moviesDocumentRef = addDoc(watchedMovieRef, {
+    await addDoc(watchedMovieRef, {
       id: targetMovie.id,
       title: targetMovie.title,
       mediaType: targetMovie.mediaType ? targetMovie.mediaType : "",
@@ -75,7 +76,7 @@ const WatchList = () => {
     // 削除機能
     const moviesRef = collection(db, "users", userId, "movies");
     const q = query(moviesRef, where("id", "==", targetMovie.id));
-    getDocs(q).then((querySnapshot) => {
+    await getDocs(q).then((querySnapshot) => {
       querySnapshot.docs.map((document) => {
         const movieDocument = doc(db, "users", userId, "movies", document.id);
 
@@ -127,7 +128,7 @@ const WatchList = () => {
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`${requests.image}${movie.posterPath}`}
+                    src={`${requests.IMAGE}${movie.posterPath}`}
                     alt="movie image"
                     style={{ backgroundColor: "#dbdbdb" }}
                   />

@@ -54,7 +54,7 @@ const Horror = () => {
       >
         <MovieGenre
           title="ホラー"
-          fetchUrl={requests.genre.fetchHorrorMovies}
+          fetchUrl={requests.GENRE.FETCH_HORROR_MOVIES}
         />
       </Grid>
     </Grid>

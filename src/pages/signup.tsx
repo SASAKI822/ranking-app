@@ -27,7 +27,6 @@ type InputValue = {
 
 const SignUp: React.FC = () => {
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -39,7 +38,7 @@ const SignUp: React.FC = () => {
    */
   const handleSignUp = async (data: InputValue) => {
     await createUserWithEmailAndPassword(auth, data.email, data.password)
-      .then((result) => {
+      .then(() => {
         router.push("/movie");
       })
       .catch((error) => {
@@ -50,10 +49,11 @@ const SignUp: React.FC = () => {
   /**
    * Google登録する
    */
-  const provider = new GoogleAuthProvider();
+
   const googleRegister = async (e: any) => {
+    const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(() => {
         router.push("/movie");
       })
       .catch((error) => {

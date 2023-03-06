@@ -52,7 +52,7 @@ const Adventure = () => {
       >
         <MovieGenre
           title="アドベンチャー"
-          fetchUrl={requests.genre.fetchAdventureMovies}
+          fetchUrl={requests.GENRE.FETCH_ADVENTURE_MOVIES}
         />
       </Grid>
     </Grid>

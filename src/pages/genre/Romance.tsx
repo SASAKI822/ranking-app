@@ -54,7 +54,7 @@ const Romance = () => {
       >
         <MovieGenre
           title="ロマンス"
-          fetchUrl={requests.genre.fetchRomanceMovies}
+          fetchUrl={requests.GENRE.FETCH_ROMANCE_MOVIES}
         />
       </Grid>
     </Grid>

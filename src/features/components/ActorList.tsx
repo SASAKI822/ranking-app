@@ -3,36 +3,34 @@ import { ImageList, ImageListItem } from "@mui/material";
 import Link from "next/link";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { ActorListItem, RegisterActorListState, uIdState } from "@/lib/atom";
-import { useRecoilState } from "recoil";
-
-// Header で入力された俳優一覧
+import { useRecoilState, useRecoilValue } from "recoil";
 
 type Props = {
   title: string;
   actors: ActorListItem[];
-  // titleはPropsとして利用しないのでオプショナルにする
 };
 
-export type Actor = {
+type Actor = {
   id: string;
   name: string;
   img: string;
   profile_path: string;
 };
 
+// Header で入力された俳優一覧
 const ActorList = ({ actors, title }: Props) => {
   //　ユーザーid
-  const [userId, setUserId] = useRecoilState(uIdState);
+  const userId = useRecoilValue(uIdState);
 
   // 登録俳優リスト
   const [registerActorList, setRegisterActorList] = useRecoilState(
     RegisterActorListState
   );
 
-  // 俳優を登録
+  // 俳優情報を登録する処理
   const handleAddActor = async (
     e: React.MouseEvent<HTMLInputElement>,
     actor: Actor
@@ -40,21 +38,25 @@ const ActorList = ({ actors, title }: Props) => {
     e.preventDefault();
 
     // 俳優重複フィルター
-    const contain = registerActorList.filter((value: any) => {
-      return value.id === actor.id;
+    const containActor = registerActorList.find((actor: any) => {
+      actor.id === actor.id;
     });
-    if (contain.length === 0) {
+
+    // 登録されていなければ登録
+    if (containActor === undefined) {
       const collectionPath = collection(db, "users", userId, "actors");
-      const q = query(collectionPath);
-      setRegisterActorList([actor]);
-      await getDocs(q).then((querySnapshot) => {
-        const actorsDocumentRef = addDoc(collectionPath, {
-          id: actor.id,
-          name: actor.name,
-          profilePath: actor.profile_path,
-        });
+      // Firestoreに登録
+      addDoc(collectionPath, {
+        id: actor.id,
+        name: actor.name,
+        profilePath: actor.profile_path,
+      }).then(() => {
+        // 登録した廃油情報をstateに追加
+        setRegisterActorList([...registerActorList, actor]);
       });
-    } else {
+    }
+    // 登録されていればアラート
+    else {
       window.alert("すでに追加されています。");
     }
   };
@@ -94,7 +96,7 @@ const ActorList = ({ actors, title }: Props) => {
                       },
                     }}
                   >
-                    <img src={`${requests.image}${actor.profile_path}`} />
+                    <img src={`${requests.IMAGE}${actor.profile_path}`} />
                     <ImageListItemBar
                       sx={{
                         background: "rgba(0, 0, 0, 0.7);",
