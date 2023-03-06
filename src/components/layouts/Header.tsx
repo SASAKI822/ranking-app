@@ -95,7 +95,7 @@ const Header = () => {
   // サインインチェック
   const signInCheck = useRecoilValue(loginState);
 
-  const router: NextRouter = useRouter();
+  const router = useRouter();
 
   // Enterキーを押すと起動されMovie入力値をmovieKeywordに入れる
   const onSearchMovie = (e: React.FormEvent<HTMLFormElement>) => {
@@ -113,7 +113,7 @@ const Header = () => {
 
   useEffect(() => {
     // movieKeywordを基にmovieUrlからデータを所得しSearchMovieResultに格納
-    const MovieUrl: string = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${movieKeyword}`;
+    const MovieUrl = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${movieKeyword}`;
 
     async function SearchData() {
       await axios
@@ -132,7 +132,7 @@ const Header = () => {
 
   useEffect(() => {
     // actorKeywordを基にactorUrlからデータを所得しSearchActorResultに格納
-    const ActorUrl: string = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}`;
+    const ActorUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorKeyword}`;
 
     async function SearchData() {
       await axios

@@ -33,14 +33,14 @@ export type Movie = {
 
 const MovieGenre = ({ title, fetchUrl }: Props) => {
   // ページネーション　現在のページ
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState(1);
   // ユーザーid
   const [userId, setUserId] = useRecoilState(uIdState);
   // フィルター　年
   const [year, setYear] = useState(new Date().getFullYear());
-  const [popular, setPopular] = useState<boolean>(true);
-  const [release, setRelease] = useState<boolean>(false);
-  const [average, setAverage] = useState<boolean>(false);
+  const [popular, setPopular] = useState(true);
+  const [release, setRelease] = useState(false);
+  const [average, setAverage] = useState(false);
 
   const [movies, setMovies] = useState<Movie[]>([
     {
@@ -70,7 +70,7 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
   });
 
   // ページネーション
-  const [page, setPage] = useState<number>(20);
+  const [page, setPage] = useState(20);
   const handleChange = (e: { preventDefault: () => void }, value: number) => {
     e.preventDefault();
     setCurrentPage(value);

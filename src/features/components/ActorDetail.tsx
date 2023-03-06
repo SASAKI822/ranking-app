@@ -1,6 +1,6 @@
 import { API_KEY, requests } from "@/lib/MovieApi";
 import axios from "axios";
-import { NextRouter, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { MovieInfoState } from "@/lib/atom";
@@ -26,12 +26,12 @@ const ActorDetail = () => {
   const [actorMovies, setActorMovies] = useRecoilState(MovieInfoState);
 
   // ルーター
-  const router: NextRouter = useRouter();
-  const personId: string | string[] | undefined = router.query.id;
-  const actorName: string | string[] | undefined = router.query.name;
+  const router = useRouter();
+  const personId = router.query.id;
+  const actorName = router.query.name;
 
   //俳優情報をactorCareer に格納
-  const actorInfoUrl: string = `https://api.themoviedb.org/3/person/${personId}?api_key=${API_KEY}&language=ja`;
+  const actorInfoUrl = `https://api.themoviedb.org/3/person/${personId}?api_key=${API_KEY}&language=ja`;
   useEffect(() => {
     async function fetchData() {
       const request = await axios
@@ -50,7 +50,7 @@ const ActorDetail = () => {
 
   //俳優出演映画をactorMovie に格納
 
-  const actorMovieUrl: string = `https://api.themoviedb.org/3/person/${personId}/combined_credits?api_key=${API_KEY}&language=ja`;
+  const actorMovieUrl = `https://api.themoviedb.org/3/person/${personId}/combined_credits?api_key=${API_KEY}&language=ja`;
   useEffect(() => {
     async function fetchActorData() {
       const request = await axios.get(actorMovieUrl).then((response) => {

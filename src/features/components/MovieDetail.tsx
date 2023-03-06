@@ -30,7 +30,7 @@ const MovieDetail = () => {
   const [userId, setUserId] = useRecoilState(uIdState);
 
   // ビデオタブ
-  const [value, setValue] = useState<string>("0");
+  const [value, setValue] = useState("0");
 
   // 登録俳優リスト
   const [registerActorList, setRegisterActorList] = useRecoilState(
@@ -39,13 +39,12 @@ const MovieDetail = () => {
   // ルーター string 型から number 型へ変換
   const router = useRouter();
   const title = router.query.title;
-  const posterPath: string | string[] | undefined = router.query.posterPath;
-  const overview: string | string[] | undefined = router.query.overview;
-  const releaseDate: string | string[] | undefined = router.query.releaseDate;
+  const posterPath = router.query.posterPath;
+  const overview = router.query.overview;
+  const releaseDate = router.query.releaseDate;
   const movieOrTvDetailIdString = router.query.id as string;
   const movieOrTvDetailId = parseInt(movieOrTvDetailIdString);
-  const movieDetailMediaType: string | string[] | undefined =
-    router.query.mediaType;
+  const movieDetailMediaType = router.query.mediaType;
 
   // メディアタイプによって格納先分ける　movie or tv
   useEffect(() => {
@@ -56,12 +55,12 @@ const MovieDetail = () => {
       movieDetailMediaType === undefined ||
       movieDetailMediaType === ""
     ) {
-      let ignore: boolean = false;
+      let ignore = false;
 
       const fetchData = async () => {
         if (!ignore) {
-          const movieUrl: string = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/videos?api_key=${API_KEY}&language=ja`;
-          const CastUrl: string = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/credits?api_key=${API_KEY}&language=ja`;
+          const movieUrl = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/videos?api_key=${API_KEY}&language=ja`;
+          const CastUrl = `https://api.themoviedb.org/3/movie/${movieOrTvDetailId}/credits?api_key=${API_KEY}&language=ja`;
 
           const request = await axios
             .get(movieUrl)
@@ -95,11 +94,11 @@ const MovieDetail = () => {
       };
       // テレビ
     } else if (movieDetailMediaType === "tv") {
-      let ignoreTv: boolean = false;
+      let ignoreTv = false;
       const fetchData = async () => {
         if (!ignoreTv) {
-          const tvUrl: string = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/videos?api_key=${API_KEY}&language=ja`;
-          const CastUrl: string = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/aggregate_credits?api_key=${API_KEY}&language=ja`;
+          const tvUrl = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/videos?api_key=${API_KEY}&language=ja`;
+          const CastUrl = `https://api.themoviedb.org/3/tv/${movieOrTvDetailId}/aggregate_credits?api_key=${API_KEY}&language=ja`;
 
           const request = await axios
             .get(tvUrl)

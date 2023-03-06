@@ -25,13 +25,13 @@ const PopularActor = () => {
   const [popularActor, setPopularActor] = useState([]);
 
   // ページネーション 現在のページ
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // サイドバー開閉
   const [isOpened, setIsOpened] = useRecoilState(SidebarState);
 
   // ページ数
-  const [page, setPage] = useState<number>(20);
+  const [page, setPage] = useState(20);
 
   // ページネーション変更関数
   const handleChange = (e: React.ChangeEvent<unknown>, value: number) => {
