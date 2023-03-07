@@ -38,12 +38,12 @@ const ActorList = ({ actors, title }: Props) => {
     e.preventDefault();
 
     // 俳優重複フィルター
-    const containActor = registerActorList.find((actor: any) => {
-      actor.id === actor.id;
-    });
+    const containActor = registerActorList.find(
+      (registerActor: any) => registerActor.id === actor.id
+    );
 
     // 登録されていなければ登録
-    if (containActor === undefined) {
+    if (!containActor) {
       const collectionPath = collection(db, "users", userId, "actors");
       // Firestoreに登録
       addDoc(collectionPath, {
@@ -51,7 +51,7 @@ const ActorList = ({ actors, title }: Props) => {
         name: actor.name,
         profilePath: actor.profile_path,
       }).then(() => {
-        // 登録した廃油情報をstateに追加
+        // 登録した俳優情報をstateに追加
         setRegisterActorList([...registerActorList, actor]);
       });
     }

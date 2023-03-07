@@ -5,7 +5,7 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import { requests } from "@/lib/MovieApi";
 import { db } from "@/lib/firebase";
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { Movie } from "./MovieGenre";
 import { InfoType, uIdState, WatchListState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
@@ -22,7 +22,6 @@ const MovieList = ({ movies }: MoviesProps) => {
   // 映画リスト
   const [watchList, setWatchList] = useRecoilState(WatchListState);
 
-  // 映画登録
   const handleAddWatch = async (
     e: React.MouseEvent<HTMLInputElement>,
     movie: Movie
@@ -30,26 +29,26 @@ const MovieList = ({ movies }: MoviesProps) => {
     e.preventDefault();
 
     // 映画重複フィルター
-    const contain = watchList.filter((value: any) => {
-      return value.id === movie.id;
+    const containMovie = watchList.find((watchItem: any) => {
+      return watchItem.id === movie.id;
     });
 
-    // 　映画追加
-    if (contain.length === 0) {
+    // 登録されていなければ登録
+    if (!containMovie) {
       const collectionPath = collection(db, "users", userId, "movies");
-      const q = query(collectionPath);
-      setWatchList([movie]);
-      await getDocs(q).then((querySnapshot) => {
-        const moviesDocumentRef = addDoc(collectionPath, {
-          id: movie.id,
-          title: movie.title ? movie.title : "",
-          mediaType: movie.media_type ? movie.media_type : "",
-          releaseDate: movie.release_date ? movie.release_date : "",
-          video: movie.video ? movie.video : "",
-          overview: movie.overview ? movie.overview : "",
-          posterPath: movie.poster_path ? movie.poster_path : "",
-        });
+      // Firestoreに登録
+      addDoc(collectionPath, {
+        id: movie.id,
+        title: movie.title ? movie.title : "",
+        mediaType: movie.media_type ? movie.media_type : "",
+        releaseDate: movie.release_date ? movie.release_date : "",
+        video: movie.video ? movie.video : "",
+        overview: movie.overview ? movie.overview : "",
+        posterPath: movie.poster_path ? movie.poster_path : "",
+      }).then(() => {
+        setWatchList([...watchList, movie]);
       });
+      // 登録されていればアラート
     } else {
       window.alert("すでに追加されています。");
     }

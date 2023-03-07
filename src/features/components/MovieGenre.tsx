@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { db } from "@/lib/firebase";
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 
 type Props = {
   fetchUrl: string;
@@ -160,10 +160,12 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
     e.preventDefault();
 
     // 映画重複フィルター
-    const containMovie = watchList.find((movie: any) => {
-      return movie.id === movie.id;
+    const containMovie = watchList.find((watchItem: any) => {
+      return watchItem.id === movie.id;
     });
-    if (containMovie === undefined) {
+
+    // 登録されていなければ登録
+    if (!containMovie) {
       const collectionPath = collection(db, "users", userId, "movies");
       // Firestoreに登録
       addDoc(collectionPath, {
@@ -177,6 +179,7 @@ const MovieGenre = ({ title, fetchUrl }: Props) => {
       }).then(() => {
         setWatchList([...watchList, movie]);
       });
+      // 登録されていればアラート
     } else {
       window.alert("すでに追加されています。");
     }

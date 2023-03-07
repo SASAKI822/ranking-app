@@ -15,6 +15,12 @@ import TabPanel from "@mui/lab/TabPanel";
 import { addDoc, collection, getDocs, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { RegisterActorListState, uIdState } from "@/lib/atom";
+type Actor = {
+  id: string;
+  name: string;
+  img: string;
+  profile_path: string;
+};
 
 const MovieDetail = () => {
   //  映画出演俳優
@@ -146,29 +152,33 @@ const MovieDetail = () => {
     setValue(newValue);
   };
 
-  // 俳優を登録
+  // 俳優情報を登録する処理
   const handleAddActor = async (
     e: React.MouseEvent<HTMLInputElement>,
-    actor: any
+    actor: Actor
   ) => {
     e.preventDefault();
 
     // 俳優重複フィルター
-    const contain = registerActorList.filter((value: any) => {
-      return value.id === actor.id;
-    });
-    if (contain.length === 0) {
+    const containActor = registerActorList.find(
+      (registerActor: any) => registerActor.id === actor.id
+    );
+
+    // 登録されていなければ登録
+    if (!containActor) {
       const collectionPath = collection(db, "users", userId, "actors");
-      const q = query(collectionPath);
-      setRegisterActorList([actor]);
-      await getDocs(q).then((querySnapshot) => {
-        const actorsDocumentRef = addDoc(collectionPath, {
-          id: actor.id,
-          name: actor.name,
-          profilePath: actor.profile_path,
-        });
+      // Firestoreに登録
+      addDoc(collectionPath, {
+        id: actor.id,
+        name: actor.name,
+        profilePath: actor.profile_path,
+      }).then(() => {
+        // 登録した俳優情報をstateに追加
+        setRegisterActorList([...registerActorList, actor]);
       });
-    } else {
+    }
+    // 登録されていればアラート
+    else {
       window.alert("すでに追加されています。");
     }
   };
