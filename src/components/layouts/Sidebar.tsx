@@ -118,19 +118,6 @@ export default function SidebarNav() {
             >
               人気俳優
             </MenuItem>
-            <MenuItem
-              style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/topRated" }}></Link>}
-              icon={<WhatshotIcon />}
-              onMouseEnter={(e: any) =>
-                (e.target.style.backgroundColor = "#1e1e1e")
-              }
-              onMouseLeave={(e: any) =>
-                (e.target.style.backgroundColor = "#0f0f0f")
-              }
-            >
-              Top Rated
-            </MenuItem>
 
             <MenuItem
               style={{ color: "white" }}
@@ -353,19 +340,6 @@ export default function SidebarNav() {
               人気俳優
             </MenuItem>
 
-            <MenuItem
-              style={{ color: "white" }}
-              component={<Link href={{ pathname: "/genre/topRated" }}></Link>}
-              icon={<WhatshotIcon />}
-              onMouseEnter={(e: any) =>
-                (e.target.style.backgroundColor = "#1e1e1e")
-              }
-              onMouseLeave={(e: any) =>
-                (e.target.style.backgroundColor = "#0f0f0f")
-              }
-            >
-              Top Rated
-            </MenuItem>
             <MenuItem
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/Action" }}></Link>}

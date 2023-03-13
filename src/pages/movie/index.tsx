@@ -8,6 +8,8 @@ import {
 } from "@/lib/atom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import MovieList from "@/features/components/MovieList";
+import { requests } from "@/lib/MovieApi";
+import MovieGenre from "@/features/components/MovieGenre";
 
 const Movie = () => {
   // 映画キーワード検索結果
@@ -61,10 +63,27 @@ const Movie = () => {
           lg={10}
           xl={10.5}
         >
-          <Grid sx={{ marginTop: "20px", marginBottom: "90px" }}>
-            <h2 style={{ padding: "10px" }}>検索結果:{movieKeyword}</h2>
-          </Grid>
-          <MovieList movies={SearchMovieResult} />
+          {(() => {
+            if (movieKeyword) {
+              return (
+                <>
+                  <Grid sx={{ marginTop: "20px", marginBottom: "90px" }}>
+                    <h2 style={{ padding: "10px" }}>検索結果:{movieKeyword}</h2>
+                  </Grid>
+                  <MovieList movies={SearchMovieResult} />
+                </>
+              );
+            } else {
+              return (
+                <>
+                  <MovieGenre
+                    title="トップ"
+                    fetchUrl={requests.GENRE.FETCH_TOP_RATED}
+                  />
+                </>
+              );
+            }
+          })()}
         </Grid>
       </Grid>
     </>
