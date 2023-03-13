@@ -23,8 +23,11 @@ https://ranking-app-alpha.vercel.app
 - Material UI
 ### バックエンド
 - Firebase
+
 ### デプロイ
 - Vercel
+## API 
+TMDb は映画やTV作品のデータベースを提供するWeb APIです。作品のタイトルやポスター画像、出演者、スタッフ以外に、ユーザーによる評価やレビューなどもサイト上で公開しており、それらの情報もAPIとして利用することが可能です。
 ## Features
 - サインアップ機能(email, google)
 - サインイン機能(email, google)
