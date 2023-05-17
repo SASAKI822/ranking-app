@@ -9,6 +9,7 @@ export const requests = {
   ACTOR: `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=Jack+Reacher`,
   IMAGE: "https://image.tmdb.org/t/p/w185/",
   SEARCH: `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`,
+  SEARCH_COMPANY: `https://api.themoviedb.org/3/search/company?api_key=${API_KEY}`,
   GENRE: {
     FETCH_TRENDING: `${HOME}/trending/all/week?api_key=${API_KEY}&language=ja`,
     FETCH_NETFLIX_ORIGINALS: `${HOME}/discover/tv?api_key=${API_KEY}&with_networks=213&language=ja`,

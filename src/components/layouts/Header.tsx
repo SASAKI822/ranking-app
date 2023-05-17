@@ -225,13 +225,13 @@ const Header = () => {
                 value="Movie"
                 sx={{ color: "black", lineHeight: 1 }}
               >
-                Movie
+                映像
               </ToggleButton>
               <ToggleButton
                 value="Actor"
                 sx={{ color: "black", lineHeight: 1 }}
               >
-                Actor
+                俳優
               </ToggleButton>
             </ToggleButtonGroup>
             <Search sx={{ display: "block" }}>

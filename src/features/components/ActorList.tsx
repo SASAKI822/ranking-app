@@ -80,7 +80,7 @@ const ActorList = ({ actors, title }: Props) => {
           actors.length > 0 &&
           actors.map((actor: any) => (
             <>
-              {actor.profile_path && (
+              {actor.profile_path && ( 
                 <ImageListItem
                   key={actor.img}
                   sx={{ maxWidth: "185px", placeSelf: "center" }}

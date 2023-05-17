@@ -60,7 +60,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Home
+              ホーム
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -130,7 +130,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Action
+              アクション
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -143,7 +143,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Horror
+              ホラー
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -156,7 +156,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Romance
+              恋愛
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -169,8 +169,8 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Document
-            </MenuItem>
+              ドキュメンタリー
+             </MenuItem> 
             <MenuItem
               style={{ color: "white" }}
               component={<Link href={{ pathname: "/genre/Comedy" }}></Link>}
@@ -182,7 +182,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Comedy
+              コメディー
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -195,7 +195,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Animation
+              アニメ
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -208,7 +208,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Adventure
+              アドベンチャー
             </MenuItem>
           </Menu>
         </Sidebar>
@@ -281,7 +281,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Home
+              ホーム
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -351,7 +351,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Action
+              アクション
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -364,7 +364,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Horror
+             ホラー
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -377,7 +377,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Romance
+              恋愛
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -390,7 +390,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Document
+              ドキュメンタリー
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -403,7 +403,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Comedy
+              コメディー
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -416,7 +416,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Animation
+              アニメ
             </MenuItem>
             <MenuItem
               style={{ color: "white" }}
@@ -429,7 +429,7 @@ export default function SidebarNav() {
                 (e.target.style.backgroundColor = "#0f0f0f")
               }
             >
-              Adventure
+              アドベンチャー
             </MenuItem>
           </Menu>
         </List>

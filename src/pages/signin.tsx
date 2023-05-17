@@ -15,6 +15,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 type InputValue = {
   email: string;
@@ -54,6 +55,18 @@ const SignIn: React.FC = () => {
     });
   };
 
+  /**
+   * ゲストログインする
+   */
+  const handleGuestSignIn = async () => {
+    await signInWithEmailAndPassword(auth, "test@test.com", "123123")
+      .then(() => {
+        router.push("/movie");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <>
       <Container>
@@ -105,7 +118,16 @@ const SignIn: React.FC = () => {
                 type="submit"
                 variant="contained"
                 fullWidth
+                onClick={() => handleGuestSignIn()}
+              >
+                ゲストでログイン
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
                 onClick={handleSubmit(handleSignIn)}
+                sx={{ display: "block", mt: "15px" }}
               >
                 ログインする
               </Button>

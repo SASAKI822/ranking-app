@@ -1,14 +1,16 @@
 import Link from "next/link";
+import axios from "axios";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
-import { requests } from "@/lib/MovieApi";
+import { API_KEY, requests } from "@/lib/MovieApi";
 import { db } from "@/lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { Movie } from "./MovieGenre";
 import { InfoType, uIdState, WatchListState } from "@/lib/atom";
 import { useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
 
 type MoviesProps = {
   movies: InfoType[];
@@ -21,7 +23,18 @@ const MovieList = ({ movies }: MoviesProps) => {
   const [userId, setUserId] = useRecoilState(uIdState);
   // 映画リスト
   const [watchList, setWatchList] = useRecoilState(WatchListState);
-
+  const [company, setCompany] = useState();
+  useEffect(() => {
+    const companyUrl = `https://api.themoviedb.org/3/search/company?api_key=${API_KEY}&query=京アニ
+    `;
+    async function fetchData() {
+      const request = await axios.get(companyUrl);
+      setCompany(request.data);
+    }
+    fetchData();
+    company.id;
+  }, []);
+  console.log(company);
   const handleAddWatch = async (
     e: React.MouseEvent<HTMLInputElement>,
     movie: Movie
