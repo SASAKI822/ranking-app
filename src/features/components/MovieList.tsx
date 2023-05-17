@@ -32,7 +32,6 @@ const MovieList = ({ movies }: MoviesProps) => {
       setCompany(request.data);
     }
     fetchData();
-    company.id;
   }, []);
   console.log(company);
   const handleAddWatch = async (
